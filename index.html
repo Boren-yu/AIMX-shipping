@@ -277,6 +277,12 @@ main.tender-mode > :not(.tabbar):not(#tender){display:none!important}
 main.tender-mode #q{display:none}
 main.tender-mode .tender{display:block;margin-top:12px}
 .tframe{width:100%;border:0;border-radius:18px;background:#fff;min-height:600px;display:block;box-shadow:var(--shadow)}
+
+.signout{font:inherit;font-size:12px;padding:3px 10px;border-radius:980px;border:1px solid var(--line-strong);background:transparent;color:var(--muted);cursor:pointer}
+.signout:hover{color:var(--ink);background:var(--fill-2)}
+.tabs{max-width:100%;overflow-x:auto;scrollbar-width:none;flex-shrink:1;min-width:0}
+.tabs::-webkit-scrollbar{display:none}
+.tabs > button{flex-shrink:0;white-space:nowrap}
 </style>
 </head><body>
 <header class="top"><div class="wrap">
@@ -284,7 +290,7 @@ main.tender-mode .tender{display:block;margin-top:12px}
   <span class="vsep" aria-hidden="true"></span>
   <h1><span data-i18n="appName"></span> <span class="badge" data-i18n="proto"></span></h1>
   <div class="roles" id="roles" role="group" data-i18n-aria="ariaRoles"></div>
-  <span class="who"><span id="who"></span><span class="sync ok" id="sync"></span></span>
+  <span class="who"><span id="who"></span><span class="sync ok" id="sync"></span><button class="signout" id="signout" data-i18n="signOut"></button></span>
   <div class="roles lang" id="langsw" role="group" data-i18n-aria="ariaLang"><button data-lang="zh" lang="zh-CN">中文</button><button data-lang="en" lang="en">EN</button><button data-lang="es" lang="es-MX">ES</button></div>
 </div></header>
 
@@ -331,6 +337,7 @@ const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'ag
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MSG = {
   zh: {
+    signOut: '退出登录', gSignedOut: '已退出登录', gSignIn: '重新登录', signOutUnsaved: '还有修改正在保存，确定现在退出吗？',
     tabTender: '招标与运价', tenderNA: '暂时读不到招标数据：可能还没上传，或你的账号没有查看权限。', offAwardTag: '非中标',
     awardAssigned: (f, p, v) => `　中标货代：${f}（${p}中标表${v === 'origin' ? '，按产地航线' : ''}）。`,
     offAwardNote: (p, a, b) => `按${p}中标表应由 ${a} 承运，实际订舱货代为 ${b}，请海外物流核实。`,
@@ -424,6 +431,7 @@ const MSG = {
     tImported: (n, b) => `已导入 ${n} 条需求` + (b ? `，${b} 条有错误留在框里待修正` : ''),
   },
   en: {
+    signOut: 'Sign out', gSignedOut: 'You have signed out', gSignIn: 'Sign in again', signOutUnsaved: 'Some changes are still being saved. Sign out anyway?',
     tabTender: 'Tenders & rates', tenderNA: 'Tender data is not available: it may not be uploaded yet, or your account has no access.', offAwardTag: 'Not awarded',
     awardAssigned: (f, p, v) => `  Awarded forwarder: ${f} (${p} award${v === 'origin' ? ', by origin lane' : ''}).`,
     offAwardNote: (p, a, b) => `Per the ${p} award this should go with ${a}, but it was booked by ${b}. Overseas Logistics to verify.`,
@@ -517,6 +525,7 @@ const MSG = {
     tImported: (n, b) => `Imported ${n} PO${n > 1 ? 's' : ''}` + (b ? `; ${b} with errors left in the box to fix` : ''),
   },
   es: {
+    signOut: 'Cerrar sesión', gSignedOut: 'Ha cerrado sesión', gSignIn: 'Iniciar sesión de nuevo', signOutUnsaved: 'Aún se están guardando cambios. ¿Cerrar sesión de todos modos?',
     tabTender: 'Licitaciones y tarifas', tenderNA: 'Los datos de licitación no están disponibles: quizá aún no se han cargado o su cuenta no tiene acceso.', offAwardTag: 'No adjudicado',
     awardAssigned: (f, p, v) => `  Agente adjudicado: ${f} (adjudicación ${p}${v === 'origin' ? ', por ruta de origen' : ''}).`,
     offAwardNote: (p, a, b) => `Según la adjudicación de ${p} correspondía a ${a}, pero lo reservó ${b}. Logística Internacional debe verificar.`,
@@ -1424,6 +1433,7 @@ function mockStore() {
       return { itemId: job.id, etag: '' };
     },
     async getFile(path) { const r = await fetch('sharepoint_out/' + path); return r.ok ? r.text() : null; },
+    async signOut() { location.reload(); },
     reset() { try { localStorage.removeItem(K); } catch (e) {} },
   };
 }
@@ -1480,18 +1490,33 @@ function spStore() {
       await app.initialize();
       const res = await app.handleRedirectPromise();
       acct = res?.account || app.getAllAccounts()[0];
-      if (!acct) { await app.loginRedirect({ scopes: SCOPES }); return null; }
-      siteId = (await g(`/sites/${CFG.site}?$select=id`)).id;
-      await findLists();
+      if (!acct) {
+        let out = false; try { out = sessionStorage.getItem('ship-signedout') === '1'; sessionStorage.removeItem('ship-signedout'); } catch (e) {}
+        if (out) return { signedOut: true };
+        await app.loginRedirect({ scopes: SCOPES, prompt: 'select_account' }); return null;
+      }
+      api.who = (acct.username || '').toLowerCase();
+      const step = async (name, f) => { try { return await f(); } catch (e) { if (e.message !== 'redirect') e.message = `[${name}] ${e.message}`; throw e; } };
+      siteId = (await step('读取站点', () => g(`/sites/${CFG.site}?$select=id`))).id;
+      await step('读取列表', findLists);
       const email = (acct.username || '').toLowerCase(), name = acct.name || email;
-      if (!listIds.users || !listIds.lines || !listIds.bookings) return { name, email, setup: true };
-      const us = (await items('users')).map(x => x.fields).filter(f => f.Title && f.Title !== 'delete-me');
+      if (!listIds.users || !listIds.lines || !listIds.bookings) {
+        if (QS.has('setup')) return { name, email, setup: true };     // 首次初始化已完成；以后要重建才加 ?setup
+        const seen = Object.keys(listIds).map(k => LISTS[k]);
+        throw new Error(`[读取列表] ${seen.length ? '只看到 ' + seen.join(' / ') + '，' : ''}看不到台账列表，账号没有站点或列表的访问权限`);
+      }
+      const us = (await step('读取人员名单', () => items('users'))).map(x => x.fields).filter(f => f.Title && f.Title !== 'delete-me');
       if (!us.length) return { name, email, setup: true };
       const u = us.find(f => String(f.Title || '').trim().toLowerCase() === email);
       if (!u) return { name, email, role: null };
       const r = String(u.Role || '').trim().toLowerCase();
       return { name: u.DisplayName || name, email, role: r === 'admin' ? 'log' : r, admin: r === 'admin', fwd: r === 'fw' ? normFwd(u.Forwarder) : '' };
     },
+    async signOut() {
+      try { sessionStorage.setItem('ship-signedout', '1'); } catch (e) {}
+      await app.logoutRedirect({ account: acct, postLogoutRedirectUri: redirectUri });
+    },
+    async signInAgain() { await app.loginRedirect({ scopes: SCOPES, prompt: 'select_account' }); },
     async loadAll() {
       const wrap = a => a.map(x => ({ itemId: x.id, etag: x.eTag, json: x.fields.Data || '' })).filter(x => x.json);
       const [l, b] = await Promise.all([items('lines'), items('bookings')]);
@@ -1611,10 +1636,18 @@ async function boot() {
   try {
     const me = await Store.signIn();
     if (!me) return;                             // 正在跳转登录
+    if (me.signedOut) {
+      gate(`<div class="gcard"><h2>${t('gSignedOut')}</h2><p><button class="btn" id="relogin">${t('gSignIn')}</button></p></div>`);
+      $('relogin').onclick = () => Store.signInAgain(); return;
+    }
     if (me.setup) return showSetup(me);
     if (!me.role || !ROLE_KEYS.includes(me.role)) return gate(`<div class="gcard"><h2>${t('gNoAccess')}</h2><p>${esc(t('gNoAccessTxt', me.email))}</p></div>`);
     ME = me; role = me.role;
-    await Promise.all([load(), Store.getFile('Portal/awards.json').then(j => { if (j) AW = JSON.parse(j); }).catch(e => console.warn('awards', e))]);
+    $('signout').onclick = async () => {
+      if ((flushing || dirty().length) && !confirm(t('signOutUnsaved'))) return;
+      ME = null; await Store.signOut();
+    };
+    await Promise.all([load().catch(e => { e.message = '[读取台账] ' + e.message; throw e; }), Store.getFile('Portal/awards.json').then(j => { if (j) AW = JSON.parse(j); }).catch(e => console.warn('awards', e))]);
     gate('');
     renderAll();
     setInterval(refresh, 180000);
@@ -1622,7 +1655,8 @@ async function boot() {
   } catch (e) {
     if (e.message === 'redirect') return;
     console.error(e);
-    gate(`<div class="gcard"><h2>${t('gError')}</h2><p class="muted">${esc(e.message)}</p></div>`);
+    gate(`<div class="gcard"><h2>${t('gError')}</h2><p class="muted">${esc(e.message)}</p><p class="muted" style="font-size:12px">${esc(Store.who || '')}</p><p><button class="ghost" id="gout">${t('signOut')}</button></p></div>`);
+    const go = $('gout'); if (go) go.onclick = () => Store.signOut();
   }
 }
 function showSetup(me) {
