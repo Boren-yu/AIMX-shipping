@@ -430,7 +430,7 @@ const MSG = {
     note: '数据保存在公司 SharePoint，每一次修改都记录修改人与时间。迁移自 2026-10-09 的 Excel 源表（237 票 / 110 个订舱）。',
     save: '保存', saveAgain: '保存并继续新增', close: '关闭',
     ariaMonth: '按需求月份筛选', ariaRoute: '按航线筛选', ariaFwd: '按货代筛选', ariaStatus: '按状态筛选', ariaRoles: '切换角色', ariaLang: '切换语言',
-    roleplanner: '计划员', rolefw: '货代', rolelog: '海外物流',
+    roleplanner: '计划员', rolefw: '货代', rolelog: '海外物流', rsplanner: '计划员', rsfw: '货代', rslog: '海外物流',
     todoplanner: '待补要求ETA / 待评估 / 核对PO', todofw: '待订舱 / 本周未更新', todolog: '报警待处置',
     nPOc: (n, c) => `${n} 票 · ${c} 柜`, arrived: '已到港', onTimeRate: (a, b) => `准时到港率（${a}/${b}）`,
     avgDelay: '平均延误', days: x => `${x} 天`, hadAlerts: '曾触发报警',
@@ -528,7 +528,7 @@ const MSG = {
     note: 'Data is stored in the company SharePoint; every change records who made it and when. Migrated from the Excel sheets of 2026-10-09 (237 POs / 110 bookings).',
     save: 'Save', saveAgain: 'Save & add another', close: 'Close',
     ariaMonth: 'Filter by demand month', ariaRoute: 'Filter by route', ariaFwd: 'Filter by forwarder', ariaStatus: 'Filter by status', ariaRoles: 'Switch role', ariaLang: 'Switch language',
-    roleplanner: 'Planner', rolefw: 'Forwarder', rolelog: 'Overseas Logistics',
+    roleplanner: 'Planner', rolefw: 'Forwarder', rolelog: 'Overseas Logistics', rsplanner: 'Planner', rsfw: 'Forwarder', rslog: 'Logistics',
     todoplanner: 'Missing req. ETA / to assess / check PO', todofw: 'To book / not updated this week', todolog: 'Alerts to handle',
     nPOc: (n, c) => `${n} PO${n === 1 ? '' : 's'} · ${c} cntr${c === 1 ? '' : 's'}`, arrived: 'Arrived', onTimeRate: (a, b) => `On-time arrival (${a}/${b})`,
     avgDelay: 'Avg. delay', days: x => `${x} days`, hadAlerts: 'Had alerts',
@@ -588,7 +588,7 @@ const MSG = {
     tLaneCol: 'Ruta · Embarcador', tTerm: 'Término', tLocal: 'Gastos origen', tDest: 'Gastos destino', tSea: 'Flete marítimo', tTotal: 'Total', tTransit: 'Tránsito', tWinner: 'Adjudicado a',
     tBooking: 'Reserva', tDoc: 'Documentación', tThc: 'THC', tLoading: 'Carga', tCustoms: 'Aduana', tBl: 'B/L', tConsignor: 'Embarcador', tConsignee: 'Consignatario', tRoute: 'Origen → Destino',
     tPrevTip: (p, v) => `Anterior (${p}): ${v}`, tH1: '1.ª quincena', tH2: '2.ª quincena', tHint: 'USD por HQ40. La flecha junto al total compara con el último periodo que cotizó la misma ruta y embarcador. Haga clic en una fila para ver el desglose.',
-    signOut: 'Cerrar sesión', gSignedOut: 'Ha cerrado sesión', gSignIn: 'Iniciar sesión de nuevo', signOutUnsaved: 'Aún se están guardando cambios. ¿Cerrar sesión de todos modos?',
+    signOut: 'Salir', gSignedOut: 'Ha cerrado sesión', gSignIn: 'Iniciar sesión de nuevo', signOutUnsaved: 'Aún se están guardando cambios. ¿Cerrar sesión de todos modos?',
     tabTender: 'Adjudicaciones', tenderNA: 'Los datos de licitación no están disponibles: quizá aún no se han cargado o su cuenta no tiene acceso.', offAwardTag: 'No adjudicado',
     awardAssigned: (f, p, v) => `  Agente adjudicado: ${f} (adjudicación ${p}${v === 'origin' ? ', por ruta de origen' : ''}).`,
     offAwardNote: (p, a, b) => `Según la adjudicación de ${p} correspondía a ${a}, pero lo reservó ${b}. Logística Internacional debe verificar.`,
@@ -621,12 +621,12 @@ const MSG = {
     wDup: x => `Idéntica a ${x} ya existente (proveedor, planta, cantidad, recolección planeada); posible duplicado`,
     wMis: (x, s, p) => `${x}, con el mismo PO, es ${s} → ${p}, distinto a esta línea; verifica el número de PO`,
     wSupCase: s => `El proveedor ya existe como "${s}"; usa la misma escritura`,
-    appName: 'Portal de Embarques Marítimos', proto: 'Piloto', tabActive: 'En curso', tabHist: 'Historial',
+    appName: 'Portal de Embarques', proto: 'Piloto', tabActive: 'En curso', tabHist: 'Historial',
     clear: 'Limpiar filtros', addBtn: '+ Nueva demanda', search: 'Buscar PO / proveedor / B/L',
     note: 'Los datos se guardan en el SharePoint de la empresa; cada cambio registra quién lo hizo y cuándo. Migrado de las hojas Excel del 2026-10-09 (237 POs / 110 reservas).',
     save: 'Guardar', saveAgain: 'Guardar y agregar otro', close: 'Cerrar',
     ariaMonth: 'Filtrar por mes de demanda', ariaRoute: 'Filtrar por ruta', ariaFwd: 'Filtrar por agente de carga', ariaStatus: 'Filtrar por estatus', ariaRoles: 'Cambiar rol', ariaLang: 'Cambiar idioma',
-    roleplanner: 'Planeador', rolefw: 'Agente de carga', rolelog: 'Logística Internacional',
+    roleplanner: 'Planeador', rolefw: 'Agente de carga', rolelog: 'Logística Internacional', rsplanner: 'Planeador', rsfw: 'Agente', rslog: 'Logística',
     todoplanner: 'Sin ETA requerida / por evaluar / revisar PO', todofw: 'Por reservar / sin actualizar esta semana', todolog: 'Alertas por atender',
     nPOc: (n, c) => `${n} PO${n === 1 ? '' : 's'} · ${c} cont.`, arrived: 'Arribados', onTimeRate: (a, b) => `Arribo a tiempo (${a}/${b})`,
     avgDelay: 'Retraso promedio', days: x => `${x} días`, hadAlerts: 'Tuvieron alerta',
@@ -874,8 +874,8 @@ function setLang(l) {
 /* ---------- 顶部 / 卡片 / 筛选 ---------- */
 function renderTop() {
   $('roles').innerHTML = ME.admin ? ROLE_KEYS.map(k =>
-    `<button data-role="${k}" aria-pressed="${k === role}">${t('role' + k)}</button>`).join('')
-    : `<span class="me-chip">${t('role' + role)}${ME.fwd ? ' · ' + esc(ME.fwd) : ''}</span>`;
+    `<button data-role="${k}" aria-pressed="${k === role}" title="${esc(t('role' + k))}">${t('rs' + k)}</button>`).join('')
+    : `<span class="me-chip" title="${esc(t('role' + role))}">${t('rs' + role)}${ME.fwd ? ' · ' + esc(ME.fwd) : ''}</span>`;
   $('who').textContent = ME.name;
   $('roles').querySelectorAll('button').forEach(b => b.onclick = () => { role = b.dataset.role; sel.clear(); shown = PAGE; renderAll(); });
   $('n-active').textContent = active().length;
