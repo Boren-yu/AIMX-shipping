@@ -271,6 +271,12 @@ textarea[data-a]{height:auto;min-height:150px;padding:10px 12px;font-family:var(
 .gcard{max-width:520px;width:100%;background:var(--surface);border-radius:18px;padding:28px;box-shadow:var(--shadow);text-align:center}
 .gcard h2{margin:0 0 8px;font-size:20px}
 @media (max-width:760px){.who #who{display:none}}
+
+.tender{display:none}
+main.tender-mode > :not(.tabbar):not(#tender){display:none!important}
+main.tender-mode #q{display:none}
+main.tender-mode .tender{display:block;margin-top:12px}
+.tframe{width:100%;border:0;border-radius:18px;background:#fff;min-height:600px;display:block;box-shadow:var(--shadow)}
 </style>
 </head><body>
 <header class="top"><div class="wrap">
@@ -288,9 +294,11 @@ textarea[data-a]{height:auto;min-height:150px;padding:10px 12px;font-family:var(
       <button role="tab" aria-selected="true" data-tab="active"><span data-i18n="tabActive"></span><span class="n" id="n-active"></span></button>
       <button role="tab" aria-selected="false" data-tab="hist"><span data-i18n="tabHist"></span><span class="n" id="n-hist"></span></button>
       <button role="tab" aria-selected="false" data-tab="del" id="tab-del"><span data-i18n="tabDel"></span><span class="n" id="n-del"></span></button>
+      <button role="tab" aria-selected="false" data-tab="tender" id="tab-tender" class="hidden"><span data-i18n="tabTender"></span></button>
     </div>
     <input id="q" type="search" data-i18n-ph="search" data-i18n-aria="search">
   </div>
+  <div id="tender" class="tender"></div>
   <div id="tiles" class="tiles"></div>
   <div id="hsum" class="hsum hidden"></div>
   <div class="toolbar">
@@ -323,6 +331,9 @@ const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'ag
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MSG = {
   zh: {
+    tabTender: '招标与运价', tenderNA: '暂时读不到招标数据：可能还没上传，或你的账号没有查看权限。', offAwardTag: '非中标',
+    awardAssigned: (f, p, v) => `　中标货代：${f}（${p}中标表${v === 'origin' ? '，按产地航线' : ''}）。`,
+    offAwardNote: (p, a, b) => `按${p}中标表应由 ${a} 承运，实际订舱货代为 ${b}，请海外物流核实。`,
     sync_ok: '已保存', sync_saving: '保存中…', sync_err: '未能保存，稍后自动重试', conflict: '这条记录刚被其他人修改，已刷新为最新数据，请重新操作',
     gLoading: '正在登录并读取数据…', gNoAccess: '没有访问权限', gNoAccessTxt: e => `账号 ${e} 尚未开通。请联系海外物流开通权限。`, gError: '无法连接数据',
     tileEta: 'ETA 延误', tileEtaSub: '红 ≥4 周 / 黄 ≥2 周', tileOvd: '超期无 ETA', tileOvdSub: '提货日已过 · 红 ≥14 天 / 黄 ≥7 天（含未订舱）',
@@ -413,6 +424,9 @@ const MSG = {
     tImported: (n, b) => `已导入 ${n} 条需求` + (b ? `，${b} 条有错误留在框里待修正` : ''),
   },
   en: {
+    tabTender: 'Tenders & rates', tenderNA: 'Tender data is not available: it may not be uploaded yet, or your account has no access.', offAwardTag: 'Not awarded',
+    awardAssigned: (f, p, v) => `  Awarded forwarder: ${f} (${p} award${v === 'origin' ? ', by origin lane' : ''}).`,
+    offAwardNote: (p, a, b) => `Per the ${p} award this should go with ${a}, but it was booked by ${b}. Overseas Logistics to verify.`,
     sync_ok: 'Saved', sync_saving: 'Saving…', sync_err: 'Not saved, retrying shortly', conflict: 'Someone else just changed this record. Data refreshed; please try again',
     gLoading: 'Signing in and loading data…', gNoAccess: 'No access', gNoAccessTxt: e => `Account ${e} has not been granted access. Please contact Overseas Logistics.`, gError: 'Could not load data',
     tileEta: 'ETA delay', tileEtaSub: 'red ≥4 wks / yellow ≥2 wks', tileOvd: 'Overdue, no ETA', tileOvdSub: 'past pickup · red ≥14 d / yellow ≥7 d (incl. unbooked)',
@@ -503,6 +517,9 @@ const MSG = {
     tImported: (n, b) => `Imported ${n} PO${n > 1 ? 's' : ''}` + (b ? `; ${b} with errors left in the box to fix` : ''),
   },
   es: {
+    tabTender: 'Licitaciones y tarifas', tenderNA: 'Los datos de licitación no están disponibles: quizá aún no se han cargado o su cuenta no tiene acceso.', offAwardTag: 'No adjudicado',
+    awardAssigned: (f, p, v) => `  Agente adjudicado: ${f} (adjudicación ${p}${v === 'origin' ? ', por ruta de origen' : ''}).`,
+    offAwardNote: (p, a, b) => `Según la adjudicación de ${p} correspondía a ${a}, pero lo reservó ${b}. Logística Internacional debe verificar.`,
     sync_ok: 'Guardado', sync_saving: 'Guardando…', sync_err: 'No guardado, se reintentará', conflict: 'Otra persona acaba de cambiar este registro. Datos actualizados; inténtelo de nuevo',
     gLoading: 'Iniciando sesión y cargando datos…', gNoAccess: 'Sin acceso', gNoAccessTxt: e => `La cuenta ${e} no tiene acceso. Contacte a Logística Internacional.`, gError: 'No se pudieron cargar los datos',
     tileEta: 'Retraso de ETA', tileEtaSub: 'roja ≥4 sem. / amarilla ≥2 sem.', tileOvd: 'Vencido sin ETA', tileOvdSub: 'recolección vencida · roja ≥14 d / amarilla ≥7 d (incl. sin reserva)',
@@ -617,7 +634,7 @@ const S4 = ['已订舱', '已提货', '在途', '已到港'];          // 内部
 const REASONS = ['船期延误', '甩柜 / 改船', '港口拥堵', '供应商延迟出货', '天气 / 不可抗力', '其他'];
 const ROLE_KEYS = ['planner', 'fw', 'log'];
 const FORWARDERS = ['Bondex', 'Yuhang', 'Kaifu', 'Freetrans', 'Syntrans'];   // 货代受控名单
-const FWD_ALIAS = { 'BONDEX': 'Bondex', 'SAFROUND (BONDEX)': 'Bondex', 'SAFROUND': 'Bondex', 'YUHANG': 'Yuhang',
+const FWD_ALIAS = { '宇航': 'Yuhang', '凯福': 'Kaifu', 'BONDEX': 'Bondex', 'SAFROUND (BONDEX)': 'Bondex', 'SAFROUND': 'Bondex', 'YUHANG': 'Yuhang',
   'KAIFU': 'Kaifu', 'FREETRANS': 'Freetrans', 'SYNTRANS': 'Syntrans' };
 const normFwd = s => { const k = String(s || '').trim().toUpperCase(); return FWD_ALIAS[k] || String(s || '').trim(); };
 const NONE = '__none';
@@ -629,7 +646,7 @@ const BK = ['fwd', 'carrier', 'mbl', 'cont', 'etd', 'eta', 'ata', 'status', 'eta
 function defineBK(o) {
   BK.forEach(k => Object.defineProperty(o, k, {
     get() { const b = B[this.bid]; if (b) return b[k];
-      return k === 'fwd' ? this.afwd : k === 'status' ? '' : k === 'etaLog' ? [] : null; },
+      return k === 'fwd' ? assignFwd(this) : k === 'status' ? '' : k === 'etaLog' ? [] : null; },
     enumerable: true, configurable: true }));
 }
 const rid = () => Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
@@ -689,8 +706,38 @@ const contOf = list => { const s = new Set(list.map(o => o.bid).filter(Boolean))
 const fwdKey = o => o.fwd || NONE;
 const fwdLabel = v => v === NONE ? t('unassigned') : v;
 
+/* ---------- 中标表：按计划提货日所在周期 + 供应商找中标货代（Portal/awards.json，由招标数据更新脚本生成） ---------- */
+let AW = null;
+const nKey = s => { const k = String(s || '').trim().toUpperCase().replace(/\s+/g, ' '); return k === 'DETLA' ? 'DELTA' : k; };   // 中标表 9 月起把 DELTA 写成 DETLA
+const SUP_ALIAS = { 'AITH C': 'AITH', 'AITH M': 'AITH', 'CREATIVE': 'CREATIVE COMPONENTS',
+  'CHAOLI': 'JIANGSU CHAO LI', 'RSL': 'YANGZHOU RSL', 'YS': 'ZHEJIANG YUANSHENG', 'HUAFON C': 'SHANGHAI HUAFON COIL',
+  'BOLING': 'CHONGQING BOLING', 'BOKANG': 'WUHU BOKANG', 'PMC': 'NANJING PMC', 'SHENDA': 'CHANGSHA SHENDA',
+  'ABIC': 'DALIAN ABIC', 'YIDA': 'ZHEJIANG YIDA' };
+// 中标表里没有的供应商按产地兜底：中国跟上海出发那组，泰国跟 AITH
+const ORIGIN_LANE = { CHINA: x => /^(SHA|SHANGHAI)/i.test(x.pol), THAILAND: x => nKey(x.consignor) === 'AITH',
+  INDIA: x => /nhava/i.test(x.pol), KOREA: x => /incheon/i.test(x.pol) };
+const _awc = new Map();
+function award(o) {
+  if (!AW || !o.plan) return null;
+  const ck = o.plan + '|' + o.sup + '|' + o.origin; if (_awc.has(ck)) return _awc.get(ck);
+  let r = null;
+  const P = AW.periods.filter(p => o.plan >= p.from && o.plan <= p.to).pop();
+  if (P) {
+    const k = SUP_ALIAS[nKey(o.sup)] || nKey(o.sup);
+    let l = P.lanes.find(x => nKey(x.consignor) === k), via = 'sup';
+    if (!l && ORIGIN_LANE[o.origin]) {
+      const c = {}; P.lanes.filter(ORIGIN_LANE[o.origin]).forEach(x => c[x.forwarder] = (c[x.forwarder] || 0) + 1);
+      const top = Object.entries(c).sort((a, b) => b[1] - a[1])[0]; if (top) { l = { forwarder: top[0] }; via = 'origin'; }
+    }
+    const f = l && normFwd(l.forwarder);
+    if (f && FORWARDERS.includes(f)) r = { fwd: f, period: P.period, via };
+  }
+  _awc.set(ck, r); return r;
+}
+const assignFwd = o => award(o)?.fwd || o.afwd || '';          // 待订舱需求应由谁订：中标表优先
+const offAward = o => { if (!o.bid) return null; const a = award(o); return a && o.fwd && a.fwd !== o.fwd ? a : null; };
 const myFwd = f => !ME.fwd || f === ME.fwd;                 // 货代账号只能改自己公司的订舱（所有人都能看）
-const mine = o => !ME.fwd || (o.bid ? o.fwd === ME.fwd : (!o.afwd || o.afwd === ME.fwd));
+const mine = o => !ME.fwd || (o.bid ? o.fwd === ME.fwd : (!assignFwd(o) || assignFwd(o) === ME.fwd));
 function isTodo(o, r) {
   if (r === 'planner') return !o.req || level(o) === 'red' || !!poIssue(o);
   if (r === 'fw') return mine(o) && (!o.bid || stale(o) || (!!o.bid && alertKind(o) === 'ovd'));
@@ -877,7 +924,7 @@ function renderList() {
     return hd + `<div class="row item${cls}" data-id="${o.id}" tabindex="0" role="button">
       <span class="bar ${lv === 'red' || lv === 'amber' ? lv : ''}"></span>
       <div class="cell c-sup">${box}${esc(o.sup)}</div>
-      <div class="cell c-po"><span class="po">${esc(poLabel(o))}</span>${loadTag(o, mc)}${(pi => pi ? `<span class="ld warn">${t(pi.kind === 'dup' ? 'poDupTag' : 'poChkTag')}</span>` : '')(poIssue(o))}</div>
+      <div class="cell c-po"><span class="po">${esc(poLabel(o))}</span>${loadTag(o, mc)}${(pi => pi ? `<span class="ld warn">${t(pi.kind === 'dup' ? 'poDupTag' : 'poChkTag')}</span>` : '')(poIssue(o))}${offAward(o) ? `<span class="ld warn">${t('offAwardTag')}</span>` : ''}</div>
       <div class="cell c-route">${esc(routeOf(o))}</div>
       <div class="cell c-fw">${o.fwd ? esc(o.fwd) : `<span class="muted">${t('notAssigned')}</span>`}</div>
       <div class="cell c-trk">${track(o)}</div>
@@ -961,6 +1008,7 @@ function openDrawer(id) {
   const booking = b ? `<div class="sec">${head4(t('secBooking'), 'fw')}
       <div class="box"><div class="box-h"><span class="mono">${b.id}</span><span class="ld ${b.type === '拼箱' ? 'lcl' : ''}">${tv(b.type)}</span><span class="muted" style="font-weight:500">${t('boxHead', mem.length, b.cont || 1)}</span></div>
       ${mem.map(r => `<button class="box-i ${r.id === o.id ? 'me' : ''}" data-open="${r.id}"><span>${esc(r.sup)} · <span class="mono">${esc(poLabel(r))}</span>${r.id === o.id ? t('current') : ''}</span><span class="date">${r.req || '—'}</span>${delayPill(r)}</button>`).join('')}</div>
+      ${(a => a ? `<div class="wn" style="margin-top:8px">${esc(t('offAwardNote', a.period, a.fwd, b.fwd))}</div>` : '')(offAward(o))}
       ${b.legacyConflict && b.legacyConflict.length ? `<div class="wn" style="margin-top:8px">${t('legacy', b.legacyConflict.map(k => LC[k] || k).join(t('sep')))}</div>` : ''}
       <div class="grid" style="margin-top:10px">
         ${fld(t('fType'), 'type', b.type, W, 'type')}${fld(t('fFwd'), 'fwd', b.fwd, L, 'fwd')}
@@ -976,7 +1024,7 @@ function openDrawer(id) {
       ${W && mem.length > 1 ? `<p class="hint" style="margin:8px 0 0">${t('shared', mem.length)}</p><div class="btnrow" style="margin-top:8px"><button class="ghost dng" id="unlink">${t('unlink')}</button></div>` : ''}
       ${W && mem.length === 1 && b.status === '已订舱' ? `<div class="btnrow" style="margin-top:10px"><button class="ghost dng" id="unbook">${t('unbook')}</button></div><p class="hint" style="margin:6px 0 0">${t('unbookHint')}</p>` : ''}
     </div>` : `<div class="sec">${head4(t('secBooking'), 'fw')}
-      <div class="banner na"><b>${t('notBooked')}</b>${o.afwd ? t('assigned', esc(o.afwd)) : ''}${t('plannerReq', o.planLoad ? tv(o.planLoad) : t('notSet'))}</div>
+      <div class="banner na"><b>${t('notBooked')}</b>${(a => a ? esc(t('awardAssigned', a.fwd, a.period, a.via)) : o.afwd ? t('assigned', esc(o.afwd)) : '')(award(o))}${t('plannerReq', o.planLoad ? tv(o.planLoad) : t('notSet'))}</div>
       ${W ? `<div class="btnrow" style="margin-top:10px"><button class="ghost" id="solo">${t('bookThis')}</button></div><p class="hint" style="margin:6px 0 0">${t('consolHint')}</p>` : ''}
     </div>`;
   const log = b && b.etaLog.length ? `<ul class="log">${b.etaLog.slice().reverse().map(e => `<li class="${e.from ? 'chg' : ''}"><span class="when">${e.at}</span> · ${esc(e.by || t('logBy'))}<br>${e.from ? `ETA <span class="mono">${e.from}</span> → <span class="mono">${e.to}</span>` : `${t('firstEta')} <span class="mono">${e.to}</span>`}　<span class="muted">${esc(tv(e.reason))}</span></li>`).join('')}</ul>` : `<div class="muted" style="font-size:13px">${t('noEtaLog')}</div>`;
@@ -1006,7 +1054,7 @@ function openDrawer(id) {
 function openNew(ids) {
   cur = { mode: 'new', ids };
   const list = ids.map(i => R(i));
-  const c = {}; list.forEach(o => { if (o.afwd) c[o.afwd] = (c[o.afwd] || 0) + 1; });
+  const c = {}; list.forEach(o => { const f = assignFwd(o); if (f) c[f] = (c[f] || 0) + 1; });
   const fwd0 = Object.entries(c).sort((a, b) => b[1] - a[1])[0]?.[0] || '';
   const type0 = list.length > 1 ? '拼箱' : (list[0].planLoad || '整柜');
   const fcl = list.filter(o => o.planLoad === '整柜').length;
@@ -1268,7 +1316,22 @@ function syncReopen() {                      // 闭环后报警级别升高（�
   rows.forEach(o => { if (o.closed && LV_RANK[level(o)] > LV_RANK[o.closedLevel || 'na']) {
     o.reopened = { at: TODAY, from: o.closedLevel, to: level(o) }; o.closed = false; } });
 }
-function renderAll() { syncReopen(); renderTop(); renderTiles(); renderToolbar(); renderList(); renderBar(); flush(); }
+let tenderState = 0;                           // 0 未加载 1 加载中 2 已显示
+async function showTender() {
+  if (tenderState) return; tenderState = 1;
+  const box = $('tender'); box.innerHTML = `<div class="empty">${t('gLoading')}</div>`;
+  const html = await Store.getFile('Tender/dashboard.html').catch(() => null);
+  if (!html) { box.innerHTML = `<div class="empty">${t('tenderNA')}</div>`; tenderState = 0; return; }
+  const f = document.createElement('iframe'); f.className = 'tframe'; f.title = t('tabTender');
+  f.onload = () => { const d = f.contentDocument; if (!d) return;
+    const fit = () => f.style.height = d.documentElement.scrollHeight + 'px';
+    fit(); new ResizeObserver(fit).observe(d.body); };
+  f.srcdoc = html; box.innerHTML = ''; box.appendChild(f); tenderState = 2;
+}
+function renderAll() { syncReopen(); renderTop();
+  document.querySelector('main').classList.toggle('tender-mode', tab === 'tender');
+  $('tab-tender').classList.toggle('hidden', role === 'fw' || !!ME.fwd);
+  if (tab === 'tender') { if (role === 'fw') tab = 'active'; else { showTender(); flush(); return; } } renderTiles(); renderToolbar(); renderList(); renderBar(); flush(); }
 
 [['f-month', 'month'], ['f-route', 'route'], ['f-fwd', 'fwd'], ['f-status', 'status']].forEach(([id, k]) =>
   $(id).onchange = e => { F[k] = e.target.value; shown = PAGE; renderAll(); });
@@ -1360,6 +1423,7 @@ function mockStore() {
       d[job.kind === 'L' ? 'lines' : 'bookings'][job.id] = job.json; write(d);
       return { itemId: job.id, etag: '' };
     },
+    async getFile(path) { const r = await fetch('sharepoint_out/' + path); return r.ok ? r.text() : null; },
     reset() { try { localStorage.removeItem(K); } catch (e) {} },
   };
 }
@@ -1385,7 +1449,8 @@ function spStore() {
     return j;
   }
   async function items(list) {
-    let url = `/sites/${siteId}/lists/${listIds[list]}/items?$expand=fields($select=Title,Data,Role,Forwarder,DisplayName)&$select=id,eTag&$top=500`, out = [];
+    const sel = list === 'users' ? 'Title,DisplayName,Role,Forwarder' : 'Title,Data';   // 只选本表有的列
+    let url = `/sites/${siteId}/lists/${listIds[list]}/items?$expand=fields($select=${sel})&$select=id,eTag&$top=500`, out = [];
     while (url) { const j = await g(url); out.push(...j.value); url = j['@odata.nextLink']; }
     return out;
   }
@@ -1406,8 +1471,10 @@ function spStore() {
       siteId = (await g(`/sites/${CFG.site}?$select=id`)).id;
       await findLists();
       const email = (acct.username || '').toLowerCase(), name = acct.name || email;
-      if (!listIds.users) return { name, email, setup: true };
-      const u = (await items('users')).map(x => x.fields).find(f => String(f.Title || '').trim().toLowerCase() === email);
+      if (!listIds.users || !listIds.lines || !listIds.bookings) return { name, email, setup: true };
+      const us = (await items('users')).map(x => x.fields).filter(f => f.Title && f.Title !== 'delete-me');
+      if (!us.length) return { name, email, setup: true };
+      const u = us.find(f => String(f.Title || '').trim().toLowerCase() === email);
       if (!u) return { name, email, role: null };
       const r = String(u.Role || '').trim().toLowerCase();
       return { name: u.DisplayName || name, email, role: r === 'admin' ? 'log' : r, admin: r === 'admin', fwd: r === 'fw' ? normFwd(u.Forwarder) : '' };
@@ -1427,6 +1494,11 @@ function spStore() {
       const j = await g(`/sites/${siteId}/lists/${listIds[list]}/items`, { method: 'POST', body: JSON.stringify({ fields }) });
       return { itemId: j.id, etag: j.eTag };
     },
+    async getFile(path) {                       // 站点"文档"库里的文件；无权限 / 不存在 → null
+      const r = await fetch(`https://graph.microsoft.com/v1.0/sites/${siteId}/drive/root:/${path.split('/').map(encodeURIComponent).join('/')}:/content`,
+        { headers: { Authorization: 'Bearer ' + await token() } });
+      return r.ok ? r.text() : null;
+    },
     // 一次性初始化：建三张列表 + 导入迁移数据 + 把自己设为管理员
     async setup(raw, me, log) {
       const defs = {
@@ -1436,9 +1508,15 @@ function spStore() {
       };
       for (const k of ['users', 'lines', 'bookings']) if (!listIds[k]) {
         log('创建列表 ' + LISTS[k]);
-        await g(`/sites/${siteId}/lists`, { method: 'POST', body: JSON.stringify({ displayName: LISTS[k], columns: defs[k], list: { template: 'genericList' } }) });
+        try { await g(`/sites/${siteId}/lists`, { method: 'POST', body: JSON.stringify({ displayName: LISTS[k], columns: defs[k], list: { template: 'genericList' } }) }); }
+        catch (e) { throw new Error(`无法自动创建列表 ${LISTS[k]}（${e.message}）。请先用 list_templates 里的 Excel 模版在 SharePoint 手动导入三张列表，再刷新本页。`); }
       }
       await findLists();
+      for (const k of ['users', 'lines', 'bookings']) {        // 清掉模版里的示例行，以及上次中断留下的半截数据
+        const old = await items(k);
+        if (old.length) log(`清理 ${LISTS[k]} 原有 ${old.length} 行`);
+        for (const x of old) await g(`/sites/${siteId}/lists/${listIds[k]}/items/${x.id}`, { method: 'DELETE' });
+      }
       const m = migrateSeed(raw);
       const reqs = [
         { list: 'users', fields: { Title: me.email, DisplayName: me.name, Role: 'admin', Forwarder: '' } },
@@ -1519,7 +1597,7 @@ async function boot() {
     if (me.setup) return showSetup(me);
     if (!me.role || !ROLE_KEYS.includes(me.role)) return gate(`<div class="gcard"><h2>${t('gNoAccess')}</h2><p>${esc(t('gNoAccessTxt', me.email))}</p></div>`);
     ME = me; role = me.role;
-    await load();
+    await Promise.all([load(), Store.getFile('Portal/awards.json').then(j => { if (j) AW = JSON.parse(j); }).catch(e => console.warn('awards', e))]);
     gate('');
     renderAll();
     setInterval(refresh, 180000);
@@ -1532,7 +1610,7 @@ async function boot() {
 }
 function showSetup(me) {
   gate(`<div class="gcard"><h2>首次初始化</h2>
-    <p>站点里还没有台账列表。将创建三张列表（${Object.values(LISTS).join(' / ')}），导入迁移数据，并把你（${esc(me.email)}）设为管理员。</p>
+    <p>将向三张列表（${Object.values(LISTS).join(' / ')}）导入迁移数据，并把你（${esc(me.email)}）设为管理员。列表里原有的示例行会被清除。</p>
     <p><input type="file" id="seedf" accept=".json"></p><p><button class="btn" id="seedgo">开始初始化</button></p><pre id="seedlog" class="muted" style="white-space:pre-wrap;font-size:12px"></pre></div>`);
   $('seedgo').onclick = async () => {
     const f = $('seedf').files[0]; if (!f) return alert('请选择迁移数据文件');
