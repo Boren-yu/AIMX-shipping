@@ -283,6 +283,57 @@ main.tender-mode .tender{display:block;margin-top:12px}
 .tabs{max-width:100%;overflow-x:auto;scrollbar-width:none;flex-shrink:1;min-width:0}
 .tabs::-webkit-scrollbar{display:none}
 .tabs > button{flex-shrink:0;white-space:nowrap}
+
+/* 每月中标详情 */
+.tt-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tt-bar select,.tt-bar input{font:inherit;font-size:14px;border:0;background:var(--fill);border-radius:10px;padding:8px 12px;color:var(--ink)}
+.tt-bar input{flex:1 1 220px;min-width:0}
+.tt-seg{flex-wrap:wrap}
+.tt-seg button{padding:5px 12px;font-size:13px}
+.tt-sum{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin:14px 0 10px;font-size:13px;color:var(--muted)}
+.tt-sum > b{color:var(--ink);font-size:15px}
+.tt-fw{background:var(--surface);border:1px solid var(--line);border-radius:980px;padding:1px 10px;color:var(--ink)}
+.tt-wrap{overflow-x:auto;background:var(--surface);border-radius:16px;box-shadow:var(--shadow)}
+.tt{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+.tt th{position:sticky;top:0;background:var(--surface);text-align:left;font-size:12px;font-weight:600;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tt td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tt .n{text-align:right;white-space:nowrap}
+.tt-g td{background:var(--fill-2);font-size:13px;padding:8px 12px}
+.tt-r{cursor:pointer}
+.tt-r:hover td,.tt-r.open td{background:var(--brand-wash)}
+.tt-r:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+.tt-lane{min-width:180px;max-width:300px}
+.tt-lane b{display:block;font-weight:600}
+.tt-lane span{display:block;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tt-tot b{font-weight:700}
+.tt-d{display:block;font-size:11px;font-weight:600;color:var(--muted)}
+.tt-d.up{color:var(--red)}.tt-d.dn{color:var(--ok)}
+.tt-tr{white-space:nowrap;color:var(--muted)}
+.tt-win{font-weight:600;min-width:90px}
+.tt-x td{background:var(--fill-2);padding:12px 16px 14px}
+.tt-x p{margin:6px 0 0;font-size:12.5px;overflow-wrap:anywhere}
+.tt-fees{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.tt-fees div{background:var(--surface);border-radius:10px;padding:6px 10px;display:flex;flex-direction:column}
+.tt-fees span{font-size:11px;color:var(--muted)}
+.tt-fees b{font-size:14px}
+@media (max-width:760px){.tt-h{display:none}.tt-lane{min-width:140px}.tt td,.tt th{padding:8px}}
+
+@media (max-width:760px){
+  .tt thead{display:none}
+  .tt,.tt tbody{display:block}
+  .tt tr.tt-g,.tt tr.tt-x{display:block}
+  .tt tr.tt-g td,.tt tr.tt-x td{display:block}
+  .tt-r{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"lane tot" "win sea";gap:2px 12px;padding:10px 12px;border-bottom:1px solid var(--line)}
+  .tt-r td{display:block;border:0;padding:0;background:transparent!important}
+  .tt-r.open,.tt-r:hover{background:var(--brand-wash)}
+  .tt-r .tt-h,.tt-r .tt-dem{display:none}
+  .tt-r .tt-lane{grid-area:lane;min-width:0;max-width:none}
+  .tt-r .tt-tot{grid-area:tot}
+  .tt-r .tt-tot .tt-d{text-align:right}
+  .tt-r .tt-win{grid-area:win;min-width:0;font-size:12.5px}
+  .tt-r .tt-sea{grid-area:sea;font-size:12px;color:var(--muted)}
+  .tt-r .tt-win::before,.tt-r .tt-sea::before{content:attr(data-l) " ";font-weight:400;color:var(--muted)}
+}
 </style>
 </head><body>
 <header class="top"><div class="wrap">
@@ -337,8 +388,12 @@ const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'ag
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MSG = {
   zh: {
+    tPeriod: '招标周期', tFactory: '工厂', tAllFac: '全部工厂', tSearch: '搜索供应商 / 航线 / 货代', tLanes: n => `${n} 条航线`, tDemand: d => `需求 ${d} HQ40`,
+    tLaneCol: '航线 · 发货人', tTerm: '条款', tLocal: '本地费', tDest: '目的港费', tSea: '海运费', tTotal: '总价', tTransit: '时效', tWinner: '中标货代',
+    tBooking: '订舱费', tDoc: '文件费', tThc: 'THC', tLoading: '提货费', tCustoms: '报关费', tBl: '提单费', tConsignor: '发货人', tConsignee: '收货人', tRoute: '起运 → 目的',
+    tPrevTip: (p, v) => `上期 ${p}：${v}`, tH1: '上半月', tH2: '下半月', tHint: '单位 USD / HQ40。总价旁的箭头为同一航线、同一发货人较上一个有报价周期的涨跌。点击一行查看费用明细。',
     signOut: '退出登录', gSignedOut: '已退出登录', gSignIn: '重新登录', signOutUnsaved: '还有修改正在保存，确定现在退出吗？',
-    tabTender: '招标与运价', tenderNA: '暂时读不到招标数据：可能还没上传，或你的账号没有查看权限。', offAwardTag: '非中标',
+    tabTender: '中标详情', tenderNA: '暂时读不到招标数据：可能还没上传，或你的账号没有查看权限。', offAwardTag: '非中标',
     awardAssigned: (f, p, v) => `　中标货代：${f}（${p}中标表${v === 'origin' ? '，按产地航线' : ''}）。`,
     offAwardNote: (p, a, b) => `按${p}中标表应由 ${a} 承运，实际订舱货代为 ${b}，请海外物流核实。`,
     sync_ok: '已保存', sync_saving: '保存中…', sync_err: '未能保存，稍后自动重试', conflict: '这条记录刚被其他人修改，已刷新为最新数据，请重新操作',
@@ -431,8 +486,12 @@ const MSG = {
     tImported: (n, b) => `已导入 ${n} 条需求` + (b ? `，${b} 条有错误留在框里待修正` : ''),
   },
   en: {
+    tPeriod: 'Tender period', tFactory: 'Plant', tAllFac: 'All plants', tSearch: 'Search supplier / lane / forwarder', tLanes: n => `${n} lanes`, tDemand: d => `Demand ${d} HQ40`,
+    tLaneCol: 'Lane · Shipper', tTerm: 'Terms', tLocal: 'Origin fees', tDest: 'Dest. fees', tSea: 'Ocean freight', tTotal: 'Total', tTransit: 'Transit', tWinner: 'Awarded to',
+    tBooking: 'Booking', tDoc: 'Documentation', tThc: 'THC', tLoading: 'Loading', tCustoms: 'Customs', tBl: 'B/L', tConsignor: 'Shipper', tConsignee: 'Consignee', tRoute: 'Origin → Destination',
+    tPrevTip: (p, v) => `Previous (${p}): ${v}`, tH1: '1st half', tH2: '2nd half', tHint: 'USD per HQ40. The arrow next to the total compares with the last period that quoted the same lane and shipper. Click a row for the fee breakdown.',
     signOut: 'Sign out', gSignedOut: 'You have signed out', gSignIn: 'Sign in again', signOutUnsaved: 'Some changes are still being saved. Sign out anyway?',
-    tabTender: 'Tenders & rates', tenderNA: 'Tender data is not available: it may not be uploaded yet, or your account has no access.', offAwardTag: 'Not awarded',
+    tabTender: 'Tender awards', tenderNA: 'Tender data is not available: it may not be uploaded yet, or your account has no access.', offAwardTag: 'Not awarded',
     awardAssigned: (f, p, v) => `  Awarded forwarder: ${f} (${p} award${v === 'origin' ? ', by origin lane' : ''}).`,
     offAwardNote: (p, a, b) => `Per the ${p} award this should go with ${a}, but it was booked by ${b}. Overseas Logistics to verify.`,
     sync_ok: 'Saved', sync_saving: 'Saving…', sync_err: 'Not saved, retrying shortly', conflict: 'Someone else just changed this record. Data refreshed; please try again',
@@ -525,8 +584,12 @@ const MSG = {
     tImported: (n, b) => `Imported ${n} PO${n > 1 ? 's' : ''}` + (b ? `; ${b} with errors left in the box to fix` : ''),
   },
   es: {
+    tPeriod: 'Periodo de licitación', tFactory: 'Planta', tAllFac: 'Todas las plantas', tSearch: 'Buscar proveedor / ruta / agente', tLanes: n => `${n} rutas`, tDemand: d => `Demanda ${d} HQ40`,
+    tLaneCol: 'Ruta · Embarcador', tTerm: 'Término', tLocal: 'Gastos origen', tDest: 'Gastos destino', tSea: 'Flete marítimo', tTotal: 'Total', tTransit: 'Tránsito', tWinner: 'Adjudicado a',
+    tBooking: 'Reserva', tDoc: 'Documentación', tThc: 'THC', tLoading: 'Carga', tCustoms: 'Aduana', tBl: 'B/L', tConsignor: 'Embarcador', tConsignee: 'Consignatario', tRoute: 'Origen → Destino',
+    tPrevTip: (p, v) => `Anterior (${p}): ${v}`, tH1: '1.ª quincena', tH2: '2.ª quincena', tHint: 'USD por HQ40. La flecha junto al total compara con el último periodo que cotizó la misma ruta y embarcador. Haga clic en una fila para ver el desglose.',
     signOut: 'Cerrar sesión', gSignedOut: 'Ha cerrado sesión', gSignIn: 'Iniciar sesión de nuevo', signOutUnsaved: 'Aún se están guardando cambios. ¿Cerrar sesión de todos modos?',
-    tabTender: 'Licitaciones y tarifas', tenderNA: 'Los datos de licitación no están disponibles: quizá aún no se han cargado o su cuenta no tiene acceso.', offAwardTag: 'No adjudicado',
+    tabTender: 'Adjudicaciones', tenderNA: 'Los datos de licitación no están disponibles: quizá aún no se han cargado o su cuenta no tiene acceso.', offAwardTag: 'No adjudicado',
     awardAssigned: (f, p, v) => `  Agente adjudicado: ${f} (adjudicación ${p}${v === 'origin' ? ', por ruta de origen' : ''}).`,
     offAwardNote: (p, a, b) => `Según la adjudicación de ${p} correspondía a ${a}, pero lo reservó ${b}. Logística Internacional debe verificar.`,
     sync_ok: 'Guardado', sync_saving: 'Guardando…', sync_err: 'No guardado, se reintentará', conflict: 'Otra persona acaba de cambiar este registro. Datos actualizados; inténtelo de nuevo',
@@ -1325,17 +1388,87 @@ function syncReopen() {                      // 闭环后报警级别升高（�
   rows.forEach(o => { if (o.closed && LV_RANK[level(o)] > LV_RANK[o.closedLevel || 'na']) {
     o.reopened = { at: TODAY, from: o.closedLevel, to: level(o) }; o.closed = false; } });
 }
-let tenderState = 0;                           // 0 未加载 1 加载中 2 已显示
+/* ---------- 招标与运价：每月中标详情（Tender/tender.json，仅内部人员有权限读取） ---------- */
+let TD = null, tenderState = 0;                   // 0 未加载 1 加载中 2 就绪
+const TF = { period: '', f: '', q: '' }, tOpen = new Set();
+const FAC_ORDER = ['AIMX', 'AITK', 'AIUS', 'AITH', 'AISK', 'AISH'];
+const money = v => v === null || v === undefined ? '—' : '$' + Math.round(v).toLocaleString('en-US');
+const num1 = v => v === null || v === undefined ? '—' : (Math.round(v * 10) / 10).toString();
+function periodLabel(p) {
+  if (lang === 'zh') return p;
+  let m = /^Q(\d) (\d{4})$/.exec(p); if (m) return `Q${m[1]} ${m[2]}`;
+  m = /^(\d{2})年(\d{1,2})(?:-(\d{1,2}))?月([上下])?$/.exec(p); if (!m) return p;
+  const M = lang === 'es' ? MES.map(x => x.slice(0, 3)) : MON, y = '20' + m[1];
+  const base = m[3] ? `${M[m[2] - 1]}–${M[m[3] - 1]} ${y}` : `${M[m[2] - 1]} ${y}`;
+  return m[4] ? `${base} (${t(m[4] === '上' ? 'tH1' : 'tH2')})` : base;
+}
+const tKey = r => r.f + '|' + r.lane + '|' + nKey(r.consignor);
+function tPrev(r) {                               // 同一工厂、航线、发货人的上一个有报价的周期
+  const i = TD.periods.indexOf(r.period);
+  for (let j = i - 1; j >= 0; j--) {
+    const x = TD.byKey.get(TD.periods[j] + '#' + tKey(r)); if (x && x.total) return x;
+  }
+  return null;
+}
 async function showTender() {
-  if (tenderState) return; tenderState = 1;
-  const box = $('tender'); box.innerHTML = `<div class="empty">${t('gLoading')}</div>`;
-  const html = await Store.getFile('Tender/dashboard.html').catch(() => null);
-  if (!html) { box.innerHTML = `<div class="empty">${t('tenderNA')}</div>`; tenderState = 0; return; }
-  const f = document.createElement('iframe'); f.className = 'tframe'; f.title = t('tabTender');
-  f.onload = () => { const d = f.contentDocument; if (!d) return;
-    const fit = () => f.style.height = d.documentElement.scrollHeight + 'px';
-    fit(); new ResizeObserver(fit).observe(d.body); };
-  f.srcdoc = html; box.innerHTML = ''; box.appendChild(f); tenderState = 2;
+  const box = $('tender');
+  if (tenderState === 2) return renderTender();
+  if (tenderState === 1) return;
+  tenderState = 1; box.innerHTML = `<div class="empty">${t('gLoading')}</div>`;
+  const j = await Store.getFile('Tender/tender.json').catch(() => null);
+  if (!j) { box.innerHTML = `<div class="empty">${t('tenderNA')}</div>`; tenderState = 0; return; }
+  TD = JSON.parse(j); TD.byKey = new Map();
+  TD.records.forEach((r, i) => { r.i = i; TD.byKey.set(r.period + '#' + tKey(r), r); });
+  if (!TF.period) TF.period = TD.periods[TD.periods.length - 1];
+  tenderState = 2; renderTender();
+}
+function renderTender() {
+  const box = $('tender'), q = TF.q.toLowerCase();
+  const inP = TD.records.filter(r => r.period === TF.period);
+  const list = inP.filter(r => (!TF.f || r.f === TF.f) &&
+    (!q || [r.lane, r.consignor, r.consignee, r.forwarder, r.pol, r.pod].some(v => String(v || '').toLowerCase().includes(q))));
+  const facs = FAC_ORDER.filter(f => TD.factories[f]);
+  const cnt = {}; list.forEach(r => String(r.forwarder || '—').split(/\s*[+/、,]\s*/).forEach(x => {
+    const k = normFwd(x.replace(/\s*\d+\s*$/, '').replace(/\s*\/?\s*CW.*$/i, '')) || '—'; cnt[k] = (cnt[k] || 0) + 1; }));
+  const dem = list.reduce((n, r) => n + (r.demand || 0), 0);
+  const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? 'selected' : ''}>${esc(label)}</option>`;
+  const head = `<div class="tt-bar">
+      <select id="t-period" aria-label="${esc(t('tPeriod'))}">${TD.periods.slice().reverse().map(p => opt(p, TF.period, periodLabel(p))).join('')}</select>
+      <select id="t-fac" aria-label="${esc(t('tFactory'))}">${['', ...facs].map(f => opt(f, TF.f, f ? `${f} · ${TD.factories[f].name}` : t('tAllFac'))).join('')}</select>
+      <input id="t-q" type="search" placeholder="${esc(t('tSearch'))}" value="${esc(TF.q)}" aria-label="${esc(t('tSearch'))}">
+    </div>
+    <div class="tt-sum"><b>${esc(periodLabel(TF.period))}</b><span>${esc(t('tLanes', list.length))}</span><span>${esc(t('tDemand', num1(dem)))}</span>
+      ${Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([k, n]) => `<span class="tt-fw">${esc(k)} <b>${n}</b></span>`).join('')}</div>`;
+  const row = r => {
+    const pv = tPrev(r), d = pv && r.total ? Math.round((r.total - pv.total) / pv.total * 1000) / 10 : null;
+    const dl = d === null ? '' : `<span class="tt-d ${d > 0 ? 'up' : d < 0 ? 'dn' : ''}" title="${esc(t('tPrevTip', periodLabel(pv.period), money(pv.total)))}">${d > 0 ? '↑' : d < 0 ? '↓' : '='}${d ? Math.abs(d) + '%' : ''}</span>`;
+    const open = tOpen.has(r.i);
+    const fee = (k, v) => `<div><span>${esc(t(k))}</span><b>${money(v)}</b></div>`;
+    return `<tr class="tt-r ${open ? 'open' : ''}" data-ti="${r.i}" tabindex="0">
+        <td class="tt-lane"><b>${esc(String(r.lane).replace('-', ' → '))}</b><span title="${esc(r.consignor)}">${esc(r.consignor || '—')}</span></td>
+        <td class="tt-h">${esc(r.incoterm || '—')}</td><td class="n tt-dem">${num1(r.demand)}</td>
+        <td class="n tt-h">${money(r.local_sub)}</td><td class="n tt-h">${money(r.dest_sub)}</td>
+        <td class="n tt-sea" data-l="${esc(t('tSea'))}">${money(r.sea_freight)}</td><td class="n tt-tot"><b>${money(r.total)}</b>${dl}</td>
+        <td class="tt-h tt-tr">${esc(r.transit || '—')}</td><td class="tt-win" data-l="${esc(t('tWinner'))}">${esc(r.forwarder || '—')}</td></tr>
+      ${open ? `<tr class="tt-x"><td colspan="9"><div class="tt-fees">${fee('tBooking', r.booking)}${fee('tDoc', r.doc)}${fee('tThc', r.thc)}${fee('tLoading', r.loading)}${fee('tCustoms', r.customs)}${fee('tBl', r.bl)}${fee('tLocal', r.local_sub)}${fee('tDest', r.dest_sub)}</div>
+        <p><span class="muted">${esc(t('tConsignor'))}</span> ${esc(r.consignor || '—')}</p><p><span class="muted">${esc(t('tConsignee'))}</span> ${esc(r.consignee || '—')}</p>
+        <p><span class="muted">${esc(t('tRoute'))}</span> ${esc(r.pol || '—')} → ${esc(r.pod || '—')} · ${esc(r.incoterm || '—')} · HQ40 ${num1(r.demand)} · ${esc(t('tTransit'))} ${esc(r.transit || '—')}${pv ? ` · ${esc(t('tPrevTip', periodLabel(pv.period), money(pv.total)))}` : ''}</p></td></tr>` : ''}`;
+  };
+  const groups = facs.filter(f => list.some(r => r.f === f)).map(f => {
+    const rs = list.filter(r => r.f === f), F = TD.factories[f];
+    return `<tbody><tr class="tt-g"><td colspan="9"><b>${esc(f)}</b> ${esc(F.name)} <span class="muted">· ${esc(F.location)} · ${esc(t('tLanes', rs.length))} · ${esc(t('tDemand', num1(rs.reduce((n, r) => n + (r.demand || 0), 0))))}</span></td></tr>${rs.map(row).join('')}</tbody>`;
+  }).join('');
+  box.innerHTML = head + (list.length ? `<div class="tt-wrap"><table class="tt"><thead><tr>
+      <th>${t('tLaneCol')}</th><th class="tt-h">${t('tTerm')}</th><th class="n">HQ40</th><th class="n tt-h">${t('tLocal')}</th><th class="n tt-h">${t('tDest')}</th>
+      <th class="n">${t('tSea')}</th><th class="n">${t('tTotal')}</th><th class="tt-h">${t('tTransit')}</th><th>${t('tWinner')}</th></tr></thead>${groups}</table></div>
+      <p class="hint">${t('tHint')}</p>` : `<div class="empty">${t('empty')}</div>`);
+  $('t-period').onchange = e => { TF.period = e.target.value; tOpen.clear(); renderTender(); };
+  $('t-fac').onchange = e => { TF.f = e.target.value; tOpen.clear(); renderTender(); };
+  const qi = $('t-q'); qi.oninput = e => { TF.q = e.target.value; const pos = qi.selectionStart; renderTender(); const n = $('t-q'); n.focus(); n.setSelectionRange(pos, pos); };
+  box.querySelectorAll('.tt-r').forEach(tr => {
+    const tog = () => { const i = +tr.dataset.ti; tOpen.has(i) ? tOpen.delete(i) : tOpen.add(i); renderTender(); };
+    tr.onclick = tog; tr.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } };
+  });
 }
 function renderAll() { syncReopen(); renderTop();
   document.querySelector('main').classList.toggle('tender-mode', tab === 'tender');
