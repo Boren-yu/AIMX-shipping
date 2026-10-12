@@ -1448,10 +1448,23 @@ function spStore() {
     if (!r.ok) { const e = new Error(r.status + ' ' + (j.error?.message || '')); e.status = r.status; throw e; }
     return j;
   }
+  // 从 Excel 导入建的列表，列的内部名称是 field_1 这类，界面上的"Data"只是显示名 → 按显示名找内部名
+  const COLS = {};
+  async function cols(list) {
+    if (COLS[list]) return COLS[list];
+    const j = await g(`/sites/${siteId}/lists/${listIds[list]}/columns?$select=name,displayName&$top=500`);
+    const m = {}; j.value.forEach(c => { if (!(c.displayName in m)) m[c.displayName] = c.name; });
+    m.Title = 'Title';
+    return COLS[list] = m;
+  }
+  const KEYS = { users: ['Title', 'DisplayName', 'Role', 'Forwarder'], lines: ['Title', 'Data'], bookings: ['Title', 'Data'] };
+  const toInternal = (list, f) => { const m = COLS[list], o = {};
+    Object.entries(f).forEach(([k, v]) => { if (!m[k]) throw new Error(`列表 ${LISTS[list]} 缺少列「${k}」`); o[m[k]] = v; }); return o; };
   async function items(list) {
-    const sel = list === 'users' ? 'Title,DisplayName,Role,Forwarder' : 'Title,Data';   // 只选本表有的列
+    const m = await cols(list), sel = KEYS[list].map(k => m[k]).filter(Boolean).join(',');
     let url = `/sites/${siteId}/lists/${listIds[list]}/items?$expand=fields($select=${sel})&$select=id,eTag&$top=500`, out = [];
     while (url) { const j = await g(url); out.push(...j.value); url = j['@odata.nextLink']; }
+    out.forEach(x => { const f = {}; KEYS[list].forEach(k => f[k] = x.fields[m[k]]); x.fields = f; });   // 换回显示名
     return out;
   }
   async function findLists() {
@@ -1485,7 +1498,9 @@ function spStore() {
       return { lines: wrap(l), bookings: wrap(b) };
     },
     async put(job) {
-      const list = job.kind === 'L' ? 'lines' : 'bookings', fields = { Title: job.id, Data: job.json, ...job.mirror };
+      const list = job.kind === 'L' ? 'lines' : 'bookings';
+      await cols(list);
+      const fields = toInternal(list, { Title: job.id, Data: job.json, ...job.mirror });
       if (job.itemId) {
         const j = await g(`/sites/${siteId}/lists/${listIds[list]}/items/${job.itemId}/fields`,
           { method: 'PATCH', headers: { 'If-Match': job.etag || '*' }, body: JSON.stringify(fields) });
@@ -1523,6 +1538,8 @@ function spStore() {
         ...m.bookings.map(b => ({ list: 'bookings', fields: { Title: b.id, Data: serBk(b), ...mirrorBk(b) } })),
         ...m.lines.map(o => ({ list: 'lines', fields: { Title: o.id, Data: JSON.stringify(o), ...mirrorRow(o) } })),
       ];
+      for (const k of ['users', 'lines', 'bookings']) await cols(k);
+      reqs.forEach(x => x.fields = toInternal(x.list, x.fields));   // 缺列会在这里直接报出列名
       for (let i = 0; i < reqs.length; i += 20) {
         const chunk = reqs.slice(i, i + 20);
         const j = await g('/$batch', { method: 'POST', body: JSON.stringify({ requests: chunk.map((x, n) => ({ id: String(n + 1), method: 'POST',
