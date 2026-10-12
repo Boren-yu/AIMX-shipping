@@ -1552,7 +1552,7 @@ function mockStore() {
     async loadAll() {
       let d = read();
       if (!d) {                                  // 首次：用本地迁移文件初始化
-        const raw = await (await fetch('seed.json')).json(), m = migrateSeed(raw);
+        const raw = await (await fetch('seed.json', { cache: 'no-store' })).json(), m = migrateSeed(raw);
         d = { lines: {}, bookings: {} };
         m.lines.forEach(o => d.lines[o.id] = JSON.stringify(o)); m.bookings.forEach(b => d.bookings[b.id] = JSON.stringify(b));
         write(d);
@@ -1673,7 +1673,7 @@ function spStore() {
       return r.ok ? r.text() : null;
     },
     // 一次性初始化：建三张列表 + 导入迁移数据 + 把自己设为管理员
-    async setup(raw, me, log) {
+    async setup(raw, me, log, opt = {}) {
       const defs = {
         lines: [textCol('Data', true), ...['PO', 'Supplier', 'Plant', 'ReqETA', 'Booking', 'Deleted'].map(n => textCol(n))],
         bookings: [textCol('Data', true), ...['Forwarder', 'Status', 'MBL', 'ETA', 'ATA'].map(n => textCol(n))],
@@ -1685,14 +1685,14 @@ function spStore() {
         catch (e) { throw new Error(`无法自动创建列表 ${LISTS[k]}（${e.message}）。请先用 list_templates 里的 Excel 模版在 SharePoint 手动导入三张列表，再刷新本页。`); }
       }
       await findLists();
-      for (const k of ['users', 'lines', 'bookings']) {        // 清掉模版里的示例行，以及上次中断留下的半截数据
+      for (const k of opt.keepUsers ? ['lines', 'bookings'] : ['users', 'lines', 'bookings']) {        // 清掉模版里的示例行 / 旧台账
         const old = await items(k);
         if (old.length) log(`清理 ${LISTS[k]} 原有 ${old.length} 行`);
         for (const x of old) await g(`/sites/${siteId}/lists/${listIds[k]}/items/${x.id}`, { method: 'DELETE' });
       }
       const m = migrateSeed(raw);
       const reqs = [
-        { list: 'users', fields: { Title: me.email, DisplayName: me.name, Role: 'admin', Forwarder: '' } },
+        ...(opt.keepUsers ? [] : [{ list: 'users', fields: { Title: me.email, DisplayName: me.name, Role: 'admin', Forwarder: '' } }]),
         ...m.bookings.map(b => ({ list: 'bookings', fields: { Title: b.id, Data: serBk(b), ...mirrorBk(b) } })),
         ...m.lines.map(o => ({ list: 'lines', fields: { Title: o.id, Data: JSON.stringify(o), ...mirrorRow(o) } })),
       ];
@@ -1776,6 +1776,7 @@ async function boot() {
     if (me.setup) return showSetup(me);
     if (!me.role || !ROLE_KEYS.includes(me.role)) return gate(`<div class="gcard"><h2>${t('gNoAccess')}</h2><p>${esc(t('gNoAccessTxt', me.email))}</p></div>`);
     ME = me; role = me.role;
+    if (QS.has('reimport')) { if (!me.admin) return gate(`<div class="gcard"><h2>${t('gNoAccess')}</h2></div>`); await load(); return showReimport(me); }
     $('signout').onclick = async () => {
       if ((flushing || dirty().length) && !confirm(t('signOutUnsaved'))) return;
       ME = null; await Store.signOut();
@@ -1806,6 +1807,44 @@ function showSetup(me) {
 }
 
 boot();
+
+// 重新导入迁移数据（只换需求和订舱，人员名单不动）。执行前列出上线以来在平台上做过的修改。
+function showReimport(me) {
+  const touched = [];
+  rows.forEach(o => {
+    const why = [];
+    if (o.editLog && o.editLog.length) why.push('计划员修改 ' + o.editLog.length + ' 处');
+    if (o.note) why.push('跟进说明');
+    if (o.closed || o.closedAt) why.push('已闭环');
+    if (o.deleted) why.push('已删除');
+    if (!/^L\d{4}$/.test(o.id)) why.push('上线后新增的需求');
+    if (why.length) touched.push(`${o.po}（${o.sup}）：${why.join('、')}`);
+  });
+  Object.values(B).forEach(b => {
+    const why = [];
+    const live = (b.etaLog || []).filter(e => e.reason !== '迁移数据');
+    if (live.length) why.push('ETA 记录 ' + live.length + ' 条');
+    if (b.reassign && b.reassign.length) why.push('改派货代');
+    if (!/^B\d{3}$/.test(b.id)) why.push('上线后新建的订舱');
+    if (b.lastBy) why.push('最后由 ' + b.lastBy + ' 更新');
+    if (why.length) touched.push(`订舱 ${b.id}（${b.fwd || '—'}）：${why.join('、')}`);
+  });
+  gate(`<div class="gcard" style="max-width:640px;text-align:left"><h2>重新导入迁移数据</h2>
+    <p>将清空 ShipLines 和 ShipBookings，用所选文件重新导入。<b>人员名单 ShipUsers 不受影响。</b></p>
+    <p style="margin-top:10px"><b>上线以来在平台上做过的修改（${touched.length} 处），重新导入后会丢失：</b></p>
+    <pre class="muted" style="white-space:pre-wrap;font-size:12px;max-height:220px;overflow:auto;background:var(--fill-2);padding:10px;border-radius:10px">${esc(touched.join('\n') || '（没有）')}</pre>
+    <p style="margin-top:10px"><input type="file" id="seedf" accept=".json"></p>
+    <p><label><input type="checkbox" id="seedok"> 我已确认上面的修改可以丢弃</label></p>
+    <p style="margin-top:10px"><button class="btn" id="seedgo">重新导入</button></p><pre id="seedlog" class="muted" style="white-space:pre-wrap;font-size:12px"></pre></div>`);
+  $('seedgo').onclick = async () => {
+    const f = $('seedf').files[0]; if (!f) return alert('请选择迁移数据文件');
+    if (!$('seedok').checked) return alert('请先勾选确认');
+    const L = m => $('seedlog').textContent += m + '\n';
+    $('seedgo').disabled = true; ME = null;
+    try { await Store.setup(JSON.parse(await f.text()), me, L, { keepUsers: true }); L('完成，正在进入系统…'); setTimeout(() => location.replace(location.pathname), 1200); }
+    catch (e) { L('✗ ' + e.message); $('seedgo').disabled = false; }
+  };
+}
 
 </script>
 </body></html>
