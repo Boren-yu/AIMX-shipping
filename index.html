@@ -1,0 +1,1549 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<title>海运出运协同平台</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@3.27.0/lib/msal-browser.min.js"></script>
+<style>/* ============ Apple-style theme ============ */
+:root{color-scheme:light;
+  --bg:#F5F5F7;--surface:#FFFFFF;--fill:rgba(118,118,128,.12);--fill-2:rgba(118,118,128,.07);
+  --ink:#1D1D1F;--muted:#6E6E73;--line:rgba(60,60,67,.12);--line-strong:rgba(60,60,67,.24);
+  --brand:#0071E3;--brand-ink:#0066CC;--brand-wash:rgba(0,113,227,.10);--on-brand:#FFFFFF;--ring:rgba(0,113,227,.22);
+  --red:#D70015;--red-solid:#FF3B30;--red-wash:rgba(255,59,48,.11);
+  --amber:#C93400;--amber-solid:#FF9500;--amber-wash:rgba(255,149,0,.14);
+  --ok:#248A3D;--ok-solid:#34C759;--ok-wash:rgba(52,199,89,.14);
+  --link:#5856D6;--link-wash:rgba(88,86,214,.11);
+  --material:rgba(245,245,247,.78);--sheet:#F2F2F7;
+  --shadow:0 1px 1px rgba(0,0,0,.02),0 4px 18px rgba(0,0,0,.05);
+  --shadow-pop:0 24px 60px rgba(0,0,0,.16),0 2px 8px rgba(0,0,0,.06);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","PingFang SC","Hiragino Sans GB","Helvetica Neue","Segoe UI","Microsoft YaHei",Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,"Liberation Mono",monospace;
+  --chev:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%236E6E73' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  --chev-on:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%230066CC' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  --mag:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'><circle cx='6' cy='6' r='4.6' fill='none' stroke='%236E6E73' stroke-width='1.5'/><path d='M9.5 9.5L13 13' stroke='%236E6E73' stroke-width='1.5' stroke-linecap='round'/></svg>");
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#000000;--surface:#1C1C1E;--fill:rgba(118,118,128,.24);--fill-2:rgba(118,118,128,.14);
+  --ink:#F5F5F7;--muted:#98989D;--line:rgba(84,84,88,.55);--line-strong:rgba(120,120,128,.6);
+  --brand:#0A84FF;--brand-ink:#409CFF;--brand-wash:rgba(10,132,255,.18);--on-brand:#FFFFFF;--ring:rgba(10,132,255,.35);
+  --red:#FF6961;--red-solid:#FF453A;--red-wash:rgba(255,69,58,.18);
+  --amber:#FFB340;--amber-solid:#FF9F0A;--amber-wash:rgba(255,159,10,.18);
+  --ok:#30D158;--ok-solid:#30D158;--ok-wash:rgba(48,209,88,.16);
+  --link:#7D7AFF;--link-wash:rgba(94,92,230,.22);
+  --material:rgba(22,22,24,.72);--sheet:#000000;
+  --shadow:0 1px 1px rgba(0,0,0,.3),0 4px 18px rgba(0,0,0,.35);--shadow-pop:0 24px 60px rgba(0,0,0,.6);
+  --chev:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%2398989D' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  --chev-on:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%23409CFF' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  --mag:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'><circle cx='6' cy='6' r='4.6' fill='none' stroke='%2398989D' stroke-width='1.5'/><path d='M9.5 9.5L13 13' stroke='%2398989D' stroke-width='1.5' stroke-linecap='round'/></svg>");}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#000000;--surface:#1C1C1E;--fill:rgba(118,118,128,.24);--fill-2:rgba(118,118,128,.14);
+  --ink:#F5F5F7;--muted:#98989D;--line:rgba(84,84,88,.55);--line-strong:rgba(120,120,128,.6);
+  --brand:#0A84FF;--brand-ink:#409CFF;--brand-wash:rgba(10,132,255,.18);--on-brand:#FFFFFF;--ring:rgba(10,132,255,.35);
+  --red:#FF6961;--red-solid:#FF453A;--red-wash:rgba(255,69,58,.18);
+  --amber:#FFB340;--amber-solid:#FF9F0A;--amber-wash:rgba(255,159,10,.18);
+  --ok:#30D158;--ok-solid:#30D158;--ok-wash:rgba(48,209,88,.16);
+  --link:#7D7AFF;--link-wash:rgba(94,92,230,.22);
+  --material:rgba(22,22,24,.72);--sheet:#000000;
+  --shadow:0 1px 1px rgba(0,0,0,.3),0 4px 18px rgba(0,0,0,.35);--shadow-pop:0 24px 60px rgba(0,0,0,.6);
+  --chev:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%2398989D' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  --chev-on:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%23409CFF' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  --mag:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'><circle cx='6' cy='6' r='4.6' fill='none' stroke='%2398989D' stroke-width='1.5'/><path d='M9.5 9.5L13 13' stroke='%2398989D' stroke-width='1.5' stroke-linecap='round'/></svg>");}
+:root[data-theme="light"]{color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.45;letter-spacing:-.005em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+button{-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:none;box-shadow:0 0 0 4px var(--ring)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px}
+.hidden{display:none!important}
+
+/* ---- header: translucent material ---- */
+.top{position:sticky;top:0;z-index:20;background:var(--material);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--line-strong)}
+.top .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px;row-gap:8px}
+.top h1{margin:0 auto 0 0;font-size:17px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.badge{font-size:11px;padding:2px 8px;border-radius:980px;background:var(--fill);color:var(--muted);font-weight:500;letter-spacing:0}
+
+/* ---- iOS segmented control (roles, language, tabs, add-mode) ---- */
+.roles,.tabs{display:inline-flex;background:var(--fill);border-radius:9px;padding:2px;gap:0;position:relative}
+.roles button,.tabs button{border:0;background:transparent;padding:5px 14px;border-radius:7px;cursor:pointer;color:var(--ink);font-size:13px;font-weight:500;white-space:nowrap;transition:background .15s,box-shadow .15s}
+.roles button[aria-pressed="true"],.tabs button[aria-selected="true"]{background:var(--surface);box-shadow:0 3px 8px rgba(0,0,0,.10),0 1px 1px rgba(0,0,0,.04);font-weight:600}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .roles button[aria-pressed="true"],:root:not([data-theme="light"]) .tabs button[aria-selected="true"]{background:#636366}}
+:root[data-theme="dark"] .roles button[aria-pressed="true"],:root[data-theme="dark"] .tabs button[aria-selected="true"]{background:#636366}
+.lang button{padding:5px 10px}
+.tabs .n{font-size:12px;color:var(--muted);font-weight:500;margin-left:6px;font-variant-numeric:tabular-nums}
+
+/* ---- tab row + search ---- */
+.tabbar{display:flex;align-items:center;gap:12px;margin:22px 0 16px}
+.tabs button{padding:6px 18px;font-size:14px}
+#q{margin-left:auto;height:34px;font-size:14px;padding:0 12px 0 32px;border:0;border-radius:10px;background:var(--fill) var(--mag) no-repeat 11px center/14px 14px;color:var(--ink);width:280px;max-width:45%;-webkit-appearance:none;appearance:none}
+#q::placeholder{color:var(--muted)}
+#q:focus{background-color:var(--surface);box-shadow:0 0 0 4px var(--ring)}
+#q::-webkit-search-cancel-button{-webkit-appearance:none}
+
+/* ---- summary tiles ---- */
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:16px}
+@media (max-width:720px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.tile{background:var(--surface);border:0;border-radius:18px;padding:16px 18px 14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s}
+.tile:hover{transform:translateY(-1px)}
+.tile[aria-pressed="true"]{box-shadow:0 0 0 2px var(--brand),var(--shadow)}
+.tile .v{font-size:34px;font-weight:600;line-height:1.1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.tile .l{font-size:13px;color:var(--muted);line-height:1.35}
+.tile.red .v{color:var(--red-solid)}.tile.amber .v{color:var(--amber-solid)}.tile.todo .v{color:var(--brand)}
+.hsum{display:flex;gap:36px;flex-wrap:wrap;background:var(--surface);border-radius:18px;padding:16px 22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.hsum div{display:flex;flex-direction:column;gap:2px}
+.hsum b{font-size:24px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.hsum span{font-size:12.5px;color:var(--muted)}
+
+/* ---- filter bar ---- */
+.toolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:12px}
+.toolbar select{-webkit-appearance:none;appearance:none;height:32px;font-size:13px;font-weight:500;border:0;border-radius:980px;padding:0 25px 0 12px;background:var(--fill) var(--chev) no-repeat right 10px center/10px 6px;
+  cursor:pointer;flex:none;max-width:240px;min-width:0;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;color:var(--ink)}
+.toolbar select:hover{background-color:rgba(118,118,128,.18)}
+.toolbar select.on{background-color:var(--brand-wash);background-image:var(--chev-on);color:var(--brand-ink);font-weight:600}
+.clear{border:0;background:none;color:var(--brand-ink);cursor:pointer;font-size:13px;padding:0 6px;height:32px;white-space:nowrap;flex:none}
+.clear:hover{text-decoration:underline}
+.btn{border:0;border-radius:980px;height:32px;padding:0 16px;background:var(--brand);color:var(--on-brand);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;transition:filter .15s}
+.btn:hover{filter:brightness(1.08)}
+.toolbar .btn#addBtn{margin-left:auto;flex:none}
+@media (max-width:900px){.toolbar{flex-wrap:wrap}}
+
+/* ---- list (inset grouped) ---- */
+.list{background:var(--surface);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.row{display:grid;grid-template-columns:4px minmax(72px,1fr) minmax(122px,1fr) minmax(170px,1.1fr) minmax(78px,1fr) minmax(156px,1.05fr) 78px 78px 106px;gap:0 11px;align-items:center;padding:0 16px 0 0;min-height:58px;position:relative}
+.row::after{content:"";position:absolute;left:16px;right:0;bottom:0;height:.5px;background:var(--line-strong);opacity:.7}
+.row:last-child::after{display:none}
+.row.head{min-height:36px;font-size:12px;color:var(--muted);font-weight:500}
+.row.item{cursor:pointer;transition:background .12s}
+.row.item:hover{background:var(--fill-2)}
+.row.item:active{background:var(--fill)}
+.row.mhead{display:flex!important;gap:10px;align-items:center;min-height:40px;padding:0 18px;background:var(--fill-2);font-weight:600;font-size:13.5px;letter-spacing:-.01em;cursor:default}
+.mh-s{font-size:12.5px;color:var(--muted);font-weight:400}
+.bar{align-self:stretch;margin:10px 0;border-radius:0 3px 3px 0}
+.bar.red{background:var(--red-solid)}.bar.amber{background:var(--amber-solid)}
+.cell{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.c-sup{font-weight:600;white-space:normal;line-height:1.3;font-size:13.5px;padding-left:12px}
+.c-fw{white-space:normal;line-height:1.3;font-size:13px;color:var(--muted)}
+.c-route{font-size:13px}
+.c-po{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.po{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:-.01em}
+.date{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.row.lk .c-sup{box-shadow:inset 3px 0 0 var(--link)}
+.row.lk:not(.lk-last)::after{left:16px;background:var(--link);opacity:.25}
+.ld{display:inline-block;font-size:11px;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--fill);color:var(--muted);font-weight:500;white-space:nowrap}
+.ld.lcl{background:var(--link-wash);color:var(--link);font-weight:600}
+.ld.plan{background:transparent;box-shadow:inset 0 0 0 1px var(--line-strong)}
+.ld.new{background:var(--ok-wash);color:var(--ok);font-weight:600}
+.ld.warn{background:var(--amber-wash);color:var(--amber);font-weight:600}
+.trk{display:flex;align-items:center;gap:8px}
+.dots{display:grid;grid-template-columns:repeat(4,15px);gap:3px}
+.dots i{height:5px;border-radius:3px;background:var(--fill)}
+.dots i.on{background:var(--brand)}
+.dots.done i{background:var(--ok-solid)}
+.trk span{font-size:13px;font-weight:600;white-space:nowrap}
+.trk span.pre{color:var(--muted);font-weight:400}
+.pill{display:inline-block;padding:2px 9px;border-radius:980px;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill.red{background:var(--red-wash);color:var(--red)}
+.pill.amber{background:var(--amber-wash);color:var(--amber)}
+.pill.ok{background:var(--ok-wash);color:var(--ok)}
+.pill.na{background:var(--fill-2);color:var(--muted);font-weight:500}
+.pick{width:17px;height:17px;margin:0 8px 0 0;vertical-align:-3px;accent-color:var(--brand);cursor:pointer}
+.empty{padding:44px 16px;text-align:center;color:var(--muted)}
+.more{display:block;width:100%;border:0;background:var(--surface);padding:14px;color:var(--brand-ink);cursor:pointer;font-weight:500}
+.more:hover{background:var(--fill-2)}
+.hint{font-size:12.5px;color:var(--muted);margin:12px 4px 0}
+.note{font-size:12px;color:var(--muted);margin:14px 4px 36px}
+.c-dates{display:none}
+@media (max-width:1000px){
+  .row.head{display:none}
+  .row{grid-template-columns:4px 1fr auto;grid-template-areas:"bar sup delay" "bar po po" "bar route route" "bar trk trk" "bar dates dates";gap:5px 12px;padding:13px 16px 13px 0}
+  .row .bar{grid-area:bar;margin:2px 0}.row .c-sup{grid-area:sup;font-size:15px}.row .c-po{grid-area:po}.row .c-delay{grid-area:delay;justify-self:end}
+  .row .c-route{grid-area:route}.row .c-fw{display:none}.row .c-trk{grid-area:trk}
+  .row .c-req,.row .c-eta{display:none}.row .c-dates{grid-area:dates;display:block!important;font-size:12px;color:var(--muted)}
+  .row .c-po,.row .c-route,.row .c-trk,.row .c-dates{padding-left:12px}
+}
+
+/* ---- floating action bar & toast ---- */
+.abar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:30;background:rgba(29,29,31,.86);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);color:#F5F5F7;border-radius:980px;padding:8px 8px 8px 20px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow-pop);max-width:calc(100% - 32px);flex-wrap:wrap;font-size:13.5px}
+.abar .w{font-size:12.5px;color:#FFB340}
+.abar button{border:0;border-radius:980px;height:32px;padding:0 16px;cursor:pointer;font-weight:600;font-size:13px}
+.abar .go{background:#0A84FF;color:#fff}
+.abar .go:disabled{opacity:.4;cursor:not-allowed}
+.abar .no{background:rgba(255,255,255,.14);color:#F5F5F7}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,8px);background:rgba(29,29,31,.88);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:#F5F5F7;padding:10px 18px;border-radius:980px;font-size:13px;font-weight:500;z-index:60;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;box-shadow:var(--shadow-pop)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---- sheet / drawer ---- */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.22);z-index:40;display:none;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.scrim.open{display:block}
+.drawer{position:fixed;top:10px;right:10px;bottom:10px;width:min(520px,calc(100% - 20px));background:var(--sheet);z-index:50;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-pop);display:flex;flex-direction:column;transform:translateX(calc(100% + 24px));transition:transform .32s cubic-bezier(.32,.72,0,1)}
+.drawer.open{transform:none}
+@media (prefers-reduced-motion:reduce){.drawer,.toast,.tile{transition:none}}
+@media (max-width:600px){.drawer{inset:0;width:100%;border-radius:0}}
+.dh{padding:16px 18px 14px;display:flex;gap:12px;align-items:flex-start;background:var(--material);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--line-strong)}
+.dh h2{margin:0;font-size:19px;font-weight:600;font-family:var(--mono);letter-spacing:-.02em}
+.dh .sub{font-size:12.5px;color:var(--muted);margin-top:3px}
+.x{margin-left:auto;border:0;background:var(--fill);border-radius:50%;width:30px;height:30px;cursor:pointer;color:var(--muted);font-size:13px;flex:none}
+.x:hover{background:rgba(118,118,128,.2)}
+.db{padding:16px;overflow:auto;flex:1;display:flex;flex-direction:column;gap:14px}
+.df{padding:12px 16px;background:var(--material);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:.5px solid var(--line-strong);display:flex;gap:10px;align-items:center}
+.df .btn{height:36px;padding:0 20px;font-size:14px}
+.bigtrk{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--surface);border-radius:14px;padding:14px 14px 10px}
+.bigtrk div{font-size:12px;color:var(--muted);text-align:center}
+.bigtrk i{display:block;height:6px;border-radius:3px;background:var(--fill);margin-bottom:7px}
+.bigtrk .on i{background:var(--brand)}.bigtrk .on{color:var(--ink)}
+.bigtrk .cur{font-weight:600}
+.bigtrk.done i{background:var(--ok-solid)}
+.banner{border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.45}
+.banner b{display:block;font-size:14px;font-weight:600;margin-bottom:1px}
+.banner.red{background:var(--red-wash);color:var(--red)}.banner.amber{background:var(--amber-wash);color:var(--amber)}
+.banner.ok{background:var(--ok-wash);color:var(--ok)}.banner.na{background:var(--surface);color:var(--muted)}
+.sec{background:var(--surface);border-radius:14px;padding:14px}
+.sec h4{margin:0 0 10px;font-size:13px;font-weight:600;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.own{font-size:11px;padding:1px 8px;border-radius:980px;background:var(--fill-2);color:var(--muted);font-weight:500}
+.own.me{background:var(--brand-wash);color:var(--brand-ink);font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+@media (max-width:460px){.grid{grid-template-columns:1fr}}
+.fld label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.fld .ro{padding:8px 11px;border-radius:10px;background:var(--fill-2);min-height:36px;font-size:13.5px;line-height:20px}
+.fld input,.fld select,textarea[data-a]{width:100%;padding:0 11px;height:36px;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface);font-size:13.5px;transition:box-shadow .15s,border-color .15s}
+.fld select{-webkit-appearance:none;appearance:none;padding-right:30px;background:var(--surface) var(--chev) no-repeat right 12px center/10px 6px}
+.fld input:focus,.fld select:focus,textarea[data-a]:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--ring)}
+.fld.wide{grid-column:1/-1}
+textarea[data-a]{height:auto;min-height:150px;padding:10px 12px;font-family:var(--mono);font-size:12px;line-height:1.55;resize:vertical;color:var(--ink)}
+.log{list-style:none;margin:0;padding:0 0 0 16px;border-left:1.5px solid var(--line-strong)}
+.log li{position:relative;padding:0 0 12px;font-size:12.5px}
+.log li:last-child{padding-bottom:0}
+.log li::before{content:"";position:absolute;left:-21.5px;top:3px;width:9px;height:9px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 3px var(--surface)}
+.log li.chg::before{background:var(--amber-solid)}
+.log .when{color:var(--muted);font-family:var(--mono);font-size:11.5px}
+.box{border-radius:12px;overflow:hidden;background:var(--fill-2)}
+.box-h{display:flex;gap:8px;align-items:center;padding:10px 12px;font-size:13px;font-weight:600;flex-wrap:wrap}
+.box-i{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:9px 12px;border:0;border-top:.5px solid var(--line-strong);font-size:12.5px;cursor:pointer;background:none;width:100%;text-align:left}
+.box-i:hover{background:var(--fill-2)}
+.box-i.me{background:var(--brand-wash);cursor:default}
+.wn{font-size:12.5px;color:var(--amber);background:var(--amber-wash);border-radius:12px;padding:10px 12px;line-height:1.45}
+.ghost{border:0;background:var(--fill);border-radius:980px;height:32px;padding:0 16px;cursor:pointer;font-weight:600;font-size:13px;color:var(--brand-ink)}
+.ghost:hover{background:rgba(118,118,128,.2)}
+.ghost.dng{color:var(--red)}
+.df .ghost{height:36px;font-size:14px}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.seg{align-self:flex-start}
+.cols{display:flex;flex-wrap:wrap;gap:5px 6px;font-size:12px;color:var(--muted)}
+.cols span{background:var(--surface);border-radius:6px;padding:2px 8px}
+.msg{font-size:12.5px}.msg.err{color:var(--red)}.msg.okm{color:var(--ok)}.msg.wm{color:var(--amber)}
+.db > .hint,.db > .grid,.db > .box,.db > .cols,.db > textarea{margin-top:0}
+.db > .grid{background:var(--surface);border-radius:14px;padding:14px}
+
+/* ---- phones ---- */
+@media (max-width:600px){
+  .tabbar{flex-wrap:wrap;margin:16px 0 12px}
+  .tabbar .tabs{flex:1 1 100%}
+  .tabbar .tabs button{flex:1}
+  #q{flex:1 1 100%;width:auto;max-width:none;margin:2px 0 0}
+  .toolbar select{flex:1 1 calc(50% - 4px);width:auto!important;max-width:none}
+  .toolbar .clear{flex:1 1 100%;text-align:left}
+  .toolbar .btn#addBtn{flex:1 1 100%;margin-left:0;height:38px}
+  .roles{flex:1 1 auto}.roles button{flex:1}
+  .tile .v{font-size:28px}
+}
+
+/* ---- company logo in header ---- */
+.logo{display:flex;align-items:center;flex:none;background:#FFFFFF;border-radius:9px;padding:2px 7px;box-shadow:0 0 0 .5px var(--line-strong),0 1px 2px rgba(0,0,0,.05)}
+.logo img{height:34px;width:auto;display:block}
+.vsep{width:1px;height:24px;background:var(--line-strong);flex:none}
+@media (max-width:600px){.logo img{height:28px}.vsep{height:20px}.top h1{font-size:16px}}
+.drawer.open ~ .toast{bottom:84px}
+
+/* 两类报警卡片：红 / 黄 两个数字 */
+.tile.pair .v{display:flex;align-items:baseline;gap:6px}
+.tile.pair .v .r{color:var(--red-solid);font-weight:600}
+.tile.pair .v .a{color:var(--amber-solid);font-weight:600}
+.tile.pair .v .sl{font-style:normal;color:var(--line-strong);font-weight:300;font-size:26px}
+.tile .l b{color:var(--ink);font-weight:600}
+.who{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);white-space:nowrap}
+.sync{font-size:11px;padding:2px 8px;border-radius:980px;background:var(--fill)}
+.sync.saving{color:var(--amber-solid)}.sync.err{color:var(--red-solid);background:var(--red-wash)}
+.me-chip{font-size:13px;font-weight:600;padding:4px 12px}
+.gate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:16px}
+.gcard{max-width:520px;width:100%;background:var(--surface);border-radius:18px;padding:28px;box-shadow:var(--shadow);text-align:center}
+.gcard h2{margin:0 0 8px;font-size:20px}
+@media (max-width:760px){.who #who{display:none}}
+</style>
+</head><body>
+<header class="top"><div class="wrap">
+  <div class="logo"><img src="data:image/png;base64,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" alt="Air International Thermal Systems 空调国际热能系统" width="114" height="36"></div>
+  <span class="vsep" aria-hidden="true"></span>
+  <h1><span data-i18n="appName"></span> <span class="badge" data-i18n="proto"></span></h1>
+  <div class="roles" id="roles" role="group" data-i18n-aria="ariaRoles"></div>
+  <span class="who"><span id="who"></span><span class="sync ok" id="sync"></span></span>
+  <div class="roles lang" id="langsw" role="group" data-i18n-aria="ariaLang"><button data-lang="zh" lang="zh-CN">中文</button><button data-lang="en" lang="en">EN</button><button data-lang="es" lang="es-MX">ES</button></div>
+</div></header>
+
+<main class="wrap">
+  <div class="tabbar">
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="active"><span data-i18n="tabActive"></span><span class="n" id="n-active"></span></button>
+      <button role="tab" aria-selected="false" data-tab="hist"><span data-i18n="tabHist"></span><span class="n" id="n-hist"></span></button>
+      <button role="tab" aria-selected="false" data-tab="del" id="tab-del"><span data-i18n="tabDel"></span><span class="n" id="n-del"></span></button>
+    </div>
+    <input id="q" type="search" data-i18n-ph="search" data-i18n-aria="search">
+  </div>
+  <div id="tiles" class="tiles"></div>
+  <div id="hsum" class="hsum hidden"></div>
+  <div class="toolbar">
+    <select id="f-month" data-i18n-aria="ariaMonth"></select>
+    <select id="f-route" data-i18n-aria="ariaRoute"></select>
+    <select id="f-fwd" data-i18n-aria="ariaFwd"></select>
+    <select id="f-status" data-i18n-aria="ariaStatus"></select>
+    <button class="clear hidden" id="clear" data-i18n="clear"></button>
+    <button class="btn hidden" id="addBtn" data-i18n="addBtn"></button>
+  </div>
+  <div class="list" id="list"></div>
+  <p class="hint" id="hint"></p>
+  <p class="note" data-i18n="note"></p>
+</main>
+
+<div class="abar hidden" id="abar"></div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dtitle">
+  <div class="dh"><div><h2 id="dtitle"></h2><div class="sub" id="dsub"></div></div><button class="x" id="dclose" data-i18n-aria="close">✕</button></div>
+  <div class="db" id="dbody"></div>
+  <div class="df" id="dfoot"><button class="btn" id="save" data-i18n="save"></button><button class="ghost hidden" id="save2" data-i18n="saveAgain"></button><span class="msg" id="dmsg"></span></div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<div class="gate hidden" id="gate"></div>
+
+<script>
+/* ---------- 双语：界面文字 + 数据值显示 ---------- */
+const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const MSG = {
+  zh: {
+    sync_ok: '已保存', sync_saving: '保存中…', sync_err: '未能保存，稍后自动重试', conflict: '这条记录刚被其他人修改，已刷新为最新数据，请重新操作',
+    gLoading: '正在登录并读取数据…', gNoAccess: '没有访问权限', gNoAccessTxt: e => `账号 ${e} 尚未开通。请联系海外物流开通权限。`, gError: '无法连接数据',
+    tileEta: 'ETA 延误', tileEtaSub: '红 ≥4 周 / 黄 ≥2 周', tileOvd: '超期无 ETA', tileOvdSub: '提货日已过 · 红 ≥14 天 / 黄 ≥7 天（含未订舱）',
+    noEtaPill: d => `无 ETA ${d} 天`, bannerNoEta: (p, d) => `已订舱，但计划提货日 ${p} 已过 ${d} 天，货代仍未提供 ETA。请货代尽快更新。`,
+    bannerArr: (a, r, d) => `实际到港 ${a}，原始要求 ETA ${r}，${d > 0 ? '晚 ' + d + ' 天' : d === 0 ? '准时' : '提前 ' + -d + ' 天'}。`,
+    reqAdjNote: (b, c) => `要求 ETA 已由 ${b} 调整为 ${c}；报警和考核仍按原始要求 ${b} 判定。`,
+    reopened: (at, a, b) => `该报警闭环后延误加重，已于 ${at} 自动重新打开（${a} → ${b}）。`,
+    baseLine: (p, r) => `原始基准：计划提货日 ${p} · 要求 ETA ${r}（报警与考核按此判定）`,
+    baseReasonLbl: '若修改计划提货日 / 要求 ETA，请选择原因（必填）',
+    eBaseReason: '已订舱或已有报警的需求，修改计划提货日 / 要求 ETA 时必须选择原因。',
+    fAta: '实际到港日', eAta: '状态为「已到港」时必须填写实际到港日。', eAtaStatus: '填写了实际到港日，请把状态改为「已到港」。', eAtaEtd: '实际到港日不能早于 ETD。',
+    ataLegacy: '迁移数据：旧表没有实际到港日，暂以最终 ETA 代替，请货代核对后更新。',
+    fwdLockedHint: '订舱后货代不能自行更改；如需改派，请联系海外物流。', reassignTxt: (a, b) => `改派货代：${a} → ${b}`,
+    lockedHint: '已订舱的票，需求月份、起运地、工厂、供应商和 PO 号不能修改；如需更改，请货代先取消订舱或将其移出此柜。',
+    editLog: '修改记录', editLogBadge: '计划员修改 · 自动留痕', savedWarn: w => `已保存。提醒：${w}`,
+    tabDel: '已删除', delBtn: '删除此需求', delTitle: '删除原因', delNote: '补充说明（可选）', delConfirm: '确认删除', delCancel: '取消',
+    delHint: '删除后记录不会被抹掉，而是移到「已删除」中保留，可以恢复。', eDelReason: '请选择删除原因。',
+    tDeleted: po => `已删除 ${po}，可在「已删除」中恢复`, delTag: r => `已删除 · ${r}`, deletedTitle: '已删除',
+    deletedBanner: (at, by, r) => `${at} 由${by}删除，原因：${r}。`, restore: '恢复此需求', tRestored: '已恢复',
+    delBlocked: id => `该票已订舱（${id}），不能直接删除。请先由货代取消订舱，或将其移出此柜。`,
+    unbook: '取消订舱', unbookHint: '尚未提货的单票订舱可以取消，取消后本票回到「待订舱」。', tUnbooked: '已取消订舱，本票回到「待订舱」',
+    hintDel: '这里保留被删除的需求及删除原因，便于追溯；计划员可以恢复误删的记录。',
+    unbookedPill: d => `超期 ${d} 天`, bannerUnbooked: (p, d) => `计划提货日 ${p} 已过 ${d} 天，仍未订舱。请货代确认订舱；如该需求已取消，请计划员删除或更新。`,
+    poDupTag: '疑似重复', poChkTag: '核对 PO', thisPaste: '本次粘贴',
+    noteDup: x => `数据核对：与 ${x} 的供应商、工厂、数量和计划提货日完全相同，可能是重复录入。如果确实是两票货，可以忽略。`,
+    noteMis: (x, s, p) => `数据核对：同一个 PO 下的 ${x} 是 ${s} → ${p}，和本行不同，请确认 PO 号是否录错。`,
+    wDup: x => `与已有的 ${x} 完全相同（供应商、工厂、数量、计划提货日），疑似重复录入`,
+    wMis: (x, s, p) => `同一个 PO 下的 ${x} 是 ${s} → ${p}，与本行不同，请确认 PO 号是否正确`,
+    wSupCase: s => `系统里已有供应商写法「${s}」，建议统一为这个写法`,
+    appName: '海运出运协同平台', proto: '试运行', tabActive: '进行中', tabHist: '历史货柜',
+    clear: '清除筛选', addBtn: '＋ 新增需求', search: '搜索 PO 号 / 供应商 / 提单号',
+    note: '数据保存在公司 SharePoint，每一次修改都记录修改人与时间。迁移自 2026-10-09 的 Excel 源表（237 票 / 110 个订舱）。',
+    save: '保存', saveAgain: '保存并继续新增', close: '关闭',
+    ariaMonth: '按需求月份筛选', ariaRoute: '按航线筛选', ariaFwd: '按货代筛选', ariaStatus: '按状态筛选', ariaRoles: '切换角色', ariaLang: '切换语言',
+    roleplanner: '计划员', rolefw: '货代', rolelog: '海外物流',
+    todoplanner: '待补要求ETA / 待评估 / 核对PO', todofw: '待订舱 / 本周未更新', todolog: '报警待处置',
+    nPOc: (n, c) => `${n} 票 · ${c} 柜`, arrived: '已到港', onTimeRate: (a, b) => `准时到港率（${a}/${b}）`,
+    avgDelay: '平均延误', days: x => `${x} 天`, hadAlerts: '曾触发报警',
+    tileAll: c => `进行中票数 · 已订舱 ${c} 柜`, tileRed: '红色预警 · 晚 ≥4 周 / 超期 ≥14 天未订舱', tileAmber: '黄色提醒 · 晚 ≥2 周 / 超期 ≥7 天未订舱', tileTodo: x => `我的待办 · ${x}`,
+    allMonths: '全部需求月份', monthOpt: (n, a) => `(${n}${a ? ' · 预警 ' + a : ''})`,
+    monthLabel: m => m ? `${m} 月需求` : '未填月份', monthShort: m => `${m} 月`,
+    allRoutes: '全部航线', allFwd: '全部货代', allStatus: '全部状态', unassigned: '（未指定）', notAssigned: '未指定',
+    noReq: '缺要求ETA', onTime: '准时', early: d => `提前 ${d} 天`, late: d => `晚 ${d} 天`,
+    planTag: v => `计划${v ? v : '：未填'}`, newTag: '新增', inBox: n => ` · 同柜 ${n} 票`, nCont: n => ` · ${n} 柜`,
+    red: n => `红色 ${n}`, amber: n => `黄色 ${n}`, toBookN: n => `· 待订舱 ${n}`,
+    hSup: '供应商', hPO: 'PO 号', hRoute: '航线', hFwd: '货代', hStatus: '状态', hReq: '要求 ETA', hEta: '货代 ETA', hArr: '到港日', hDelay: '延误',
+    mReq: '要求', mEta: '货代', mArr: '到港',
+    more: n => `显示更多（还有 ${n} 票）`, empty: '没有符合条件的货物。',
+    hintHist: '状态变为「已到港」后自动归入历史，永久保留；同柜的多票会一起归入。可按需求月份、航线、货代查询，点击任一票查看完整的 ETA 变更记录。',
+    hintBase: '报警分两类：ETA 延误（按原始要求 ETA，红 = 晚 4 周、黄 = 晚 2 周）；超期无 ETA（计划提货日已过，货代仍未给 ETA，含未订舱，红 = 14 天、黄 = 7 天）。紫色竖线 = 同一个柜里的多票货。',
+    hintFw: '勾选待订舱的票，可以把多票合并为一个拼箱订舱。', hintPlanner: '点右上方「新增需求」录入新的 PO，可单条填写，也可以从 Excel 批量粘贴。',
+    selectPO: po => `选择 ${po}`, selected: n => `已选 <b>${n}</b> 票`, goingTo: p => ` · 去往 ${p}`,
+    diffRoute: '不同航线不能订在同一个柜', combine: '合并订舱', create: '创建订舱', clearSel: '取消选择',
+    yes: '是', no: '否', yours: '你负责', readonly: '只读',
+    cannotAssess: '暂无法判定', missing: x => `缺少${x}。`, sep: '、', reqEta: '要求 ETA', fwdEta: '货代 ETA',
+    lvred: '红色预警', lvamber: '黄色提醒', lvok: '正常', closedTag: ' · 已闭环',
+    bannerTxt: (eta, req, d) => `货代 ETA ${eta}，要求 ETA ${req}，${d > 0 ? '晚 ' + d + ' 天' : d === 0 ? '准时' : '提前 ' + -d + ' 天'}。`,
+    secPlan: '计划', secBooking: '订舱信息', secPick: '本票提货', secLog: '监管', secEtaLog: 'ETA 变更记录', etaLogBadge: '本柜共用 · 自动留痕 · 赔付依据',
+    fPlan: '计划提货日', fReq: '要求 ETA', fQty: '数量', fPlanLoad: '装载需求', fType: '类型', fFwd: '货代', fCont: '柜数', fCarrier: '承运人',
+    fMbl: '提单号', fEtd: 'ETD', fEta: '货代 ETA', fStatus: '状态', fApick: '实际提货日', fNote: '处置备注', fClosed: '报警已闭环',
+    boxHead: (n, c) => `本柜共 ${n} 票 · ${c} 柜`, current: '（当前）',
+    legacy: f => `迁移提示：旧表中本柜各行的${f}填写不一致，网页里已统一为一份。`,
+    lcFields: { cont: '柜数', car: '承运人', st: '状态', etd: 'ETD', eta: 'ETA' },
+    reasonLbl: '若修改货代 ETA，请选择原因（必填）', shared: n => `本柜信息由同柜 ${n} 票共用，保存后一起更新。`, unlink: '将本票移出此柜',
+    notBooked: '尚未订舱', assigned: f => `已指定货代 ${f}。`, plannerReq: v => `计划员要求：${v}。`, notSet: '未填',
+    bookThis: '为本票订舱', consolHint: '多票拼一个柜：在清单中勾选这些票，再点底部的「合并订舱」。', noEtaLog: '暂无 ETA 记录',
+    logBy: '货代', firstEta: '首次报告 ETA', plantSub: p => `工厂 ${p}`,
+    newBoxHead: n => `本次订舱包含 ${n} 票`, warnFcl: n => `其中 ${n} 票计划员要求的是整柜，请确认可以与其他票拼箱。`,
+    warnPlants: p => `本柜货物去往不同工厂（${p}），到港后需要分拨。`, fFwdReq: '货代（必填）',
+    newHint: '提单号、ETD、ETA 可以之后再补；创建后状态为「已订舱」，同柜所有票共用这一份信息。', nPOroute: (n, r) => `${n} 票 · ${r}`,
+    eFwd: '请选择货代。', eRoute: '不同航线不能订在同一个柜。', tCreated: (id, n, ty, c) => `已创建订舱 ${id}：${n} 票${ty}，${c} 柜`,
+    eNote: '闭环前请先填写处置备注。', eReason: '货代 ETA 有变更，请选择变更原因后再保存。',
+    tArrivedN: n => `本柜 ${n} 票已到港，已一起归入「历史货柜」`, tArrived1: '已到港，已归入「历史货柜」',
+    savedN: n => `已保存，同柜 ${n} 票一起更新`, saved: '已保存', tUnlinked: '已移出此柜，本票回到「待订舱」',
+    addTitle: '新增需求', addSub: '计划员录入 · 保存后货代会在「待订舱」中看到', segOne: '单条新增', segPaste: '从 Excel 批量粘贴',
+    fMonth: '需求月份', fOrigin: '起运地（航线）', fPlant: '工厂', fSup: '供应商', supPh: '输入可联想已有供应商', fPO: 'PO 号', fQtyP: '数量（托）', choose: '请选择',
+    oneHint: '「保存并继续新增」会保留月份、航线、工厂、供应商、日期和装载需求，只清空 PO 号和数量，方便连续录入同一批货。',
+    pasteHint: '在 Excel 里按下面的列顺序排好，选中这些行复制（可以带表头），粘贴到下框。日期支持 2026-11-03、2026/11/3 和 11/3/2026。',
+    pasteCols: ['需求月份', '起运地', '工厂', '供应商', 'PO 号', '数量', '计划提货日', '要求 ETA', '装载（整柜/拼箱）'],
+    import: '导入', importN: n => `导入 ${n} 条`, pvHead: (n, a, b) => `共 ${n} 行 · 可导入 ${a} · 有错误 ${b}`, noPO: '（无 PO）',
+    pvBad: x => `缺少或有误：${x}`, pvSkip: '不导入', pvCheck: '可导入·请留意', pvOk: '可导入',
+    cMonth: '需求月份', cOrigin: '起运地', cPlant: '工厂', cSup: '供应商', cPO: 'PO 号（应为 CGDD + 9 位数字，未下达填 TBC）',
+    cPlan: '计划提货日', cReq: '要求 ETA', cLoad: '装载需求', cReqBefore: '要求 ETA 早于计划提货日',
+    wLead: (l, o, n) => `要求 ETA 距计划提货只有 ${l} 天，${o} 航线通常约需 ${n} 天，按时到港可能性低`,
+    wMonth: m => `计划提货日不在 ${m}`, wPast: '计划提货日早于今天', wSplit: (s) => `该 PO 已有 ${s} 票，将作为第 ${s + 1} 次拆分`,
+    eFix: x => `请补全或修正：${x}`, tAdded: (p, m) => `已新增 ${p}（${m}）`,
+    eNothing: '没有可以导入的行，请先修正标红的错误。', ePasteFirst: '请先粘贴数据。',
+    tImported: (n, b) => `已导入 ${n} 条需求` + (b ? `，${b} 条有错误留在框里待修正` : ''),
+  },
+  en: {
+    sync_ok: 'Saved', sync_saving: 'Saving…', sync_err: 'Not saved, retrying shortly', conflict: 'Someone else just changed this record. Data refreshed; please try again',
+    gLoading: 'Signing in and loading data…', gNoAccess: 'No access', gNoAccessTxt: e => `Account ${e} has not been granted access. Please contact Overseas Logistics.`, gError: 'Could not load data',
+    tileEta: 'ETA delay', tileEtaSub: 'red ≥4 wks / yellow ≥2 wks', tileOvd: 'Overdue, no ETA', tileOvdSub: 'past pickup · red ≥14 d / yellow ≥7 d (incl. unbooked)',
+    noEtaPill: d => `No ETA ${d}d`, bannerNoEta: (p, d) => `Booked, but planned pickup ${p} was ${d} days ago and the forwarder still hasn’t given an ETA. The forwarder should update it now.`,
+    bannerArr: (a, r, d) => `Actual arrival ${a}, original required ETA ${r} — ${d > 0 ? d + ' days late' : d === 0 ? 'on time' : -d + ' days early'}.`,
+    reqAdjNote: (b, c) => `Required ETA was changed from ${b} to ${c}; alerts and KPIs still use the original ${b}.`,
+    reopened: (at, a, b) => `The delay got worse after this alert was closed, so it was reopened automatically on ${at} (${a} → ${b}).`,
+    baseLine: (p, r) => `Original baseline: planned pickup ${p} · required ETA ${r} (used for alerts and KPIs)`,
+    baseReasonLbl: 'Reason for changing planned pickup / required ETA (required)',
+    eBaseReason: 'This demand is booked or has an alert, so changing the planned pickup or required ETA needs a reason.',
+    fAta: 'Actual arrival', eAta: 'Enter the actual arrival date when the status is "Arrived".', eAtaStatus: 'An actual arrival date was entered — set the status to "Arrived".', eAtaEtd: 'Actual arrival can’t be earlier than ETD.',
+    ataLegacy: 'Migrated data: the old sheets had no actual arrival date, so the final ETA is used for now. The forwarder should check and update it.',
+    fwdLockedHint: 'Once booked, the forwarder can’t be changed here; contact Overseas Logistics to reassign.', reassignTxt: (a, b) => `Forwarder reassigned: ${a} → ${b}`,
+    lockedHint: 'This PO is booked, so its demand month, origin, plant, supplier and PO number are locked. To change them, the forwarder must first cancel the booking or remove it from the box.',
+    editLog: 'Change log', editLogBadge: 'Planner edits · auto-logged', savedWarn: w => `Saved. Note: ${w}`,
+    tabDel: 'Deleted', delBtn: 'Delete this demand', delTitle: 'Reason for deletion', delNote: 'Note (optional)', delConfirm: 'Delete', delCancel: 'Cancel',
+    delHint: 'The record is not erased: it moves to "Deleted", where it is kept and can be restored.', eDelReason: 'Choose a reason.',
+    tDeleted: po => `Deleted ${po} — you can restore it from "Deleted"`, delTag: r => `Deleted · ${r}`, deletedTitle: 'Deleted',
+    deletedBanner: (at, by, r) => `Deleted on ${at} by ${by}. Reason: ${r}.`, restore: 'Restore this demand', tRestored: 'Restored',
+    delBlocked: id => `This PO is already booked (${id}) and can’t be deleted directly. Ask the forwarder to cancel the booking or remove it from the box first.`,
+    unbook: 'Cancel booking', unbookHint: 'A single-PO booking can be cancelled before pickup; the PO goes back to "To book".', tUnbooked: 'Booking cancelled — this PO is back in "To book"',
+    hintDel: 'Deleted demand is kept here with the reason for deletion, so it can be traced; the planner can restore anything deleted by mistake.',
+    unbookedPill: d => `Overdue ${d}d`, bannerUnbooked: (p, d) => `Planned pickup ${p} was ${d} days ago and this PO is still not booked. The forwarder should confirm a booking; if the demand was cancelled, the planner should remove or update it.`,
+    poDupTag: 'Possible duplicate', poChkTag: 'Check PO', thisPaste: 'this paste',
+    noteDup: x => `Data check: identical to ${x} (supplier, plant, quantity and planned pickup) — possibly entered twice. Ignore if these really are two shipments.`,
+    noteMis: (x, s, p) => `Data check: ${x} under the same PO is ${s} → ${p}, which differs from this line — check that the PO number is correct.`,
+    wDup: x => `Identical to existing ${x} (supplier, plant, quantity, planned pickup) — possibly a duplicate`,
+    wMis: (x, s, p) => `${x} under the same PO is ${s} → ${p}, which differs from this line — check the PO number`,
+    wSupCase: s => `This supplier already exists as "${s}" — use the same spelling`,
+    appName: 'Ocean Shipment Portal', proto: 'Pilot', tabActive: 'In progress', tabHist: 'History',
+    clear: 'Clear filters', addBtn: '+ New demand', search: 'Search PO / supplier / B/L',
+    note: 'Data is stored in the company SharePoint; every change records who made it and when. Migrated from the Excel sheets of 2026-10-09 (237 POs / 110 bookings).',
+    save: 'Save', saveAgain: 'Save & add another', close: 'Close',
+    ariaMonth: 'Filter by demand month', ariaRoute: 'Filter by route', ariaFwd: 'Filter by forwarder', ariaStatus: 'Filter by status', ariaRoles: 'Switch role', ariaLang: 'Switch language',
+    roleplanner: 'Planner', rolefw: 'Forwarder', rolelog: 'Overseas Logistics',
+    todoplanner: 'Missing req. ETA / to assess / check PO', todofw: 'To book / not updated this week', todolog: 'Alerts to handle',
+    nPOc: (n, c) => `${n} PO${n === 1 ? '' : 's'} · ${c} cntr${c === 1 ? '' : 's'}`, arrived: 'Arrived', onTimeRate: (a, b) => `On-time arrival (${a}/${b})`,
+    avgDelay: 'Avg. delay', days: x => `${x} days`, hadAlerts: 'Had alerts',
+    tileAll: c => `POs in progress · ${c} cntr${c === 1 ? '' : 's'} booked`, tileRed: 'Red · ≥4 wks late / unbooked ≥14 d past pickup', tileAmber: 'Yellow · ≥2 wks late / unbooked ≥7 d past pickup', tileTodo: x => `My to-dos · ${x}`,
+    allMonths: 'All demand months', monthOpt: (n, a) => `(${n}${a ? ' · alerts ' + a : ''})`,
+    monthLabel: m => m ? `${MON[m - 1]} demand` : 'No month', monthShort: m => MON[m - 1],
+    allRoutes: 'All routes', allFwd: 'All forwarders', allStatus: 'All statuses', unassigned: '(Unassigned)', notAssigned: 'Unassigned',
+    noReq: 'No req. ETA', onTime: 'On time', early: d => `${d} d early`, late: d => `${d} d late`,
+    planTag: v => `Plan: ${v || 'not set'}`, newTag: 'New', inBox: n => ` · ${n} POs in box`, nCont: n => ` · ${n} cntrs`,
+    red: n => `Red ${n}`, amber: n => `Yellow ${n}`, toBookN: n => `· to book ${n}`,
+    hSup: 'Supplier', hPO: 'PO', hRoute: 'Route', hFwd: 'Forwarder', hStatus: 'Status', hReq: 'Req. ETA', hEta: 'Fwd. ETA', hArr: 'Arrival', hDelay: 'Delay',
+    mReq: 'Req', mEta: 'Fwd', mArr: 'Arrived',
+    more: n => `Show more (${n} more)`, empty: 'No shipments match these filters.',
+    hintHist: 'A PO moves to History automatically once it arrives and is kept permanently; POs in the same box move together. Filter by demand month, route or forwarder; open any PO to see its full ETA change log.',
+    hintBase: 'Two kinds of alerts: ETA delay (against the original required ETA; red = 4+ weeks, yellow = 2+ weeks) and overdue without ETA (planned pickup has passed and the forwarder still has no ETA, including unbooked; red = 14+ days, yellow = 7+ days). Purple line = several POs in the same container.',
+    hintFw: ' Tick POs that are waiting to be booked to combine them into one LCL booking.', hintPlanner: ' Use "New demand" at the top right to add POs one at a time or paste them from Excel.',
+    selectPO: po => `Select ${po}`, selected: n => `<b>${n}</b> selected`, goingTo: p => ` · to ${p}`,
+    diffRoute: 'Different routes can’t share a container', combine: 'Combine booking', create: 'Create booking', clearSel: 'Clear selection',
+    yes: 'Yes', no: 'No', yours: 'yours', readonly: 'read-only',
+    cannotAssess: 'Cannot assess yet', missing: x => `Missing ${x}.`, sep: ', ', reqEta: 'required ETA', fwdEta: 'forwarder ETA',
+    lvred: 'Red alert', lvamber: 'Yellow alert', lvok: 'Normal', closedTag: ' · closed',
+    bannerTxt: (eta, req, d) => `Forwarder ETA ${eta}, required ${req} — ${d > 0 ? d + ' days late' : d === 0 ? 'on time' : -d + ' days early'}.`,
+    secPlan: 'Plan', secBooking: 'Booking', secPick: 'Pickup (this PO)', secLog: 'Oversight', secEtaLog: 'ETA change log', etaLogBadge: 'Shared by box · auto-logged · claim evidence',
+    fPlan: 'Planned pickup', fReq: 'Required ETA', fQty: 'Qty', fPlanLoad: 'Load requirement', fType: 'Type', fFwd: 'Forwarder', fCont: 'Containers', fCarrier: 'Carrier',
+    fMbl: 'B/L no.', fEtd: 'ETD', fEta: 'Forwarder ETA', fStatus: 'Status', fApick: 'Actual pickup', fNote: 'Action note', fClosed: 'Alert closed',
+    boxHead: (n, c) => `${n} PO${n === 1 ? '' : 's'} in this box · ${c} cntr${c > 1 ? 's' : ''}`, current: ' (this one)',
+    legacy: f => `Migration note: the old sheets had conflicting ${f} across the rows of this box; merged into one record here.`,
+    lcFields: { cont: 'container counts', car: 'carriers', st: 'statuses', etd: 'ETDs', eta: 'ETAs' },
+    reasonLbl: 'Reason for ETA change (required if changed)', shared: n => `Shared by all ${n} POs in this box; saving updates them all.`, unlink: 'Remove this PO from the box',
+    notBooked: 'Not booked yet', assigned: f => `Assigned forwarder: ${f}. `, plannerReq: v => `Planner requests: ${v}.`, notSet: 'not set',
+    bookThis: 'Book this PO', consolHint: 'To consolidate several POs: tick them in the list, then click "Combine booking" at the bottom.', noEtaLog: 'No ETA records yet',
+    logBy: 'Forwarder', firstEta: 'First reported ETA', plantSub: p => `Plant ${p}`,
+    newBoxHead: n => `This booking covers ${n} PO${n > 1 ? 's' : ''}`, warnFcl: n => n === 1 ? 'One of these was requested as FCL by the planner — confirm it can be consolidated.' : `${n} of these were requested as FCL by the planner — confirm they can be consolidated.`,
+    warnPlants: p => `This box goes to different plants (${p}) and will need splitting after arrival.`, fFwdReq: 'Forwarder (required)',
+    newHint: 'B/L, ETD and ETA can be added later. The booking starts as "Booked", and every PO in it shares this one record.', nPOroute: (n, r) => `${n} PO${n > 1 ? 's' : ''} · ${r}`,
+    eFwd: 'Select the forwarder.', eRoute: 'Different routes can’t share a container.', tCreated: (id, n, ty, c) => `Booking ${id} created: ${n} PO${n > 1 ? 's' : ''}, ${ty}, ${c} cntr${c > 1 ? 's' : ''}`,
+    eNote: 'Add an action note before closing the alert.', eReason: 'The forwarder ETA changed — choose a reason before saving.',
+    tArrivedN: n => `All ${n} POs in this box arrived and moved to History`, tArrived1: 'Arrived — moved to History',
+    savedN: n => `Saved — all ${n} POs in this box updated`, saved: 'Saved', tUnlinked: 'Removed from the box — this PO is back in "To book"',
+    addTitle: 'New demand', addSub: 'Entered by the planner · forwarders see it under "To book" once saved', segOne: 'Single entry', segPaste: 'Paste from Excel',
+    fMonth: 'Demand month', fOrigin: 'Origin (route)', fPlant: 'Plant', fSup: 'Supplier', supPh: 'Start typing to match existing suppliers', fPO: 'PO number', fQtyP: 'Qty (pallets)', choose: 'Select',
+    oneHint: '"Save & add another" keeps the month, route, plant, supplier, dates and load type, and clears only the PO number and quantity — handy for entering one batch.',
+    pasteHint: 'In Excel, arrange the columns in the order below, select and copy the rows (a header row is fine), then paste them here. Dates: 2026-11-03, 2026/11/3 or 11/3/2026.',
+    pasteCols: ['Demand month', 'Origin', 'Plant', 'Supplier', 'PO number', 'Qty', 'Planned pickup', 'Required ETA', 'Load (FCL/LCL)'],
+    import: 'Import', importN: n => `Import ${n}`, pvHead: (n, a, b) => `${n} rows · ${a} ready · ${b} with errors`, noPO: '(no PO)',
+    pvBad: x => `Missing or invalid: ${x}`, pvSkip: 'Skipped', pvCheck: 'Ready · check', pvOk: 'Ready',
+    cMonth: 'demand month', cOrigin: 'origin', cPlant: 'plant', cSup: 'supplier', cPO: 'PO number (CGDD + 9 digits, or TBC if not issued)',
+    cPlan: 'planned pickup', cReq: 'required ETA', cLoad: 'load requirement', cReqBefore: 'required ETA is before planned pickup',
+    wLead: (l, o, n) => `Only ${l} days between pickup and required ETA; ${o} usually takes about ${n} days — on-time arrival is unlikely`,
+    wMonth: m => `Planned pickup is not in ${m}`, wPast: 'Planned pickup is in the past', wSplit: s => `This PO already has ${s} line${s > 1 ? 's' : ''}; this will be split #${s + 1}`,
+    eFix: x => `Fill in or fix: ${x}`, tAdded: (p, m) => `Added ${p} (${m})`,
+    eNothing: 'Nothing to import — fix the rows marked in red first.', ePasteFirst: 'Paste some rows first.',
+    tImported: (n, b) => `Imported ${n} PO${n > 1 ? 's' : ''}` + (b ? `; ${b} with errors left in the box to fix` : ''),
+  },
+  es: {
+    sync_ok: 'Guardado', sync_saving: 'Guardando…', sync_err: 'No guardado, se reintentará', conflict: 'Otra persona acaba de cambiar este registro. Datos actualizados; inténtelo de nuevo',
+    gLoading: 'Iniciando sesión y cargando datos…', gNoAccess: 'Sin acceso', gNoAccessTxt: e => `La cuenta ${e} no tiene acceso. Contacte a Logística Internacional.`, gError: 'No se pudieron cargar los datos',
+    tileEta: 'Retraso de ETA', tileEtaSub: 'roja ≥4 sem. / amarilla ≥2 sem.', tileOvd: 'Vencido sin ETA', tileOvdSub: 'recolección vencida · roja ≥14 d / amarilla ≥7 d (incl. sin reserva)',
+    noEtaPill: d => `Sin ETA ${d}d`, bannerNoEta: (p, d) => `Tiene reserva, pero la recolección planeada ${p} fue hace ${d} días y el agente aún no da ETA. El agente debe actualizarla ya.`,
+    bannerArr: (a, r, d) => `Arribo real ${a}, ETA requerida original ${r} — ${d > 0 ? d + ' días tarde' : d === 0 ? 'a tiempo' : -d + ' días antes'}.`,
+    reqAdjNote: (b, c) => `La ETA requerida cambió de ${b} a ${c}; las alertas y los KPI siguen usando la original ${b}.`,
+    reopened: (at, a, b) => `El retraso empeoró después de cerrar esta alerta, por lo que se reabrió automáticamente el ${at} (${a} → ${b}).`,
+    baseLine: (p, r) => `Base original: recolección planeada ${p} · ETA requerida ${r} (se usa para alertas y KPI)`,
+    baseReasonLbl: 'Motivo del cambio de recolección planeada / ETA requerida (obligatorio)',
+    eBaseReason: 'Esta demanda tiene reserva o una alerta, por lo que cambiar la recolección planeada o la ETA requerida requiere un motivo.',
+    fAta: 'Arribo real', eAta: 'Captura la fecha de arribo real cuando el estatus sea "Arribado".', eAtaStatus: 'Se capturó una fecha de arribo real: cambia el estatus a "Arribado".', eAtaEtd: 'El arribo real no puede ser anterior al ETD.',
+    ataLegacy: 'Datos migrados: las hojas anteriores no tenían arribo real, por ahora se usa la ETA final. El agente debe revisarla y actualizarla.',
+    fwdLockedHint: 'Una vez reservado, el agente no se puede cambiar aquí; contacta a Logística Internacional para reasignarlo.', reassignTxt: (a, b) => `Agente reasignado: ${a} → ${b}`,
+    lockedHint: 'Este PO ya tiene reserva, por lo que el mes de demanda, origen, planta, proveedor y número de PO están bloqueados. Para cambiarlos, el agente debe cancelar la reserva o quitarlo del contenedor.',
+    editLog: 'Historial de cambios', editLogBadge: 'Cambios del planeador · registro automático', savedWarn: w => `Guardado. Aviso: ${w}`,
+    tabDel: 'Eliminados', delBtn: 'Eliminar esta demanda', delTitle: 'Motivo de eliminación', delNote: 'Nota (opcional)', delConfirm: 'Eliminar', delCancel: 'Cancelar',
+    delHint: 'El registro no se borra: pasa a "Eliminados", donde se conserva y se puede restaurar.', eDelReason: 'Elige un motivo.',
+    tDeleted: po => `Se eliminó ${po}; puedes restaurarlo desde "Eliminados"`, delTag: r => `Eliminado · ${r}`, deletedTitle: 'Eliminado',
+    deletedBanner: (at, by, r) => `Eliminado el ${at} por ${by}. Motivo: ${r}.`, restore: 'Restaurar esta demanda', tRestored: 'Restaurado',
+    delBlocked: id => `Este PO ya tiene reserva (${id}) y no se puede eliminar directamente. Pide al agente que cancele la reserva o lo quite del contenedor.`,
+    unbook: 'Cancelar reserva', unbookHint: 'Una reserva de un solo PO se puede cancelar antes de la recolección; el PO vuelve a "Por reservar".', tUnbooked: 'Reserva cancelada; este PO vuelve a "Por reservar"',
+    hintDel: 'Aquí se conservan las demandas eliminadas con su motivo, para poder rastrearlas; el planeador puede restaurar lo que se eliminó por error.',
+    unbookedPill: d => `Vencido ${d}d`, bannerUnbooked: (p, d) => `La recolección planeada ${p} fue hace ${d} días y este PO sigue sin reserva. El agente debe confirmar la reserva; si la demanda se canceló, el planeador debe eliminarla o actualizarla.`,
+    poDupTag: 'Posible duplicado', poChkTag: 'Revisar PO', thisPaste: 'este pegado',
+    noteDup: x => `Revisión de datos: idéntica a ${x} (proveedor, planta, cantidad y recolección planeada); posiblemente se capturó dos veces. Si en realidad son dos embarques, ignóralo.`,
+    noteMis: (x, s, p) => `Revisión de datos: ${x}, con el mismo PO, es ${s} → ${p}, distinto a esta línea; verifica que el número de PO sea correcto.`,
+    wDup: x => `Idéntica a ${x} ya existente (proveedor, planta, cantidad, recolección planeada); posible duplicado`,
+    wMis: (x, s, p) => `${x}, con el mismo PO, es ${s} → ${p}, distinto a esta línea; verifica el número de PO`,
+    wSupCase: s => `El proveedor ya existe como "${s}"; usa la misma escritura`,
+    appName: 'Portal de Embarques Marítimos', proto: 'Piloto', tabActive: 'En curso', tabHist: 'Historial',
+    clear: 'Limpiar filtros', addBtn: '+ Nueva demanda', search: 'Buscar PO / proveedor / B/L',
+    note: 'Los datos se guardan en el SharePoint de la empresa; cada cambio registra quién lo hizo y cuándo. Migrado de las hojas Excel del 2026-10-09 (237 POs / 110 reservas).',
+    save: 'Guardar', saveAgain: 'Guardar y agregar otro', close: 'Cerrar',
+    ariaMonth: 'Filtrar por mes de demanda', ariaRoute: 'Filtrar por ruta', ariaFwd: 'Filtrar por agente de carga', ariaStatus: 'Filtrar por estatus', ariaRoles: 'Cambiar rol', ariaLang: 'Cambiar idioma',
+    roleplanner: 'Planeador', rolefw: 'Agente de carga', rolelog: 'Logística Internacional',
+    todoplanner: 'Sin ETA requerida / por evaluar / revisar PO', todofw: 'Por reservar / sin actualizar esta semana', todolog: 'Alertas por atender',
+    nPOc: (n, c) => `${n} PO${n === 1 ? '' : 's'} · ${c} cont.`, arrived: 'Arribados', onTimeRate: (a, b) => `Arribo a tiempo (${a}/${b})`,
+    avgDelay: 'Retraso promedio', days: x => `${x} días`, hadAlerts: 'Tuvieron alerta',
+    tileAll: c => `POs en curso · ${c} cont. reservados`, tileRed: 'Roja · ≥4 sem. tarde / sin reserva ≥14 d tras recolección', tileAmber: 'Amarilla · ≥2 sem. tarde / sin reserva ≥7 d tras recolección', tileTodo: x => `Mis pendientes · ${x}`,
+    allMonths: 'Todos los meses', monthOpt: (n, a) => `(${n}${a ? ' · alertas ' + a : ''})`,
+    monthLabel: m => m ? `Demanda de ${MES[m - 1]}` : 'Sin mes', monthShort: m => MES[m - 1][0].toUpperCase() + MES[m - 1].slice(1),
+    allRoutes: 'Todas las rutas', allFwd: 'Todos los agentes', allStatus: 'Todos los estatus', unassigned: '(Sin asignar)', notAssigned: 'Sin asignar',
+    noReq: 'Sin ETA req.', onTime: 'A tiempo', early: d => `${d} d antes`, late: d => `${d} d tarde`,
+    planTag: v => `Plan: ${v || 'sin definir'}`, newTag: 'Nuevo', inBox: n => ` · ${n} POs/cont.`, nCont: n => ` · ${n} cont.`,
+    red: n => `Roja ${n}`, amber: n => `Amarilla ${n}`, toBookN: n => `· por reservar ${n}`,
+    hSup: 'Proveedor', hPO: 'PO', hRoute: 'Ruta', hFwd: 'Agente', hStatus: 'Estatus', hReq: 'ETA req.', hEta: 'ETA agente', hArr: 'Arribo', hDelay: 'Retraso',
+    mReq: 'Req', mEta: 'Agente', mArr: 'Arribo',
+    more: n => `Mostrar más (${n} restantes)`, empty: 'Ningún embarque coincide con estos filtros.',
+    hintHist: 'Un PO pasa al historial automáticamente al arribar y se conserva de forma permanente; los POs del mismo contenedor pasan juntos. Filtra por mes de demanda, ruta o agente; abre cualquier PO para ver su historial completo de cambios de ETA.',
+    hintBase: 'Hay dos tipos de alerta: retraso de ETA (contra la ETA requerida original; roja = 4+ semanas, amarilla = 2+ semanas) y vencido sin ETA (la recolección planeada ya pasó y el agente aún no da ETA, incluye sin reserva; roja = 14+ días, amarilla = 7+ días). Línea morada = varios POs en el mismo contenedor.',
+    hintFw: ' Marca los POs por reservar para consolidarlos en una sola reserva LCL.', hintPlanner: ' Usa "Nueva demanda" (arriba a la derecha) para agregar POs uno por uno o pegarlos desde Excel.',
+    selectPO: po => `Seleccionar ${po}`, selected: n => `<b>${n}</b> seleccionado${n === 1 ? '' : 's'}`, goingTo: p => ` · a ${p}`,
+    diffRoute: 'Rutas distintas no pueden compartir contenedor', combine: 'Consolidar reserva', create: 'Crear reserva', clearSel: 'Quitar selección',
+    yes: 'Sí', no: 'No', yours: 'a tu cargo', readonly: 'solo lectura',
+    cannotAssess: 'Aún no se puede evaluar', missing: x => `Falta ${x}.`, sep: ', ', reqEta: 'ETA requerida', fwdEta: 'ETA del agente',
+    lvred: 'Alerta roja', lvamber: 'Alerta amarilla', lvok: 'Normal', closedTag: ' · cerrada',
+    bannerTxt: (eta, req, d) => `ETA del agente ${eta}, requerida ${req} — ${d > 0 ? d + ' días tarde' : d === 0 ? 'a tiempo' : -d + ' días antes'}.`,
+    secPlan: 'Plan', secBooking: 'Reserva', secPick: 'Recolección (este PO)', secLog: 'Seguimiento', secEtaLog: 'Historial de cambios de ETA', etaLogBadge: 'Compartido por contenedor · registro automático · evidencia para reclamos',
+    fPlan: 'Recolección planeada', fReq: 'ETA requerida', fQty: 'Cantidad', fPlanLoad: 'Carga solicitada', fType: 'Tipo', fFwd: 'Agente de carga', fCont: 'Contenedores', fCarrier: 'Naviera',
+    fMbl: 'No. de B/L', fEtd: 'ETD', fEta: 'ETA del agente', fStatus: 'Estatus', fApick: 'Recolección real', fNote: 'Nota de acción', fClosed: 'Alerta cerrada',
+    boxHead: (n, c) => `${n} PO${n === 1 ? '' : 's'} en este contenedor · ${c} cont.`, current: ' (este)',
+    legacy: f => `Nota de migración: en las hojas anteriores, las filas de este contenedor tenían ${f} contradictorios; aquí se unificaron en un solo registro.`,
+    lcFields: { cont: 'número de contenedores', car: 'navieras', st: 'estatus', etd: 'ETD', eta: 'ETA' },
+    reasonLbl: 'Motivo del cambio de ETA (obligatorio si cambia)', shared: n => `Compartido por los ${n} POs de este contenedor; al guardar se actualizan todos.`, unlink: 'Quitar este PO del contenedor',
+    notBooked: 'Aún sin reserva', assigned: f => `Agente asignado: ${f}. `, plannerReq: v => `El planeador solicita: ${v}.`, notSet: 'sin definir',
+    bookThis: 'Reservar este PO', consolHint: 'Para consolidar varios POs: márcalos en la lista y haz clic en "Consolidar reserva" abajo.', noEtaLog: 'Aún no hay registros de ETA',
+    logBy: 'Agente de carga', firstEta: 'Primer ETA reportado', plantSub: p => `Planta ${p}`,
+    newBoxHead: n => `Esta reserva incluye ${n} PO${n > 1 ? 's' : ''}`, warnFcl: n => n === 1 ? 'Uno de estos POs fue solicitado como FCL por el planeador; confirma que se puede consolidar.' : `${n} de estos POs fueron solicitados como FCL por el planeador; confirma que se pueden consolidar.`,
+    warnPlants: p => `Este contenedor va a plantas distintas (${p}); habrá que dividirlo al arribar.`, fFwdReq: 'Agente de carga (obligatorio)',
+    newHint: 'El B/L, ETD y ETA se pueden capturar después. La reserva inicia como "Reservado" y todos sus POs comparten este registro.', nPOroute: (n, r) => `${n} PO${n > 1 ? 's' : ''} · ${r}`,
+    eFwd: 'Selecciona el agente de carga.', eRoute: 'Rutas distintas no pueden compartir contenedor.', tCreated: (id, n, ty, c) => `Reserva ${id} creada: ${n} PO${n > 1 ? 's' : ''}, ${ty}, ${c} cont.`,
+    eNote: 'Agrega una nota de acción antes de cerrar la alerta.', eReason: 'La ETA del agente cambió: elige un motivo antes de guardar.',
+    tArrivedN: n => `Los ${n} POs de este contenedor arribaron y pasaron al historial`, tArrived1: 'Arribado: pasó al historial',
+    savedN: n => `Guardado: se actualizaron los ${n} POs del contenedor`, saved: 'Guardado', tUnlinked: 'Se quitó del contenedor; este PO vuelve a "Por reservar"',
+    addTitle: 'Nueva demanda', addSub: 'Captura del planeador · el agente lo verá en "Por reservar" al guardar', segOne: 'Captura individual', segPaste: 'Pegar desde Excel',
+    fMonth: 'Mes de demanda', fOrigin: 'Origen (ruta)', fPlant: 'Planta', fSup: 'Proveedor', supPh: 'Escribe para buscar proveedores existentes', fPO: 'Número de PO', fQtyP: 'Cantidad (tarimas)', choose: 'Seleccionar',
+    oneHint: '"Guardar y agregar otro" conserva mes, ruta, planta, proveedor, fechas y tipo de carga, y solo limpia el PO y la cantidad; útil para capturar un mismo lote.',
+    pasteHint: 'En Excel, acomoda las columnas en el orden de abajo, selecciona y copia las filas (puede incluir encabezado) y pégalas aquí. Fechas: 2026-11-03, 2026/11/3 o 11/3/2026.',
+    pasteCols: ['Mes de demanda', 'Origen', 'Planta', 'Proveedor', 'Número de PO', 'Cantidad', 'Recolección planeada', 'ETA requerida', 'Carga (FCL/LCL)'],
+    import: 'Importar', importN: n => `Importar ${n}`, pvHead: (n, a, b) => `${n} filas · ${a} listas · ${b} con errores`, noPO: '(sin PO)',
+    pvBad: x => `Falta o es inválido: ${x}`, pvSkip: 'Omitida', pvCheck: 'Lista · revisar', pvOk: 'Lista',
+    cMonth: 'mes de demanda', cOrigin: 'origen', cPlant: 'planta', cSup: 'proveedor', cPO: 'número de PO (CGDD + 9 dígitos, o TBC si no se ha emitido)',
+    cPlan: 'recolección planeada', cReq: 'ETA requerida', cLoad: 'tipo de carga', cReqBefore: 'la ETA requerida es anterior a la recolección planeada',
+    wLead: (l, o, n) => `Solo hay ${l} días entre la recolección y la ETA requerida; la ruta ${o} suele tomar unos ${n} días, es poco probable arribar a tiempo`,
+    wMonth: m => `La recolección planeada no cae en ${m.toLowerCase()}`, wPast: 'La recolección planeada ya pasó', wSplit: s => `Este PO ya tiene ${s} línea${s > 1 ? 's' : ''}; será la partida #${s + 1}`,
+    eFix: x => `Completa o corrige: ${x}`, tAdded: (p, m) => `Se agregó ${p} (${m})`,
+    eNothing: 'No hay filas para importar; primero corrige las marcadas en rojo.', ePasteFirst: 'Primero pega algunas filas.',
+    tImported: (n, b) => `Se importaron ${n} PO${n > 1 ? 's' : ''}` + (b ? `; ${b} con errores quedaron en el cuadro para corregir` : ''),
+  },
+};
+const VAL_EN = { '已订舱': 'Booked', '已提货': 'Picked up', '在途': 'On water', '已到港': 'Arrived', '待订舱': 'To book',
+  '整柜': 'FCL', '拼箱': 'LCL', '首次报告': 'First report', '迁移数据': 'Migrated from Excel', '船期延误': 'Vessel delay', '甩柜 / 改船': 'Rolled / vessel change',
+  '港口拥堵': 'Port congestion', '供应商延迟出货': 'Supplier shipped late', '天气 / 不可抗力': 'Weather / force majeure', '其他': 'Other', '录入错误': 'Entry error', '重复录入': 'Duplicate entry', '需求取消': 'Demand cancelled', '生产计划调整': 'Production plan change', '客户需求变更': 'Customer demand change', '原值录入错误': 'Original value entered wrong' };
+const VAL_ES = { '已订舱': 'Reservado', '已提货': 'Recolectado', '在途': 'En tránsito', '已到港': 'Arribado', '待订舱': 'Por reservar',
+  '整柜': 'FCL', '拼箱': 'LCL', '首次报告': 'Primer reporte', '迁移数据': 'Migrado de Excel', '船期延误': 'Retraso del buque', '甩柜 / 改船': 'Roleo / cambio de buque',
+  '港口拥堵': 'Congestión portuaria', '供应商延迟出货': 'Proveedor embarcó tarde', '天气 / 不可抗力': 'Clima / fuerza mayor', '其他': 'Otro', '录入错误': 'Error de captura', '重复录入': 'Captura duplicada', '需求取消': 'Demanda cancelada', '生产计划调整': 'Cambio de plan de producción', '客户需求变更': 'Cambio en la demanda del cliente', '原值录入错误': 'Valor original capturado mal' };
+const LANGS = { zh: 'zh-CN', en: 'en', es: 'es-MX' };
+let lang = 'zh';
+try { const s = localStorage.getItem('ship-portal-lang'); if (LANGS[s]) lang = s; } catch (e) {}
+const t = (k, ...a) => { const v = MSG[lang][k] ?? MSG.zh[k] ?? k; return typeof v === 'function' ? v(...a) : v; };
+const tv = v => (lang === 'en' ? VAL_EN[v] : lang === 'es' ? VAL_ES[v] : null) || v;      // 翻译数据值（内部始终存中文）
+
+const QS = new URLSearchParams(location.search);
+const TODAY = (/^\d{4}-\d\d-\d\d$/.test(QS.get('today') || '') && QS.get('today')) || new Date().toLocaleDateString('sv-SE'), DAY = 864e5, PAGE = 40;
+const pd = s => new Date(s + 'T00:00:00Z');
+const addD = (s, n) => new Date(pd(s).getTime() + n * DAY).toISOString().slice(0, 10);
+const diff = (a, b) => Math.round((pd(a) - pd(b)) / DAY);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = id => document.getElementById(id);
+
+const S4 = ['已订舱', '已提货', '在途', '已到港'];          // 内部值，显示用 tv()
+const REASONS = ['船期延误', '甩柜 / 改船', '港口拥堵', '供应商延迟出货', '天气 / 不可抗力', '其他'];
+const ROLE_KEYS = ['planner', 'fw', 'log'];
+const FORWARDERS = ['Bondex', 'Yuhang', 'Kaifu', 'Freetrans', 'Syntrans'];   // 货代受控名单
+const FWD_ALIAS = { 'BONDEX': 'Bondex', 'SAFROUND (BONDEX)': 'Bondex', 'SAFROUND': 'Bondex', 'YUHANG': 'Yuhang',
+  'KAIFU': 'Kaifu', 'FREETRANS': 'Freetrans', 'SYNTRANS': 'Syntrans' };
+const normFwd = s => { const k = String(s || '').trim().toUpperCase(); return FWD_ALIAS[k] || String(s || '').trim(); };
+const NONE = '__none';
+
+/* ---------- 数据：PO 行挂在订舱(柜)下；柜的字段只存一份 ---------- */
+const B = {}, rows = [], RM = new Map();          // RM: 行 id → 行
+const R = id => RM.get(String(id));
+const BK = ['fwd', 'carrier', 'mbl', 'cont', 'etd', 'eta', 'ata', 'status', 'etaLog', 'lastUpd', 'type'];
+function defineBK(o) {
+  BK.forEach(k => Object.defineProperty(o, k, {
+    get() { const b = B[this.bid]; if (b) return b[k];
+      return k === 'fwd' ? this.afwd : k === 'status' ? '' : k === 'etaLog' ? [] : null; },
+    enumerable: true, configurable: true }));
+}
+const rid = () => Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
+const newLineId = () => 'L' + rid();
+const newBid = () => 'B' + rid().slice(-7);
+// 旧 Excel 数据（迁移文件）→ 系统数据：只在首次导入时执行一次
+function migrateSeed(raw) {
+  const bookings = Object.values(raw.bookings).map(b => {
+    b = { ...b, fwd: normFwd(b.fwd), reassign: [], etaLog: [], lastUpd: b.status === '已到港' ? null : TODAY };
+    if (b.status === '已到港' && !b.ata) { b.ata = b.eta; b.ataLegacy = true; }
+    if (b.eta) b.etaLog.push({ at: TODAY, from: null, to: b.eta, reason: '迁移数据', by: '' });
+    return b;
+  });
+  const lines = raw.rows.map(o => ({ ...o, id: 'L' + String(o.id).padStart(4, '0'), afwd: normFwd(o.afwd),
+    note: '', closed: false, reqBase: o.req, planBase: o.plan }));
+  return { lines, bookings };
+}
+const stepOf = o => S4.indexOf(o.status);
+const routeOf = o => `${o.origin} → MANZANILLO`;
+const monthKey = o => typeof o.month === 'number' ? o.month : 0;
+const OVERDUE_Y = 7, OVERDUE_R = 14;          // 计划提货日已过 N 天仍无货代 ETA（含未订舱）→ 黄 / 红
+const baseReq = o => o.reqBase || o.req;      // 报警与考核一律按原始要求 ETA，改了要求 ETA 也不能让报警消失
+const basePlan = o => o.planBase || o.plan;
+const arrival = o => o.status === '已到港' ? (o.ata || o.eta) : null;
+const overdueDays = o => { if (o.eta || o.status === '已到港') return 0; const p = basePlan(o); return p && p < TODAY ? diff(TODAY, p) : 0; };
+const delayDays = o => { const r = baseReq(o), e = arrival(o) || o.eta; return r && e ? diff(e, r) : null; };
+function level(o) {
+  const od = overdueDays(o);
+  if (od) return od >= OVERDUE_R ? 'red' : od >= OVERDUE_Y ? 'amber' : 'na';
+  const d = delayDays(o);
+  if (d === null) return 'na';
+  return d >= 28 ? 'red' : d >= 14 ? 'amber' : 'ok';
+}
+const LV_RANK = { na: 0, ok: 0, amber: 1, red: 2 };
+const alertKind = o => { const lv = level(o); return lv !== 'red' && lv !== 'amber' ? null : overdueDays(o) ? 'ovd' : 'eta'; };
+const isAlert = o => ['red', 'amber'].includes(level(o));
+const stale = o => o.bid && o.status !== '已到港' && o.lastUpd && diff(TODAY, o.lastUpd) > 7;
+const members = bid => rows.filter(r => r.bid === bid);
+const poCount = po => rows.reduce((n, r) => n + (r.po === po && !r.deleted), 0);
+const EDIT_LBL = { month: 'fMonth', origin: 'fOrigin', plant: 'fPlant', sup: 'fSup', po: 'fPO', plan: 'fPlan', req: 'fReq', qty: 'fQty', planLoad: 'fPlanLoad' };
+const showVal = (k, v) => v === null || v === undefined || v === '' ? '—' : k === 'month' ? t('monthShort', v) : k === 'planLoad' ? tv(v) : String(v);
+const BASE_REASONS = ['生产计划调整', '客户需求变更', '原值录入错误', '其他'];
+const DEL_REASONS = ['录入错误', '重复录入', '需求取消', '其他'];
+const poLabel = o => (o.deleted ? rows.filter(r => r.po === o.po).length : poCount(o.po)) > 1 ? `${o.po}-${o.split}` : o.po;   // 已删除的保留原编号，便于追溯      // 只有一个 PO 多行时才显示拆分号
+const nSup = s => String(s || '').trim().toUpperCase();
+const sameLine = (a, b) => nSup(a.sup) === nSup(b.sup) && a.plant === b.plant && (a.qty ?? null) === (b.qty ?? null) && a.plan === b.plan;
+const diffLine = (a, b) => a.plant !== b.plant || (nSup(a.sup) !== nSup(b.sup) && !nSup(a.sup).includes(nSup(b.sup)) && !nSup(b.sup).includes(nSup(a.sup)));
+function poIssue(o) {                       // 同一 PO 的其他行：完全相同 → 疑似重复；供应商/工厂不同 → 疑似 PO 录错
+  if (!o.po || o.po === 'TBC') return null;
+  if (o.deleted) return null;
+  const sib = rows.filter(r => r.po === o.po && r.id !== o.id && !r.deleted);
+  const dup = sib.find(r => sameLine(o, r)); if (dup) return { kind: 'dup', w: dup };
+  const mis = sib.find(r => diffLine(o, r)); if (mis) return { kind: 'mis', w: mis };
+  return null;
+}
+const contOf = list => { const s = new Set(list.map(o => o.bid).filter(Boolean)); let n = 0; s.forEach(id => n += B[id].cont || 1); return n; };
+const fwdKey = o => o.fwd || NONE;
+const fwdLabel = v => v === NONE ? t('unassigned') : v;
+
+const myFwd = f => !ME.fwd || f === ME.fwd;                 // 货代账号只能改自己公司的订舱（所有人都能看）
+const mine = o => !ME.fwd || (o.bid ? o.fwd === ME.fwd : (!o.afwd || o.afwd === ME.fwd));
+function isTodo(o, r) {
+  if (r === 'planner') return !o.req || level(o) === 'red' || !!poIssue(o);
+  if (r === 'fw') return mine(o) && (!o.bid || stale(o) || (!!o.bid && alertKind(o) === 'ovd'));
+  return isAlert(o) && !o.closed;
+}
+
+let ME = null, role = 'log', tab = 'active', quick = 'all', shown = PAGE, cur = null;
+const sel = new Set();
+const F = { route: '', fwd: '', status: '', month: '', q: '' };
+const active = () => rows.filter(o => !o.deleted && o.status !== '已到港');
+const hist = () => rows.filter(o => !o.deleted && o.status === '已到港');
+const dels = () => rows.filter(o => o.deleted);
+const tabRows = () => tab === 'active' ? active() : tab === 'hist' ? hist() : dels();
+const canSeeDel = () => role === 'planner' || role === 'log';
+
+function passFilters(o) {
+  if (F.route && routeOf(o) !== F.route) return false;
+  if (F.fwd && fwdKey(o) !== F.fwd) return false;
+  if (tab === 'active' && F.status && (o.status || '待订舱') !== F.status) return false;
+  if (F.month !== '' && String(monthKey(o)) !== F.month) return false;
+  if (F.q && !`${o.po} ${o.sup} ${o.mbl || ''}`.toLowerCase().includes(F.q.toLowerCase())) return false;
+  return true;
+}
+function quickPass(o) {
+  if (quick === 'eta') return alertKind(o) === 'eta';
+  if (quick === 'ovd') return alertKind(o) === 'ovd';
+  if (quick === 'todo') return isTodo(o, role);
+  return true;
+}
+function counts(list, fn) {
+  const m = new Map(); list.forEach(o => { const k = fn(o); m.set(k, (m.get(k) || 0) + 1); });
+  return [...m.entries()].sort((a, b) => b[1] - a[1]);
+}
+function fillSelect(el, label, values, val, show = v => v) {
+  el.innerHTML = `<option value="">${esc(label)}</option>` + values.map(([v, n]) =>
+    `<option value="${esc(v)}" ${v === val ? 'selected' : ''}>${esc(show(v))}${v === val ? '' : `　(${n})`}</option>`).join('');   // 选中项不带数量，避免被截断
+  el.classList.toggle('on', !!val);
+}
+
+/* ---------- 静态文字 / 语言切换 ---------- */
+function applyStatic() {
+  document.documentElement.lang = LANGS[lang];
+  document.title = t('appName');
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.dataset.i18nPh));
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label', t(el.dataset.i18nAria)));
+  $('langsw').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+}
+function setLang(l) {
+  if (l === lang) return;
+  let snap = null;                                   // 新增表单里正在填的内容，切换语言时保留
+  if (cur?.mode === 'add') snap = cur.sub === 'one' ? readOne() : { paste: aval('paste') };
+  lang = l;
+  try { localStorage.setItem('ship-portal-lang', l); } catch (e) {}
+  applyStatic(); renderAll();
+  if (!cur) return;
+  if (cur.mode === 'row') openDrawer(cur.id);
+  else if (cur.mode === 'new') openNew(cur.ids);
+  else if (cur.mode === 'add') openAdd(cur.sub, snap);
+}
+
+/* ---------- 顶部 / 卡片 / 筛选 ---------- */
+function renderTop() {
+  $('roles').innerHTML = ME.admin ? ROLE_KEYS.map(k =>
+    `<button data-role="${k}" aria-pressed="${k === role}">${t('role' + k)}</button>`).join('')
+    : `<span class="me-chip">${t('role' + role)}${ME.fwd ? ' · ' + esc(ME.fwd) : ''}</span>`;
+  $('who').textContent = ME.name;
+  $('roles').querySelectorAll('button').forEach(b => b.onclick = () => { role = b.dataset.role; sel.clear(); shown = PAGE; renderAll(); });
+  $('n-active').textContent = active().length;
+  $('n-hist').textContent = hist().length;
+  $('n-del').textContent = dels().length;
+  $('tab-del').classList.toggle('hidden', !canSeeDel());
+  if (tab === 'del' && !canSeeDel()) { tab = 'active'; document.querySelectorAll('[role=tab]').forEach(x => x.setAttribute('aria-selected', x.dataset.tab === 'active')); }
+}
+function renderTiles() {
+  if (tab === 'del') { $('tiles').classList.add('hidden'); $('hsum').classList.add('hidden'); return; }
+  if (tab === 'hist') {
+    $('tiles').classList.add('hidden'); $('hsum').classList.remove('hidden');
+    const v = hist().filter(passFilters), j = v.filter(o => delayDays(o) !== null);
+    const on = j.filter(o => delayDays(o) <= 0).length;
+    const avg = j.length ? j.reduce((s, o) => s + Math.max(0, delayDays(o)), 0) / j.length : 0;
+    $('hsum').innerHTML = `<div><b>${t('nPOc', v.length, contOf(v))}</b><span>${t('arrived')}</span></div>
+      <div><b>${j.length ? Math.round(on / j.length * 100) + '%' : '—'}</b><span>${t('onTimeRate', on, j.length)}</span></div>
+      <div><b>${j.length ? t('days', avg.toFixed(1)) : '—'}</b><span>${t('avgDelay')}</span></div>
+      <div><b style="color:var(--amber)">${v.filter(isAlert).length}</b><span>${t('hadAlerts')}</span></div>`;
+    return;
+  }
+  $('tiles').classList.remove('hidden'); $('hsum').classList.add('hidden');
+  const a = active().filter(passFilters);
+  const cnt = (k, lv) => a.filter(o => alertKind(o) === k && level(o) === lv).length;
+  const pair = k => `<b class="r">${cnt(k, 'red')}</b><i class="sl">/</i><b class="a">${cnt(k, 'amber')}</b>`;
+  const d = [['all', '', a.length, t('tileAll', contOf(a))],
+    ['eta', 'pair', pair('eta'), `<b>${t('tileEta')}</b> · ${t('tileEtaSub')}`],
+    ['ovd', 'pair', pair('ovd'), `<b>${t('tileOvd')}</b> · ${t('tileOvdSub')}`],
+    ['todo', 'todo', a.filter(o => isTodo(o, role)).length, t('tileTodo', t('todo' + role))]];
+  $('tiles').innerHTML = d.map(([k, c, v, l]) =>
+    `<button class="tile ${c}" data-q="${k}" aria-pressed="${quick === k}"><span class="v">${v}</span><span class="l">${l}</span></button>`).join('');
+  $('tiles').querySelectorAll('.tile').forEach(el => el.onclick = () => { quick = quick === el.dataset.q && quick !== 'all' ? 'all' : el.dataset.q; shown = PAGE; renderAll(); });
+}
+function renderMonths() {
+  const saveM = F.month; F.month = '';
+  const base = tabRows().filter(passFilters);
+  F.month = saveM;
+  const by = {};
+  base.forEach(o => { const g = by[monthKey(o)] ??= { n: 0, a: 0 }; g.n++; if (isAlert(o)) g.a++; });
+  let keys = Object.keys(by).map(Number).sort((a, b) => (a || 99) - (b || 99));
+  if (tab === 'hist') keys = keys.filter(k => k).reverse().concat(by[0] ? [0] : []);
+  const el = $('f-month');
+  el.innerHTML = `<option value="">${t('allMonths')}　(${base.length})</option>` + keys.map(k =>
+    `<option value="${k}" ${String(k) === F.month ? 'selected' : ''}>${t('monthLabel', k)}${String(k) === F.month ? '' : '　' + t('monthOpt', by[k].n, by[k].a)}</option>`).join('');
+  if (F.month !== '' && !by[F.month]) el.insertAdjacentHTML('beforeend', `<option value="${F.month}" selected>${t('monthLabel', +F.month)}　(0)</option>`);
+  el.classList.toggle('on', F.month !== '');
+}
+/* 下拉框按当前显示的文字定宽（而不是按最长的选项），点开后的列表仍完整显示 */
+const _cv = document.createElement('canvas').getContext('2d');
+function fitSelect(el) {
+  const cs = getComputedStyle(el);
+  _cv.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  const txt = el.selectedOptions[0]?.textContent || '';
+  const w = Math.ceil(_cv.measureText(txt).width) + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + 4;
+  el.style.width = w + 'px';
+}
+function renderToolbar() {
+  renderMonths();
+  const base = tabRows();
+  fillSelect($('f-route'), t('allRoutes'), counts(base, routeOf), F.route);
+  fillSelect($('f-fwd'), t('allFwd'), counts(base, fwdKey), F.fwd, fwdLabel);
+  $('f-status').classList.toggle('hidden', tab !== 'active');
+  fillSelect($('f-status'), t('allStatus'), ['待订舱', ...S4.slice(0, 3)].map(s => [s, base.filter(o => (o.status || '待订舱') === s).length]), F.status, tv);
+  ['f-month', 'f-route', 'f-fwd', 'f-status'].forEach(id => fitSelect($(id)));
+  $('addBtn').classList.toggle('hidden', !(role === 'planner' && tab === 'active'));
+  const any = F.route || F.fwd || F.status || F.month !== '' || F.q || quick !== 'all';
+  $('clear').classList.toggle('hidden', !any);
+}
+
+/* ---------- 清单 ---------- */
+function delayPill(o) {
+  if (o.deleted) return `<span class="pill na">${t('deletedTitle')}</span>`;
+  const od = overdueDays(o);
+  if (od >= OVERDUE_Y) return `<span class="pill ${level(o)}">${t(o.bid ? 'noEtaPill' : 'unbookedPill', od)}</span>`;
+  if (!baseReq(o)) return `<span class="pill na">${t('noReq')}</span>`;
+  if (!o.eta && !arrival(o)) return '<span class="pill na">—</span>';
+  const d = delayDays(o), lv = level(o);
+  if (d <= 0) return `<span class="pill ok">${d === 0 ? t('onTime') : t('early', -d)}</span>`;
+  return `<span class="pill ${lv === 'ok' ? 'na' : lv}">${t('late', d)}</span>`;
+}
+function track(o) {
+  const s = stepOf(o);
+  return `<div class="trk"><div class="dots ${s === 3 ? 'done' : ''}">${[0, 1, 2, 3].map(i => `<i class="${i <= s ? 'on' : ''}"></i>`).join('')}</div>
+    <span class="${s < 0 ? 'pre' : ''}">${tv(s < 0 ? '待订舱' : o.status)}</span></div>`;
+}
+function loadTag(o, mc) {
+  if (o.deleted) return `<span class="ld warn">${t('delTag', tv(o.deleted.reason))}</span>`;
+  if (!o.bid) return `<span class="ld plan">${t('planTag', o.planLoad ? tv(o.planLoad) : '')}</span>${o.isNew ? `<span class="ld new">${t('newTag')}</span>` : ''}`;
+  const b = B[o.bid], n = mc[o.bid];
+  return `<span class="ld ${b.type === '拼箱' ? 'lcl' : ''}">${tv(b.type)}${n > 1 ? t('inBox', n) : ''}${b.type === '整柜' && b.cont > 1 ? t('nCont', b.cont) : ''}</span>`;
+}
+function renderList() {
+  const base = tabRows().filter(passFilters).filter(o => tab !== 'active' || quickPass(o));
+  const rank = { red: 0, amber: 1, ok: 2, na: 3 };
+  const gk = o => o.bid || 'r' + o.id;
+  const gsev = {}; base.forEach(o => gsev[gk(o)] = Math.min(gsev[gk(o)] ?? 9, rank[level(o)]));
+  const mc = {}; rows.forEach(r => { if (r.bid) mc[r.bid] = (mc[r.bid] || 0) + 1; });
+  const mOrd = o => monthKey(o) || 99;
+  if (tab === 'del') base.sort((a, b) => (b.deleted.at || '').localeCompare(a.deleted.at || '') || String(b.id).localeCompare(String(a.id)));
+  else base.sort(tab === 'active'
+    ? (a, b) => mOrd(a) - mOrd(b) || gsev[gk(a)] - gsev[gk(b)] || gk(a).localeCompare(gk(b)) || (a.req || '9').localeCompare(b.req || '9')
+    : (a, b) => (mOrd(b) % 99) - (mOrd(a) % 99) || (b.eta || '').localeCompare(a.eta || '') || gk(a).localeCompare(gk(b)));
+  const grp = {};
+  base.forEach(o => { const g = grp[monthKey(o)] ??= { list: [], red: 0, amber: 0, pre: 0 }; g.list.push(o);
+    if (level(o) === 'red') g.red++; if (level(o) === 'amber') g.amber++; if (!o.bid) g.pre++; });
+  const mhead = m => { const g = grp[m];
+    return `<div class="row mhead"><span>${t('monthLabel', m)}</span><span class="mh-s">${t('nPOc', g.list.length, contOf(g.list))}</span>${g.red ? `<span class="pill red">${t('red', g.red)}</span>` : ''}${g.amber ? `<span class="pill amber">${t('amber', g.amber)}</span>` : ''}${tab === 'active' && g.pre ? `<span class="mh-s">${t('toBookN', g.pre)}</span>` : ''}</div>`; };
+  const head = `<div class="row head"><span></span><span>${t('hSup')}</span><span>${t('hPO')}</span><span>${t('hRoute')}</span><span>${t('hFwd')}</span><span>${t('hStatus')}</span><span>${t('hReq')}</span><span>${tab === 'hist' ? t('hArr') : t('hEta')}</span><span>${t('hDelay')}</span></div>`;
+  const page = base.slice(0, shown), canPick = role === 'fw' && tab === 'active';
+  const same = (a, b) => a && b && a.bid && a.bid === b.bid && monthKey(a) === monthKey(b);
+  let lastM = null;
+  const items = page.map((o, i) => {
+    const lv = level(o), m = monthKey(o);
+    const hd = F.month === '' && m !== lastM ? mhead(m) : ''; lastM = m;
+    const lk = mc[o.bid] > 1 && (same(o, page[i - 1]) || same(o, page[i + 1]));
+    const cls = lk ? ` lk${same(o, page[i + 1]) ? '' : ' lk-last'}` : '';
+    const box = canPick && !o.bid ? `<input type="checkbox" class="pick" data-pick="${o.id}" ${sel.has(o.id) ? 'checked' : ''} aria-label="${esc(t('selectPO', o.po))}">` : '';
+    return hd + `<div class="row item${cls}" data-id="${o.id}" tabindex="0" role="button">
+      <span class="bar ${lv === 'red' || lv === 'amber' ? lv : ''}"></span>
+      <div class="cell c-sup">${box}${esc(o.sup)}</div>
+      <div class="cell c-po"><span class="po">${esc(poLabel(o))}</span>${loadTag(o, mc)}${(pi => pi ? `<span class="ld warn">${t(pi.kind === 'dup' ? 'poDupTag' : 'poChkTag')}</span>` : '')(poIssue(o))}</div>
+      <div class="cell c-route">${esc(routeOf(o))}</div>
+      <div class="cell c-fw">${o.fwd ? esc(o.fwd) : `<span class="muted">${t('notAssigned')}</span>`}</div>
+      <div class="cell c-trk">${track(o)}</div>
+      <div class="cell c-req date">${o.req || '<span class="muted">—</span>'}</div>
+      <div class="cell c-eta date">${(tab === 'hist' ? arrival(o) : o.eta) || '<span class="muted">—</span>'}</div>
+      <div class="cell c-delay">${delayPill(o)}</div>
+      <div class="cell c-dates">${t('mReq')} <span class="date">${o.req || '—'}</span> · ${tab === 'hist' ? t('mArr') : t('mEta')} <span class="date">${(tab === 'hist' ? arrival(o) : o.eta) || '—'}</span>${o.fwd ? ' · ' + esc(o.fwd) : ''}</div>
+    </div>`;
+  }).join('');
+  const more = base.length > shown ? `<button class="more" id="more">${t('more', base.length - shown)}</button>` : '';
+  $('list').innerHTML = base.length ? head + items + more : `<div class="empty">${t('empty')}</div>`;
+  $('list').querySelectorAll('.row.item').forEach(r => {
+    r.onclick = e => { if (e.target.closest('.pick')) return; openDrawer(r.dataset.id); };
+    r.onkeydown = e => { if (e.target.closest('.pick')) return; if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDrawer(r.dataset.id); } };
+  });
+  $('list').querySelectorAll('.pick').forEach(c => c.onchange = () => {
+    const id = c.dataset.pick; c.checked ? sel.add(id) : sel.delete(id); renderBar(); });
+  const mo = $('more'); if (mo) mo.onclick = () => { shown += PAGE; renderList(); };
+  $('hint').textContent = tab === 'del' ? t('hintDel') : tab === 'hist' ? t('hintHist')
+    : t('hintBase') + (role === 'fw' ? t('hintFw') : role === 'planner' ? t('hintPlanner') : '');
+}
+function renderBar() {
+  const el = $('abar');
+  if (role !== 'fw' || tab !== 'active' || !sel.size) { el.classList.add('hidden'); return; }
+  const list = [...sel].map(id => R(id)), ok = new Set(list.map(o => o.origin)).size === 1;
+  const plants = [...new Set(list.map(o => o.plant))];
+  el.innerHTML = `<span>${t('selected', list.length)}${ok ? ' · ' + esc(routeOf(list[0])) : ''}${plants.length > 1 ? t('goingTo', plants.join(' / ')) : ''}</span>`
+    + (ok ? '' : `<span class="w">${t('diffRoute')}</span>`)
+    + `<button class="go" id="bgo" ${ok ? '' : 'disabled'}>${list.length > 1 ? t('combine') : t('create')}</button><button class="no" id="bno">${t('clearSel')}</button>`;
+  el.classList.remove('hidden');
+  $('bgo').onclick = () => openNew([...sel]);
+  $('bno').onclick = () => { sel.clear(); renderBar(); renderList(); };
+}
+
+/* ---------- 详情抽屉 ---------- */
+function fld(label, key, val, editable, kind = 'text', wide = false) {
+  const w = wide ? ' wide' : '';
+  if (!editable) {
+    let x = kind === 'month' ? (val ? t('monthShort', val) : '') : kind === 'yn' ? (val ? t('yes') : t('no')) : (kind === 'status' || kind === 'type' || kind === 'load') ? (val ? tv(val) : '') : val;
+    return `<div class="fld${w}"><label>${label}</label><div class="ro ${kind === 'date' || key === 'mbl' ? 'mono' : ''}">${x === null || x === '' || x === undefined ? '—' : esc(x)}</div></div>`;
+  }
+  let inp;
+  if (kind === 'status') inp = `<select data-k="${key}">${S4.map(s => `<option value="${s}" ${s === val ? 'selected' : ''}>${tv(s)}</option>`).join('')}</select>`;
+  else if (kind === 'yn') inp = `<select data-k="${key}"><option value="0" ${!val ? 'selected' : ''}>${t('no')}</option><option value="1" ${val ? 'selected' : ''}>${t('yes')}</option></select>`;
+  else if (kind === 'fwd') inp = `<select data-k="${key}"><option value="">${t('choose')}</option>${[...FORWARDERS, ...(val && !FORWARDERS.includes(val) ? [val] : [])].map(s => `<option value="${esc(s)}" ${s === val ? 'selected' : ''}>${esc(s)}</option>`).join('')}</select>`;
+  else if (kind === 'month') inp = `<select data-k="${key}"><option value="">${t('choose')}</option>${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}" ${i + 1 === val ? 'selected' : ''}>${t('monthShort', i + 1)}</option>`).join('')}</select>`;
+  else if (kind === 'origin' || kind === 'plant') { const L = kind === 'origin' ? ORIGINS : PLANTS;
+    inp = `<select data-k="${key}"><option value="">${t('choose')}</option>${[...L, ...(val && !L.includes(val) ? [val] : [])].map(s => `<option value="${esc(s)}" ${s === val ? 'selected' : ''}>${esc(s)}</option>`).join('')}</select>`; }
+  else if (kind === 'sup') inp = `<input data-k="${key}" type="text" list="suplist-e" value="${esc(val ?? '')}"><datalist id="suplist-e">${[...new Set(rows.map(r => r.sup))].sort().map(s => `<option value="${esc(s)}">`).join('')}</datalist>`;
+  else if (kind === 'po') inp = `<input data-k="${key}" type="text" class="mono" value="${esc(val ?? '')}">`;
+  else if (kind === 'load' || kind === 'type') inp = `<select data-k="${key}">${(kind === 'load' ? ['', '整柜', '拼箱'] : ['整柜', '拼箱']).map(s => `<option value="${s}" ${s === (val || '') ? 'selected' : ''}>${s ? tv(s) : t('notSet')}</option>`).join('')}</select>`;
+  else inp = `<input data-k="${key}" type="${kind === 'date' ? 'date' : kind === 'num' ? 'number' : 'text'}" ${kind === 'num' ? 'min="1"' : ''} value="${esc(val ?? '')}">`;
+  return `<div class="fld${w}"><label>${label}</label>${inp}</div>`;
+}
+const head4 = (title, owner) => { const me = owner === role;
+  return `<h4>${title}<span class="own ${me ? 'me' : ''}">${t('role' + owner)} · ${me ? t('yours') : t('readonly')}</span></h4>`; };
+function banner(o) {
+  const lv = level(o), od = overdueDays(o);
+  const reo = o.reopened ? `<br>${esc(t('reopened', o.reopened.at, t('lv' + o.reopened.from), t('lv' + o.reopened.to)))}` : '';
+  const adj = o.req && o.reqBase && o.req !== o.reqBase ? `<br>${esc(t('reqAdjNote', o.reqBase, o.req))}` : '';
+  if (od >= OVERDUE_Y) return `<div class="banner ${lv}"><b>${t('lv' + lv)}${o.closed ? t('closedTag') : ''}</b>${t(o.bid ? 'bannerNoEta' : 'bannerUnbooked', basePlan(o), od)}${reo}</div>`;
+  if (lv === 'na') return `<div class="banner na"><b>${t('cannotAssess')}</b>${t('missing', [!baseReq(o) && t('reqEta'), !o.eta && t('fwdEta')].filter(Boolean).join(t('sep')))}</div>`;
+  return `<div class="banner ${lv}"><b>${t('lv' + lv)}${o.closed ? t('closedTag') : ''}</b>${t(arrival(o) ? 'bannerArr' : 'bannerTxt', arrival(o) || o.eta, baseReq(o), delayDays(o))}${adj}${reo}</div>`;
+}
+function showDrawer(title, sub, html, saveLabel) {
+  $('dtitle').textContent = title; $('dsub').textContent = sub; $('dbody').innerHTML = html;
+  $('save').textContent = saveLabel || t('save'); $('dfoot').classList.toggle('hidden', !saveLabel);
+  $('save2').classList.add('hidden');
+  $('dmsg').textContent = ''; $('dmsg').className = 'msg';
+  $('drawer').classList.add('open'); $('scrim').classList.add('open');
+  if (!$('drawer').contains(document.activeElement)) $('dclose').focus();
+}
+function openDrawer(id) {
+  cur = { mode: 'row', id };
+  const o = R(id), b = o.bid ? B[o.bid] : null, s = stepOf(o);
+  const DEL = !!o.deleted;
+  const P = role === 'planner' && !DEL, W = role === 'fw' && !DEL && (!b || myFwd(b.fwd)), L = role === 'log' && !DEL;
+  const mem = b ? members(b.id) : [];
+  const LC = t('lcFields');
+  const reasonSel = W ? `<div class="fld wide"><label>${t('reasonLbl')}</label><select data-k="reason"><option value="">—</option>${REASONS.map(r => `<option value="${r}">${tv(r)}</option>`).join('')}</select></div>` : '';
+  const booking = b ? `<div class="sec">${head4(t('secBooking'), 'fw')}
+      <div class="box"><div class="box-h"><span class="mono">${b.id}</span><span class="ld ${b.type === '拼箱' ? 'lcl' : ''}">${tv(b.type)}</span><span class="muted" style="font-weight:500">${t('boxHead', mem.length, b.cont || 1)}</span></div>
+      ${mem.map(r => `<button class="box-i ${r.id === o.id ? 'me' : ''}" data-open="${r.id}"><span>${esc(r.sup)} · <span class="mono">${esc(poLabel(r))}</span>${r.id === o.id ? t('current') : ''}</span><span class="date">${r.req || '—'}</span>${delayPill(r)}</button>`).join('')}</div>
+      ${b.legacyConflict && b.legacyConflict.length ? `<div class="wn" style="margin-top:8px">${t('legacy', b.legacyConflict.map(k => LC[k] || k).join(t('sep')))}</div>` : ''}
+      <div class="grid" style="margin-top:10px">
+        ${fld(t('fType'), 'type', b.type, W, 'type')}${fld(t('fFwd'), 'fwd', b.fwd, L, 'fwd')}
+        ${fld(t('fCont'), 'cont', b.cont, W, 'num')}${fld(t('fCarrier'), 'carrier', b.carrier, W)}
+        ${fld(t('fMbl'), 'mbl', b.mbl, W)}${fld(t('fEtd'), 'etd', b.etd, W, 'date')}
+        ${fld(t('fEta'), 'eta', b.eta, W, 'date')}${fld(t('fStatus'), 'status', b.status, W, 'status')}
+        ${fld(t('fAta'), 'ata', b.ata, W, 'date')}
+        ${reasonSel}
+      </div>
+      ${b.ataLegacy ? `<p class="hint" style="margin:8px 0 0">${t('ataLegacy')}</p>` : ''}
+      ${W ? `<p class="hint" style="margin:8px 0 0">${t('fwdLockedHint')}</p>` : ''}
+      ${b.reassign && b.reassign.length ? `<ul class="log" style="margin-top:10px">${b.reassign.map(x => `<li class="chg"><span class="when">${x.at}</span> · ${esc(x.by || t('rolelog'))}<br>${esc(t('reassignTxt', x.from, x.to))}</li>`).join('')}</ul>` : ''}
+      ${W && mem.length > 1 ? `<p class="hint" style="margin:8px 0 0">${t('shared', mem.length)}</p><div class="btnrow" style="margin-top:8px"><button class="ghost dng" id="unlink">${t('unlink')}</button></div>` : ''}
+      ${W && mem.length === 1 && b.status === '已订舱' ? `<div class="btnrow" style="margin-top:10px"><button class="ghost dng" id="unbook">${t('unbook')}</button></div><p class="hint" style="margin:6px 0 0">${t('unbookHint')}</p>` : ''}
+    </div>` : `<div class="sec">${head4(t('secBooking'), 'fw')}
+      <div class="banner na"><b>${t('notBooked')}</b>${o.afwd ? t('assigned', esc(o.afwd)) : ''}${t('plannerReq', o.planLoad ? tv(o.planLoad) : t('notSet'))}</div>
+      ${W ? `<div class="btnrow" style="margin-top:10px"><button class="ghost" id="solo">${t('bookThis')}</button></div><p class="hint" style="margin:6px 0 0">${t('consolHint')}</p>` : ''}
+    </div>`;
+  const log = b && b.etaLog.length ? `<ul class="log">${b.etaLog.slice().reverse().map(e => `<li class="${e.from ? 'chg' : ''}"><span class="when">${e.at}</span> · ${esc(e.by || t('logBy'))}<br>${e.from ? `ETA <span class="mono">${e.from}</span> → <span class="mono">${e.to}</span>` : `${t('firstEta')} <span class="mono">${e.to}</span>`}　<span class="muted">${esc(tv(e.reason))}</span></li>`).join('')}</ul>` : `<div class="muted" style="font-size:13px">${t('noEtaLog')}</div>`;
+  const html = `
+    <div class="bigtrk ${s === 3 ? 'done' : ''}">${S4.map((n, i) => `<div class="${i <= s ? 'on' : ''} ${i === s ? 'cur' : ''}"><i></i>${tv(n)}</div>`).join('')}</div>
+    ${DEL ? `<div class="banner na"><b>${t('deletedTitle')}</b>${esc(t('deletedBanner', o.deleted.at, t('role' + o.deleted.by) + (o.deleted.byName ? ' ' + o.deleted.byName : ''), tv(o.deleted.reason)))}${o.deleted.note ? '<br>' + esc(o.deleted.note) : ''}</div>` : banner(o)}
+    ${(pi => pi ? `<div class="wn">${esc(pi.kind === 'dup' ? t('noteDup', `${pi.w.po}-${pi.w.split}`) : t('noteMis', `${pi.w.po}-${pi.w.split}`, pi.w.sup, pi.w.plant))}</div>` : '')(poIssue(o))}
+    <div class="sec">${head4(t('secPlan'), 'planner')}<div class="grid">
+      ${fld(t('fMonth'), 'month', o.month, P && !b, 'month')}${fld(t('fOrigin'), 'origin', o.origin, P && !b, 'origin')}
+      ${fld(t('fPlant'), 'plant', o.plant, P && !b, 'plant')}${fld(t('fPO'), 'po', o.po, P && !b, 'po')}
+      ${fld(t('fSup'), 'sup', o.sup, P && !b, 'sup', true)}
+      ${fld(t('fPlan'), 'plan', o.plan, P, 'date')}${fld(t('fReq'), 'req', o.req, P, 'date')}
+      ${fld(t('fQty'), 'qty', o.qty, P, 'num')}${fld(t('fPlanLoad'), 'planLoad', o.planLoad, P, 'load')}</div>
+      ${(o.reqBase && o.req !== o.reqBase) || (o.planBase && o.plan !== o.planBase) ? `<p class="hint" style="margin:8px 0 0">${esc(t('baseLine', o.planBase || '—', o.reqBase || '—'))}</p>` : ''}
+      ${P && (b || isAlert(o)) ? `<div class="fld" style="margin-top:10px"><label>${t('baseReasonLbl')}</label><select data-k="baseReason"><option value="">—</option>${BASE_REASONS.map(r => `<option value="${r}">${tv(r)}</option>`).join('')}</select></div>` : ''}
+      ${P && b ? `<p class="hint" style="margin:10px 0 0">${t('lockedHint')}</p>` : ''}
+      ${o.editLog && o.editLog.length ? `<div style="margin-top:12px"><h4 style="margin:0 0 8px">${t('editLog')}<span class="own">${t('editLogBadge')}</span></h4><ul class="log">${o.editLog.slice().reverse().map(e => `<li class="chg"><span class="when">${e.at}</span> · ${esc(e.by || t('roleplanner'))}<br>${esc(t(EDIT_LBL[e.k]))}：${esc(showVal(e.k, e.from))} → ${esc(showVal(e.k, e.to))}${e.why ? `　<span class="muted">${esc(tv(e.why))}</span>` : ''}</li>`).join('')}</ul></div>` : ''}
+      ${P ? (b ? `<div class="wn" style="margin-top:10px">${t('delBlocked', b.id)}</div>`
+        : `<div id="delbox" style="margin-top:10px"><button class="ghost dng" id="delAsk">${t('delBtn')}</button></div>`) : ''}
+      ${DEL && role === 'planner' ? `<div class="btnrow" style="margin-top:10px"><button class="ghost" id="restore">${t('restore')}</button></div>` : ''}</div>
+    ${booking}
+    ${b ? `<div class="sec">${head4(t('secPick'), 'fw')}<div class="grid">${fld(t('fApick'), 'apick', o.apick, W, 'date')}</div></div>` : ''}
+    <div class="sec">${head4(t('secLog'), 'log')}<div class="grid">${fld(t('fNote'), 'note', o.note, L, 'text', true)}${fld(t('fClosed'), 'closed', o.closed, L, 'yn')}</div></div>
+    ${b ? `<div class="sec"><h4>${t('secEtaLog')}<span class="own">${t('etaLogBadge')}</span></h4>${log}</div>` : ''}`;
+  showDrawer(poLabel(o), `${o.sup} · ${routeOf(o)} · ${t('plantSub', o.plant)}`, html, (P || L || (W && b)) ? t('save') : '');
+}
+function openNew(ids) {
+  cur = { mode: 'new', ids };
+  const list = ids.map(i => R(i));
+  const c = {}; list.forEach(o => { if (o.afwd) c[o.afwd] = (c[o.afwd] || 0) + 1; });
+  const fwd0 = Object.entries(c).sort((a, b) => b[1] - a[1])[0]?.[0] || '';
+  const type0 = list.length > 1 ? '拼箱' : (list[0].planLoad || '整柜');
+  const fcl = list.filter(o => o.planLoad === '整柜').length;
+  const plants = [...new Set(list.map(o => o.plant))];
+  const html = `
+    <div class="box"><div class="box-h">${t('newBoxHead', list.length)}</div>
+      ${list.map(o => `<div class="box-i" style="cursor:default"><span>${esc(o.sup)} · <span class="mono">${esc(poLabel(o))}</span></span><span class="date">${o.req || '—'}</span><span class="ld plan">${t('planTag', o.planLoad ? tv(o.planLoad) : '')}</span></div>`).join('')}</div>
+    ${list.length > 1 && fcl ? `<div class="wn">${t('warnFcl', fcl)}</div>` : ''}
+    ${plants.length > 1 ? `<div class="wn">${t('warnPlants', plants.join(t('sep')))}</div>` : ''}
+    <div class="grid">
+      ${fld(t('fType'), 'type', type0, true, 'type')}${fld(t('fFwdReq'), 'fwd', ME.fwd || fwd0, !ME.fwd, 'fwd')}
+      ${fld(t('fCont'), 'cont', 1, true, 'num')}${fld(t('fCarrier'), 'carrier', '', true)}
+      ${fld(t('fMbl'), 'mbl', '', true)}${fld(t('fEtd'), 'etd', null, true, 'date')}
+      ${fld(t('fEta'), 'eta', null, true, 'date')}
+    </div>
+    <p class="hint" style="margin:0">${t('newHint')}</p>`;
+  showDrawer(list.length > 1 ? t('combine') : t('create'), t('nPOroute', list.length, routeOf(list[0])), html, t('create'));
+}
+function closeDrawer() { $('drawer').classList.remove('open'); $('scrim').classList.remove('open'); cur = null; }
+const err = m => { $('dmsg').textContent = m; $('dmsg').className = 'msg err'; };
+function save(opts = {}) {
+  if (cur.mode === 'add') return saveAdd(opts);
+  const get = k => document.querySelector(`#dbody [data-k="${k}"]`);
+  const val = k => get(k)?.value;
+  const num = k => { const v = val(k); return v === '' || v === undefined ? null : Number(v); };
+  const date = k => val(k) || null;
+  const txt = k => (val(k) || '').trim();
+  if (cur.mode === 'new') {
+    const list = cur.ids.map(i => R(i));
+    const fwd = ME.fwd || txt('fwd');
+    if (!fwd) return err(t('eFwd'));
+    if (new Set(list.map(o => o.origin)).size > 1) return err(t('eRoute'));
+    const id = newBid();
+    const b = { id, type: val('type'), fwd, carrier: txt('carrier'), mbl: txt('mbl'), cont: num('cont') || 1,
+      etd: date('etd'), eta: date('eta'), status: '已订舱', legacyConflict: [], reassign: [], etaLog: [], lastUpd: TODAY, lastBy: ME.name };
+    if (b.eta) b.etaLog.push({ at: TODAY, from: null, to: b.eta, reason: '首次报告', by: ME.name });
+    B[id] = b; list.forEach(o => { o.bid = id; sel.delete(o.id); });
+    closeDrawer(); renderAll(); toast(t('tCreated', id, list.length, tv(b.type), b.cont)); return;
+  }
+  const o = R(cur.id), b = o.bid ? B[o.bid] : null;
+  let n = 1, arrived = false;
+  let warn = '';
+  if (role === 'planner') {
+    const nx = { plan: date('plan'), req: date('req'), qty: num('qty'), planLoad: val('planLoad') || '' };
+    if (!o.bid) Object.assign(nx, { month: +val('month') || null, origin: val('origin'), plant: val('plant'), sup: txt('sup'), po: txt('po').toUpperCase() });
+    const E = [];
+    if (!o.bid) {
+      if (!(nx.month >= 1 && nx.month <= 12)) E.push(t('cMonth'));
+      if (!ORIGINS.includes(nx.origin)) E.push(t('cOrigin'));
+      if (!PLANTS.includes(nx.plant)) E.push(t('cPlant'));
+      if (!nx.sup) E.push(t('cSup'));
+      if (!/^CGDD\d{9}$/.test(nx.po) && nx.po !== 'TBC') E.push(t('cPO'));
+    }
+    if (nx.plan && nx.req && nx.req < nx.plan) E.push(t('cReqBefore'));
+    if (E.length) return err(t('eFix', E.join(t('sep'))));
+    const cand = { po: nx.po ?? o.po, sup: nx.sup ?? o.sup, plant: nx.plant ?? o.plant, qty: nx.qty, plan: nx.plan };
+    const W = [];
+    if (cand.po !== 'TBC') {
+      const others = rows.filter(x => x.po === cand.po && x.id !== o.id && !x.deleted);
+      const dup = others.find(x => sameLine(cand, x)), mis = !dup && others.find(x => diffLine(cand, x));
+      if (dup) W.push(t('wDup', `${dup.po}-${dup.split}`));
+      if (mis) W.push(t('wMis', `${mis.po}-${mis.split}`, mis.sup, mis.plant));
+    }
+    const ex = [...new Set(rows.filter(x => x.id !== o.id).map(x => x.sup))].find(s => nSup(s) === nSup(cand.sup) && s !== cand.sup);
+    if (ex) W.push(t('wSupCase', ex));
+    const movedPR = (o.plan && nx.plan !== o.plan) || (o.req && nx.req !== o.req);
+    const why = val('baseReason') || '';
+    if (movedPR && (o.bid || isAlert(o)) && !why) return err(t('eBaseReason'));
+    o.editLog ??= [];
+    for (const k of Object.keys(nx)) {
+      const a = o[k] === '' ? null : (o[k] ?? null), z = nx[k] === '' ? null : (nx[k] ?? null);
+      if (a !== z) o.editLog.push({ at: TODAY, k, from: a, to: z, why: (k === 'plan' || k === 'req') ? why : '', by: ME.name });
+    }
+    // 原始基准：首次填写时建立；只有"原值录入错误"才允许随之修正，其余原因基准保持不变
+    if (!o.reqBase || why === '原值录入错误') o.reqBase = nx.req;
+    if (!o.planBase || why === '原值录入错误') o.planBase = nx.plan;
+    if (nx.po && nx.po !== o.po) nx.split = Math.max(0, ...rows.filter(x => x.po === nx.po).map(x => x.split)) + 1;
+    Object.assign(o, nx);
+    warn = W.join(lang === 'zh' ? '；' : '; ');
+  }
+  if (role === 'log') {
+    const note = txt('note'), closed = val('closed') === '1';
+    if (closed && !note) return err(t('eNote'));
+    if (closed && !o.closed) { o.closedLevel = level(o); o.reopened = null; o.closedAt = TODAY; o.closedBy = ME.name; }
+    Object.assign(o, { note, closed });
+    if (b && get('fwd')) {
+      const nf = val('fwd');
+      if (!nf) return err(t('eFwd'));
+      if (nf !== b.fwd) { (b.reassign ??= []).push({ at: TODAY, from: b.fwd, to: nf, by: ME.name }); b.fwd = nf; }
+    }
+  }
+  if (role === 'fw' && b) {
+    const st = val('status'), ata = date('ata'), etd = date('etd');   // 先校验，避免拦截前已写入 ETA 变更记录
+    if (st === '已到港' && !ata) return err(t('eAta'));
+    if (ata && st !== '已到港') return err(t('eAtaStatus'));
+    if (ata && etd && ata < etd) return err(t('eAtaEtd'));
+    const eta = date('eta');
+    if (eta !== b.eta) {
+      const r = val('reason');
+      if (b.eta && !r) return err(t('eReason'));
+      b.etaLog.push({ at: TODAY, from: b.eta, to: eta, reason: b.eta ? r : '首次报告', by: ME.name });
+    }
+    const was = b.status;
+    if (ata !== b.ata) b.ataLegacy = false;
+    Object.assign(b, { type: val('type'), cont: num('cont') || 1, carrier: txt('carrier'), mbl: txt('mbl'),
+      etd, eta, ata, status: st, lastUpd: TODAY, lastBy: ME.name });
+    o.apick = date('apick');
+    n = members(b.id).length; arrived = was !== '已到港' && b.status === '已到港';
+  }
+  renderAll();
+  if (arrived) { closeDrawer(); toast(n > 1 ? t('tArrivedN', n) : t('tArrived1')); return; }
+  openDrawer(o.id);
+  if (warn) { $('dmsg').textContent = t('savedWarn', warn); $('dmsg').className = 'msg wm'; }
+  else { $('dmsg').textContent = n > 1 ? t('savedN', n) : t('saved'); $('dmsg').className = 'msg okm'; }
+  toast(t('saved'));
+}
+function toast(m) {
+  const el = $('toast'); el.textContent = m; el.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+/* ---------- 计划员：新增需求（单条 / 从 Excel 批量粘贴） ---------- */
+const ORIGINS = ['CHINA', 'THAILAND', 'INDIA', 'KOREA'], PLANTS = ['PUEBLA', 'SALTILLO'];
+const LEAD = { CHINA: 35, THAILAND: 48, INDIA: 69, KOREA: 45 };   // 计划提货→到港 参考天数
+const ORI_MAP = { '中国': 'CHINA', '泰国': 'THAILAND', '印度': 'INDIA', '韩国': 'KOREA', 'THAILANDIA': 'THAILAND', 'TAILANDIA': 'THAILAND', 'COREA': 'KOREA' };
+const nOrigin = s => { s = String(s || '').trim().toUpperCase().replace(/\s*→.*$/, ''); return ORI_MAP[s] || s; };
+const nLoad = s => { s = String(s || '').trim().toLowerCase();
+  if (['整柜', 'fcl', '1', '2', 'completo', 'contenedor completo'].includes(s)) return '整柜';
+  return /拼|lcl|consol|0\.5/.test(s) ? '拼箱' : ''; };
+function nDate(s) {
+  s = String(s || '').trim(); if (!s) return null; let m;
+  if ((m = s.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/))) s = `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+  else if ((m = s.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})$/))) s = `${m[3]}-${m[1].padStart(2, '0')}-${m[2].padStart(2, '0')}`;
+  else return 'BAD';
+  const d = new Date(s + 'T00:00:00Z'); return isNaN(d) || d.toISOString().slice(0, 10) !== s ? 'BAD' : s;
+}
+const pick = x => ({ sup: x.sup, plant: x.plant, qty: x.qty ?? null, plan: x.plan });
+function checkDemand(r, batch = []) {
+  const E = [], W = [];
+  if (!(r.month >= 1 && r.month <= 12)) E.push(t('cMonth'));
+  if (!ORIGINS.includes(r.origin)) E.push(t('cOrigin'));
+  if (!PLANTS.includes(r.plant)) E.push(t('cPlant'));
+  if (!r.sup) E.push(t('cSup'));
+  if (!/^CGDD\d{9}$/.test(r.po) && r.po !== 'TBC') E.push(t('cPO'));
+  if (!r.plan || r.plan === 'BAD') E.push(t('cPlan'));
+  if (!r.req || r.req === 'BAD') E.push(t('cReq'));
+  if (!r.planLoad) E.push(t('cLoad'));
+  if (r.plan && r.req && r.plan !== 'BAD' && r.req !== 'BAD') {
+    const lead = diff(r.req, r.plan);
+    if (lead < 0) E.push(t('cReqBefore'));
+    else if (LEAD[r.origin] && lead < LEAD[r.origin]) W.push(t('wLead', lead, r.origin, LEAD[r.origin]));
+    if (r.month && +r.plan.slice(5, 7) !== r.month) W.push(t('wMonth', t('monthShort', r.month)));
+    if (r.plan < TODAY) W.push(t('wPast'));
+  }
+  if (r.po && r.po !== 'TBC') {
+    const others = rows.filter(x => x.po === r.po && !x.deleted).map(x => ({ ...pick(x), label: `${x.po}-${x.split}` }))
+      .concat(batch.filter(x => x.po === r.po).map(x => ({ ...pick(x), label: `${x.po}（${t('thisPaste')}）` })));
+    const dup = others.find(x => sameLine(r, x)), mis = !dup && others.find(x => diffLine(r, x));
+    if (dup) W.push(t('wDup', dup.label));
+    if (mis) W.push(t('wMis', mis.label, mis.sup, mis.plant));
+    if (others.length) W.push(t('wSplit', others.length));
+  }
+  if (r.sup) {
+    const ex = [...new Set(rows.map(x => x.sup))].find(s => nSup(s) === nSup(r.sup) && s !== r.sup);
+    if (ex) W.push(t('wSupCase', ex));
+  }
+  return { E, W };
+}
+function addRow(r) {
+  const split = rows.filter(x => x.po === r.po).length + 1;
+  const o = { id: newLineId(), month: r.month, origin: r.origin, plant: r.plant, sup: r.sup, po: r.po, split,
+    qty: r.qty, plan: r.plan, req: r.req, reqBase: r.req, planBase: r.plan, planLoad: r.planLoad, afwd: '', apick: null, bid: null,
+    note: '', closed: false, isNew: true };
+  defineBK(o); rows.push(o); RM.set(o.id, o); return o;
+}
+let addKeep = null;
+function openAdd(sub, snap = null) {
+  cur = { mode: 'add', sub };
+  const k = snap && sub === 'one' ? snap : (addKeep || { month: +TODAY.slice(5, 7), origin: '', plant: '', sup: '', planLoad: '', plan: '', req: '' });
+  const opt = (list, v, show = x => x) => `<option value="">${t('choose')}</option>` + list.map(x => `<option value="${x}" ${x === v ? 'selected' : ''}>${show(x)}</option>`).join('');
+  const seg = `<div class="roles seg" role="group"><button data-am="one" aria-pressed="${sub === 'one'}">${t('segOne')}</button><button data-am="paste" aria-pressed="${sub === 'paste'}">${t('segPaste')}</button></div>`;
+  const one = `<div class="grid">
+      <div class="fld"><label>${t('fMonth')}</label><select data-a="month">${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}" ${i + 1 === k.month ? 'selected' : ''}>${t('monthShort', i + 1)}</option>`).join('')}</select></div>
+      <div class="fld"><label>${t('fPlanLoad')}</label><select data-a="planLoad">${opt(['整柜', '拼箱'], k.planLoad, tv)}</select></div>
+      <div class="fld"><label>${t('fOrigin')}</label><select data-a="origin">${opt(ORIGINS, k.origin)}</select></div>
+      <div class="fld"><label>${t('fPlant')}</label><select data-a="plant">${opt(PLANTS, k.plant)}</select></div>
+      <div class="fld wide"><label>${t('fSup')}</label><input data-a="sup" list="suplist" value="${esc(k.sup || '')}" placeholder="${esc(t('supPh'))}"><datalist id="suplist">${[...new Set(rows.map(r => r.sup))].sort().map(s => `<option value="${esc(s)}">`).join('')}</datalist></div>
+      <div class="fld"><label>${t('fPO')}</label><input data-a="po" placeholder="CGDD222000000" class="mono" value="${esc(k.po || '')}"></div>
+      <div class="fld"><label>${t('fQtyP')}</label><input data-a="qty" type="number" min="0" value="${k.qty ?? ''}"></div>
+      <div class="fld"><label>${t('fPlan')}</label><input data-a="plan" type="date" value="${k.plan || ''}"></div>
+      <div class="fld"><label>${t('fReq')}</label><input data-a="req" type="date" value="${k.req || ''}"></div>
+    </div><div id="addchk"></div>
+    <p class="hint" style="margin:0">${t('oneHint')}</p>`;
+  const paste = `<p class="hint" style="margin:0">${t('pasteHint')}</p>
+    <div class="cols">${t('pasteCols').map((c, i) => `<span>${i + 1}. ${c}</span>`).join('')}</div>
+    <textarea data-a="paste" rows="7" placeholder="10&#9;CHINA&#9;PUEBLA&#9;BOLING&#9;CGDD222007600&#9;8&#9;2026-10-20&#9;2026-11-30&#9;${lang === 'zh' ? '拼箱' : 'LCL'}">${esc(snap && sub === 'paste' ? snap.paste : '')}</textarea>
+    <div id="addchk"></div>`;
+  showDrawer(t('addTitle'), t('addSub'), seg + (sub === 'one' ? one : paste), sub === 'one' ? t('save') : t('import'));
+  if (sub === 'one') $('save2').classList.remove('hidden');
+  refreshAdd();
+}
+const aval = k => document.querySelector(`#dbody [data-a="${k}"]`)?.value ?? '';
+function readOne() {
+  return { month: +aval('month'), origin: aval('origin'), plant: aval('plant'), sup: aval('sup').trim(),
+    po: aval('po').trim().toUpperCase(), qty: aval('qty') === '' ? null : Number(aval('qty')),
+    plan: aval('plan') || null, req: aval('req') || null, planLoad: aval('planLoad') };
+}
+function parsePaste() {
+  const out = [], accepted = [];
+  aval('paste').split(/\r?\n/).forEach((line, i) => {
+    if (!line.trim()) return;
+    const c = line.split('\t');
+    if (i === 0 && !/\d/.test(c[0] || '')) return;                // 表头行
+    const r = { month: parseInt(c[0], 10), origin: nOrigin(c[1]), plant: String(c[2] || '').trim().toUpperCase(),
+      sup: String(c[3] || '').trim(), po: String(c[4] || '').trim().toUpperCase(),
+      qty: c[5] && !isNaN(parseFloat(c[5])) ? parseFloat(c[5]) : null,
+      plan: nDate(c[6]), req: nDate(c[7]), planLoad: nLoad(c[8]), line };
+    r.chk = checkDemand(r, accepted);
+    if (!r.chk.E.length) accepted.push(r);
+    out.push(r);
+  });
+  return out;
+}
+function refreshAdd() {
+  const el = $('addchk'); if (!el) return;
+  if (cur.sub === 'one') {
+    const { W } = checkDemand(readOne());
+    el.innerHTML = W.map(w => `<div class="wn" style="margin-top:8px">${esc(w)}</div>`).join('');
+    return;
+  }
+  const list = parsePaste(), ok = list.filter(r => !r.chk.E.length);
+  $('save').textContent = ok.length ? t('importN', ok.length) : t('import');
+  el.innerHTML = list.length ? `<div class="box" style="margin-top:8px"><div class="box-h">${t('pvHead', list.length, ok.length, list.length - ok.length)}</div>
+    ${list.map(r => `<div class="box-i" style="cursor:default;grid-template-columns:1fr auto"><span><span class="mono">${esc(r.po || t('noPO'))}</span> · ${esc(r.sup || '—')}<br>
+      ${r.chk.E.length ? `<span style="color:var(--red)">${esc(t('pvBad', r.chk.E.join(t('sep'))))}</span>` : r.chk.W.length ? `<span style="color:var(--amber)">${esc(r.chk.W.join(lang === 'en' ? '; ' : '；'))}</span>` : '<span class="muted">' + esc(`${t('monthShort', r.month)} · ${r.origin} · ${r.plant} · ${tv(r.planLoad)}`) + '</span>'}</span>
+      <span class="pill ${r.chk.E.length ? 'red' : r.chk.W.length ? 'amber' : 'ok'}">${r.chk.E.length ? t('pvSkip') : r.chk.W.length ? t('pvCheck') : t('pvOk')}</span></div>`).join('')}</div>` : '';
+}
+function saveAdd(opts) {
+  if (cur.sub === 'one') {
+    const r = readOne(), { E } = checkDemand(r);
+    if (E.length) return err(t('eFix', E.join(t('sep'))));
+    const o = addRow(r);
+    addKeep = opts.again ? { month: r.month, origin: r.origin, plant: r.plant, sup: r.sup, planLoad: r.planLoad, plan: r.plan, req: r.req } : null;
+    renderAll(); toast(t('tAdded', poLabel(o), t('monthLabel', o.month)));
+    if (opts.again) { openAdd('one'); document.querySelector('#dbody [data-a="po"]').focus(); }
+    else closeDrawer();
+    return;
+  }
+  const list = parsePaste(), ok = list.filter(r => !r.chk.E.length), bad = list.filter(r => r.chk.E.length);
+  if (!ok.length) return err(list.length ? t('eNothing') : t('ePasteFirst'));
+  ok.forEach(addRow); renderAll();
+  document.querySelector('#dbody [data-a="paste"]').value = bad.map(r => r.line).join('\n');
+  refreshAdd();
+  toast(t('tImported', ok.length, bad.length));
+  if (!bad.length) closeDrawer();
+}
+
+function syncReopen() {                      // 闭环后报警级别升高（黄 → 红）时自动重新打开
+  rows.forEach(o => { if (o.closed && LV_RANK[level(o)] > LV_RANK[o.closedLevel || 'na']) {
+    o.reopened = { at: TODAY, from: o.closedLevel, to: level(o) }; o.closed = false; } });
+}
+function renderAll() { syncReopen(); renderTop(); renderTiles(); renderToolbar(); renderList(); renderBar(); flush(); }
+
+[['f-month', 'month'], ['f-route', 'route'], ['f-fwd', 'fwd'], ['f-status', 'status']].forEach(([id, k]) =>
+  $(id).onchange = e => { F[k] = e.target.value; shown = PAGE; renderAll(); });
+$('q').oninput = e => { F.q = e.target.value.trim(); shown = PAGE; renderTiles(); renderList(); renderToolbar(); };
+$('clear').onclick = () => { Object.keys(F).forEach(k => F[k] = ''); quick = 'all'; shown = PAGE; $('q').value = ''; renderAll(); };
+document.querySelectorAll('[role=tab]').forEach(el => el.onclick = () => {
+  tab = el.dataset.tab; shown = PAGE; quick = 'all'; F.status = '';
+  document.querySelectorAll('[role=tab]').forEach(x => x.setAttribute('aria-selected', x === el));
+  renderAll();
+});
+$('langsw').querySelectorAll('button').forEach(b => b.onclick = () => setLang(b.dataset.lang));
+$('dbody').addEventListener('click', e => {
+  const op = e.target.closest('[data-open]');
+  if (op && cur?.mode === 'row' && op.dataset.open !== cur.id) return openDrawer(op.dataset.open);
+  if (e.target.id === 'solo') return openNew([cur.id]);
+  const am = e.target.closest('[data-am]'); if (am && cur?.mode === 'add') return openAdd(am.dataset.am);
+  if (e.target.id === 'delAsk') {
+    $('delbox').innerHTML = `<div class="box" style="background:var(--red-wash);padding:12px"><div class="grid">
+      <div class="fld"><label>${t('delTitle')}</label><select data-k="delReason"><option value="">${t('choose')}</option>${DEL_REASONS.map(r => `<option value="${r}">${tv(r)}</option>`).join('')}</select></div>
+      <div class="fld"><label>${t('delNote')}</label><input data-k="delNote" type="text"></div></div>
+      <p class="hint" style="margin:8px 0">${t('delHint')}</p>
+      <div class="btnrow"><button class="btn" id="delConfirm" style="background:var(--red-solid)">${t('delConfirm')}</button><button class="ghost" id="delCancel">${t('delCancel')}</button></div></div>`;
+    return;
+  }
+  if (e.target.id === 'delCancel') return openDrawer(cur.id);
+  if (e.target.id === 'delConfirm') {
+    const o = R(cur.id), r = document.querySelector('#dbody [data-k="delReason"]').value;
+    if (!r) return err(t('eDelReason'));
+    o.deleted = { at: TODAY, by: role, byName: ME.name, reason: r, note: document.querySelector('#dbody [data-k="delNote"]').value.trim() };
+    sel.delete(o.id); const lbl = poLabel(o); closeDrawer(); renderAll(); toast(t('tDeleted', lbl)); return;
+  }
+  if (e.target.id === 'restore') {
+    const o = R(cur.id); o.deleted = null; renderAll(); openDrawer(o.id); toast(t('tRestored')); return;
+  }
+  if (e.target.id === 'unbook') {
+    const o = R(cur.id); o.bid = null; renderAll(); openDrawer(o.id); toast(t('tUnbooked')); return;
+  }
+  if (e.target.id === 'unlink') {
+    const o = R(cur.id); o.bid = null; renderAll(); openDrawer(o.id); toast(t('tUnlinked'));
+  }
+});
+$('dbody').addEventListener('input', () => { if (cur?.mode === 'add') refreshAdd(); });
+$('dbody').addEventListener('change', () => { if (cur?.mode === 'add') refreshAdd(); });
+$('dclose').onclick = closeDrawer;
+$('scrim').onclick = closeDrawer;
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && cur) closeDrawer(); });
+$('save').onclick = () => save();
+$('save2').onclick = () => save({ again: true });
+$('addBtn').onclick = () => openAdd('one');
+
+/* ---------- 数据存储：SharePoint 列表（正式）/ 本浏览器（?mock 本地测试） ---------- */
+const CFG = {
+  clientId: '4ce81fa0-d907-454c-8499-c7ae867eaad6',
+  tenant: '321ad099-5132-4c2f-8d7b-af429ca14fac',
+  site: 'aithermal2.sharepoint.com:/sites/AIMXShipping',                                    // 例：ai-thermal.sharepoint.com:/sites/AIMXShipping
+};
+const MOCK = QS.has('mock');
+const LISTS = { lines: 'ShipLines', bookings: 'ShipBookings', users: 'ShipUsers' };
+const SAVED = new Map();                       // 'L:id' / 'B:id' → { json, itemId, etag }
+const serRow = o => { const x = {}; Object.keys(o).forEach(k => { if (!BK.includes(k)) x[k] = o[k]; }); return JSON.stringify(x); };
+const serBk = b => JSON.stringify(b);
+// SharePoint 里给人直接查看用的几列（系统只读 Data 列）
+const mirrorRow = o => ({ PO: o.po || '', Supplier: o.sup || '', Plant: o.plant || '', ReqETA: o.req || '', Booking: o.bid || '', Deleted: o.deleted ? 'Y' : '' });
+const mirrorBk = b => ({ Forwarder: b.fwd || '', Status: b.status || '', MBL: b.mbl || '', ETA: b.eta || '', ATA: b.ata || '' });
+
+function mockStore() {
+  const K = 'ship-portal-mock';
+  const read = () => { try { return JSON.parse(localStorage.getItem(K)) || null; } catch (e) { return null; } };
+  const write = d => { try { localStorage.setItem(K, JSON.stringify(d)); } catch (e) {} };
+  return {
+    async signIn() {
+      const as = (QS.get('as') || 'admin').split(':');
+      const r = ['planner', 'fw', 'log', 'admin'].includes(as[0]) ? as[0] : 'admin';
+      return { name: QS.get('name') || '测试用户', email: 'test@local', role: r === 'admin' ? 'log' : r, admin: r === 'admin', fwd: r === 'fw' ? (as[1] || '') : '' };
+    },
+    async loadAll() {
+      let d = read();
+      if (!d) {                                  // 首次：用本地迁移文件初始化
+        const raw = await (await fetch('seed.json')).json(), m = migrateSeed(raw);
+        d = { lines: {}, bookings: {} };
+        m.lines.forEach(o => d.lines[o.id] = JSON.stringify(o)); m.bookings.forEach(b => d.bookings[b.id] = JSON.stringify(b));
+        write(d);
+      }
+      const wrap = obj => Object.entries(obj).map(([id, json]) => ({ itemId: id, etag: '', json }));
+      return { lines: wrap(d.lines), bookings: wrap(d.bookings) };
+    },
+    async put(job) {
+      const d = read() || { lines: {}, bookings: {} };
+      d[job.kind === 'L' ? 'lines' : 'bookings'][job.id] = job.json; write(d);
+      return { itemId: job.id, etag: '' };
+    },
+    reset() { try { localStorage.removeItem(K); } catch (e) {} },
+  };
+}
+
+function spStore() {
+  let app, acct, siteId, listIds = {};
+  const SCOPES = ['User.Read', 'Sites.ReadWrite.All'];
+  const redirectUri = location.origin + location.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || location.origin;
+  async function token() {
+    try { return (await app.acquireTokenSilent({ scopes: SCOPES, account: acct })).accessToken; }
+    catch (e) { await app.acquireTokenRedirect({ scopes: SCOPES, account: acct }); throw new Error('redirect'); }
+  }
+  async function g(path, opt = {}, tries = 0) {
+    const r = await fetch(path.startsWith('https:') ? path : 'https://graph.microsoft.com/v1.0' + path, {
+      ...opt, headers: { Authorization: 'Bearer ' + await token(), 'Content-Type': 'application/json', ...(opt.headers || {}) } });
+    if ((r.status === 429 || r.status === 503) && tries < 4) {
+      await new Promise(f => setTimeout(f, 1000 * (+r.headers.get('Retry-After') || 2 ** tries)));
+      return g(path, opt, tries + 1);
+    }
+    if (r.status === 412) { const e = new Error('conflict'); e.conflict = true; throw e; }
+    const j = r.status === 204 ? {} : await r.json().catch(() => ({}));
+    if (!r.ok) { const e = new Error(r.status + ' ' + (j.error?.message || '')); e.status = r.status; throw e; }
+    return j;
+  }
+  async function items(list) {
+    let url = `/sites/${siteId}/lists/${listIds[list]}/items?$expand=fields($select=Title,Data,Role,Forwarder,DisplayName)&$select=id,eTag&$top=500`, out = [];
+    while (url) { const j = await g(url); out.push(...j.value); url = j['@odata.nextLink']; }
+    return out;
+  }
+  async function findLists() {
+    const j = await g(`/sites/${siteId}/lists?$select=id,displayName&$top=200`);
+    listIds = {}; j.value.forEach(l => { const k = Object.keys(LISTS).find(k => LISTS[k] === l.displayName); if (k) listIds[k] = l.id; });
+  }
+  const textCol = (name, multi) => ({ name, text: multi ? { allowMultipleLines: true, textType: 'plain', linesForEditing: 6 } : {} });
+  const api = {
+    async signIn() {
+      if (!CFG.site) throw new Error('CFG.site 未设置');
+      app = new msal.PublicClientApplication({ auth: { clientId: CFG.clientId, authority: 'https://login.microsoftonline.com/' + CFG.tenant, redirectUri },
+        cache: { cacheLocation: 'localStorage' } });
+      await app.initialize();
+      const res = await app.handleRedirectPromise();
+      acct = res?.account || app.getAllAccounts()[0];
+      if (!acct) { await app.loginRedirect({ scopes: SCOPES }); return null; }
+      siteId = (await g(`/sites/${CFG.site}?$select=id`)).id;
+      await findLists();
+      const email = (acct.username || '').toLowerCase(), name = acct.name || email;
+      if (!listIds.users) return { name, email, setup: true };
+      const u = (await items('users')).map(x => x.fields).find(f => String(f.Title || '').trim().toLowerCase() === email);
+      if (!u) return { name, email, role: null };
+      const r = String(u.Role || '').trim().toLowerCase();
+      return { name: u.DisplayName || name, email, role: r === 'admin' ? 'log' : r, admin: r === 'admin', fwd: r === 'fw' ? normFwd(u.Forwarder) : '' };
+    },
+    async loadAll() {
+      const wrap = a => a.map(x => ({ itemId: x.id, etag: x.eTag, json: x.fields.Data || '' })).filter(x => x.json);
+      const [l, b] = await Promise.all([items('lines'), items('bookings')]);
+      return { lines: wrap(l), bookings: wrap(b) };
+    },
+    async put(job) {
+      const list = job.kind === 'L' ? 'lines' : 'bookings', fields = { Title: job.id, Data: job.json, ...job.mirror };
+      if (job.itemId) {
+        const j = await g(`/sites/${siteId}/lists/${listIds[list]}/items/${job.itemId}/fields`,
+          { method: 'PATCH', headers: { 'If-Match': job.etag || '*' }, body: JSON.stringify(fields) });
+        return { itemId: job.itemId, etag: j['@odata.etag'] };
+      }
+      const j = await g(`/sites/${siteId}/lists/${listIds[list]}/items`, { method: 'POST', body: JSON.stringify({ fields }) });
+      return { itemId: j.id, etag: j.eTag };
+    },
+    // 一次性初始化：建三张列表 + 导入迁移数据 + 把自己设为管理员
+    async setup(raw, me, log) {
+      const defs = {
+        lines: [textCol('Data', true), ...['PO', 'Supplier', 'Plant', 'ReqETA', 'Booking', 'Deleted'].map(n => textCol(n))],
+        bookings: [textCol('Data', true), ...['Forwarder', 'Status', 'MBL', 'ETA', 'ATA'].map(n => textCol(n))],
+        users: ['DisplayName', 'Role', 'Forwarder'].map(n => textCol(n)),
+      };
+      for (const k of ['users', 'lines', 'bookings']) if (!listIds[k]) {
+        log('创建列表 ' + LISTS[k]);
+        await g(`/sites/${siteId}/lists`, { method: 'POST', body: JSON.stringify({ displayName: LISTS[k], columns: defs[k], list: { template: 'genericList' } }) });
+      }
+      await findLists();
+      const m = migrateSeed(raw);
+      const reqs = [
+        { list: 'users', fields: { Title: me.email, DisplayName: me.name, Role: 'admin', Forwarder: '' } },
+        ...m.bookings.map(b => ({ list: 'bookings', fields: { Title: b.id, Data: serBk(b), ...mirrorBk(b) } })),
+        ...m.lines.map(o => ({ list: 'lines', fields: { Title: o.id, Data: JSON.stringify(o), ...mirrorRow(o) } })),
+      ];
+      for (let i = 0; i < reqs.length; i += 20) {
+        const chunk = reqs.slice(i, i + 20);
+        const j = await g('/$batch', { method: 'POST', body: JSON.stringify({ requests: chunk.map((x, n) => ({ id: String(n + 1), method: 'POST',
+          url: `/sites/${siteId}/lists/${listIds[x.list]}/items`, headers: { 'Content-Type': 'application/json' }, body: { fields: x.fields } })) }) });
+        const bad = j.responses.filter(r => r.status >= 300);
+        if (bad.length) throw new Error('导入失败：' + bad.map(r => r.status + ' ' + (r.body?.error?.message || '')).join('; '));
+        log(`已导入 ${Math.min(i + 20, reqs.length)} / ${reqs.length}`);
+      }
+    },
+  };
+  return api;
+}
+const Store = MOCK ? mockStore() : spStore();
+
+/* ---------- 读取 / 保存：渲染后自动找出改动过的行与订舱，逐条写回 ---------- */
+let syncState = 'ok', flushing = false, flushAgain = false, lastLoad = 0;
+function setSync(s) {
+  syncState = s; const el = $('sync'); if (!el) return;
+  el.textContent = t('sync_' + s); el.className = 'sync ' + s;
+}
+async function load() {
+  const d = await Store.loadAll();
+  rows.length = 0; RM.clear(); SAVED.clear(); Object.keys(B).forEach(k => delete B[k]);
+  d.bookings.forEach(x => { const b = JSON.parse(x.json); B[b.id] = b; SAVED.set('B:' + b.id, { itemId: x.itemId, etag: x.etag, json: serBk(b) }); });
+  d.lines.forEach(x => { const o = JSON.parse(x.json); defineBK(o); rows.push(o); RM.set(o.id, o); SAVED.set('L:' + o.id, { itemId: x.itemId, etag: x.etag, json: serRow(o) }); });
+  lastLoad = Date.now();
+}
+function dirty() {
+  const jobs = [];
+  Object.values(B).forEach(b => { const json = serBk(b), m = SAVED.get('B:' + b.id);
+    if (!m || m.json !== json) jobs.push({ kind: 'B', id: b.id, json, mirror: mirrorBk(b), itemId: m?.itemId, etag: m?.etag }); });
+  rows.forEach(o => { const json = serRow(o), m = SAVED.get('L:' + o.id);
+    if (!m || m.json !== json) jobs.push({ kind: 'L', id: o.id, json, mirror: mirrorRow(o), itemId: m?.itemId, etag: m?.etag }); });
+  return jobs;                                   // 订舱在前：PO 行引用的订舱先落库
+}
+async function flush() {
+  if (!ME) return;
+  if (flushing) { flushAgain = true; return; }
+  flushing = true;
+  try {
+    let jobs;
+    while ((jobs = dirty()).length) {
+      setSync('saving');
+      for (const j of jobs) { const r = await Store.put(j); SAVED.set(j.kind + ':' + j.id, { itemId: r.itemId, etag: r.etag, json: j.json }); }
+    }
+    setSync('ok');
+  } catch (e) {
+    if (e.conflict) {                            // 别人刚改过同一条：以服务器为准刷新
+      setSync('ok'); await load(); flushing = false;
+      if (cur) closeDrawer(); renderAll(); toast(t('conflict')); return;
+    }
+    if (e.message === 'redirect') return;
+    console.error(e); setSync('err'); setTimeout(() => { flushing = false; flush(); }, 15000); return;
+  }
+  flushing = false;
+  if (flushAgain) { flushAgain = false; flush(); }
+}
+async function refresh() {                       // 定时 / 回到页面时拉取别人的修改（编辑中不打扰）
+  if (!ME || cur || flushing || dirty().length || Date.now() - lastLoad < 60000) return;
+  try { await load(); renderAll(); } catch (e) { console.error(e); }
+}
+window.addEventListener('beforeunload', e => { if (ME && (flushing || dirty().length)) { e.preventDefault(); e.returnValue = ''; } });
+
+/* ---------- 启动：登录 → 权限 → 读数据 ---------- */
+function gate(html) { $('gate').innerHTML = html; $('gate').classList.toggle('hidden', !html); }
+async function boot() {
+  applyStatic();
+  gate(`<div class="gcard"><p>${t('gLoading')}</p></div>`);
+  try {
+    const me = await Store.signIn();
+    if (!me) return;                             // 正在跳转登录
+    if (me.setup) return showSetup(me);
+    if (!me.role || !ROLE_KEYS.includes(me.role)) return gate(`<div class="gcard"><h2>${t('gNoAccess')}</h2><p>${esc(t('gNoAccessTxt', me.email))}</p></div>`);
+    ME = me; role = me.role;
+    await load();
+    gate('');
+    renderAll();
+    setInterval(refresh, 180000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+  } catch (e) {
+    if (e.message === 'redirect') return;
+    console.error(e);
+    gate(`<div class="gcard"><h2>${t('gError')}</h2><p class="muted">${esc(e.message)}</p></div>`);
+  }
+}
+function showSetup(me) {
+  gate(`<div class="gcard"><h2>首次初始化</h2>
+    <p>站点里还没有台账列表。将创建三张列表（${Object.values(LISTS).join(' / ')}），导入迁移数据，并把你（${esc(me.email)}）设为管理员。</p>
+    <p><input type="file" id="seedf" accept=".json"></p><p><button class="btn" id="seedgo">开始初始化</button></p><pre id="seedlog" class="muted" style="white-space:pre-wrap;font-size:12px"></pre></div>`);
+  $('seedgo').onclick = async () => {
+    const f = $('seedf').files[0]; if (!f) return alert('请选择迁移数据文件');
+    const L = m => $('seedlog').textContent += m + '\n';
+    $('seedgo').disabled = true;
+    try { await Store.setup(JSON.parse(await f.text()), me, L); L('完成，正在进入系统…'); setTimeout(() => location.reload(), 1200); }
+    catch (e) { L('✗ ' + e.message); $('seedgo').disabled = false; }
+  };
+}
+
+boot();
+
+</script>
+</body></html>
