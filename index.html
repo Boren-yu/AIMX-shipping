@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <title>海运出运协同平台</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@3.27.0/lib/msal-browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@3.27.0/lib/msal-browser.min.js" integrity="sha384-8zg7Eb13Jv4vByCkXozj1LKSUykPghS+Zp1Q9BA8lYkMDbushxoDjh+RQ+4r1DNd" crossorigin="anonymous"></script>
 <style>/* ============ Apple-style theme ============ */
 :root{color-scheme:light;
   --bg:#F5F5F7;--surface:#FFFFFF;--fill:rgba(118,118,128,.12);--fill-2:rgba(118,118,128,.07);
@@ -388,6 +388,7 @@ const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'ag
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MSG = {
   zh: {
+    dataWarn: n => `有 ${n} 条记录格式异常，已跳过显示。可能有人绕过平台直接改了 SharePoint，请到列表的版本历史里核查。`,
     tPeriod: '招标周期', tFactory: '工厂', tAllFac: '全部工厂', tSearch: '搜索供应商 / 航线 / 货代', tLanes: n => `${n} 条航线`, tDemand: d => `需求 ${d} HQ40`,
     tLaneCol: '航线 · 发货人', tTerm: '条款', tLocal: '本地费', tDest: '目的港费', tSea: '海运费', tTotal: '总价', tTransit: '时效', tWinner: '中标货代',
     tBooking: '订舱费', tDoc: '文件费', tThc: 'THC', tLoading: '提货费', tCustoms: '报关费', tBl: '提单费', tConsignor: '发货人', tConsignee: '收货人', tRoute: '起运 → 目的',
@@ -402,7 +403,7 @@ const MSG = {
     noEtaPill: d => `无 ETA ${d} 天`, bannerNoEta: (p, d) => `已订舱，但计划提货日 ${p} 已过 ${d} 天，货代仍未提供 ETA。请货代尽快更新。`,
     bannerArr: (a, r, d) => `实际到港 ${a}，原始要求 ETA ${r}，${d > 0 ? '晚 ' + d + ' 天' : d === 0 ? '准时' : '提前 ' + -d + ' 天'}。`,
     reqAdjNote: (b, c) => `要求 ETA 已由 ${b} 调整为 ${c}；报警和考核仍按原始要求 ${b} 判定。`,
-    reopened: (at, a, b) => `该报警闭环后延误加重，已于 ${at} 自动重新打开（${a} → ${b}）。`,
+    reopened: (a, b) => `闭环后延误加重，已自动重新打开（闭环时：${a}；现在：${b}），请重新跟进。`, dLate: d => `延误 ${d} 天`, dNoEta: d => `无 ETA ${d} 天`,
     baseLine: (p, r) => `原始基准：计划提货日 ${p} · 要求 ETA ${r}（报警与考核按此判定）`,
     baseReasonLbl: '若修改计划提货日 / 要求 ETA，请选择原因（必填）',
     eBaseReason: '已订舱或已有报警的需求，修改计划提货日 / 要求 ETA 时必须选择原因。',
@@ -486,6 +487,7 @@ const MSG = {
     tImported: (n, b) => `已导入 ${n} 条需求` + (b ? `，${b} 条有错误留在框里待修正` : ''),
   },
   en: {
+    dataWarn: n => `${n} records have an invalid format and were skipped. Someone may have edited SharePoint directly; check the list's version history.`,
     tPeriod: 'Tender period', tFactory: 'Plant', tAllFac: 'All plants', tSearch: 'Search supplier / lane / forwarder', tLanes: n => `${n} lanes`, tDemand: d => `Demand ${d} HQ40`,
     tLaneCol: 'Lane · Shipper', tTerm: 'Terms', tLocal: 'Origin fees', tDest: 'Dest. fees', tSea: 'Ocean freight', tTotal: 'Total', tTransit: 'Transit', tWinner: 'Awarded to',
     tBooking: 'Booking', tDoc: 'Documentation', tThc: 'THC', tLoading: 'Loading', tCustoms: 'Customs', tBl: 'B/L', tConsignor: 'Shipper', tConsignee: 'Consignee', tRoute: 'Origin → Destination',
@@ -500,7 +502,7 @@ const MSG = {
     noEtaPill: d => `No ETA ${d}d`, bannerNoEta: (p, d) => `Booked, but planned pickup ${p} was ${d} days ago and the forwarder still hasn’t given an ETA. The forwarder should update it now.`,
     bannerArr: (a, r, d) => `Actual arrival ${a}, original required ETA ${r} — ${d > 0 ? d + ' days late' : d === 0 ? 'on time' : -d + ' days early'}.`,
     reqAdjNote: (b, c) => `Required ETA was changed from ${b} to ${c}; alerts and KPIs still use the original ${b}.`,
-    reopened: (at, a, b) => `The delay got worse after this alert was closed, so it was reopened automatically on ${at} (${a} → ${b}).`,
+    reopened: (a, b) => `The delay got worse after closing, so this alert was reopened (when closed: ${a}; now: ${b}). Please follow up again.`, dLate: d => `${d}d late`, dNoEta: d => `no ETA for ${d}d`,
     baseLine: (p, r) => `Original baseline: planned pickup ${p} · required ETA ${r} (used for alerts and KPIs)`,
     baseReasonLbl: 'Reason for changing planned pickup / required ETA (required)',
     eBaseReason: 'This demand is booked or has an alert, so changing the planned pickup or required ETA needs a reason.',
@@ -584,6 +586,7 @@ const MSG = {
     tImported: (n, b) => `Imported ${n} PO${n > 1 ? 's' : ''}` + (b ? `; ${b} with errors left in the box to fix` : ''),
   },
   es: {
+    dataWarn: n => `${n} registros tienen un formato no válido y se omitieron. Puede que alguien haya editado SharePoint directamente; revise el historial de versiones.`,
     tPeriod: 'Periodo de licitación', tFactory: 'Planta', tAllFac: 'Todas las plantas', tSearch: 'Buscar proveedor / ruta / agente', tLanes: n => `${n} rutas`, tDemand: d => `Demanda ${d} HQ40`,
     tLaneCol: 'Ruta · Embarcador', tTerm: 'Término', tLocal: 'Gastos origen', tDest: 'Gastos destino', tSea: 'Flete marítimo', tTotal: 'Total', tTransit: 'Tránsito', tWinner: 'Adjudicado a',
     tBooking: 'Reserva', tDoc: 'Documentación', tThc: 'THC', tLoading: 'Carga', tCustoms: 'Aduana', tBl: 'B/L', tConsignor: 'Embarcador', tConsignee: 'Consignatario', tRoute: 'Origen → Destino',
@@ -598,7 +601,7 @@ const MSG = {
     noEtaPill: d => `Sin ETA ${d}d`, bannerNoEta: (p, d) => `Tiene reserva, pero la recolección planeada ${p} fue hace ${d} días y el agente aún no da ETA. El agente debe actualizarla ya.`,
     bannerArr: (a, r, d) => `Arribo real ${a}, ETA requerida original ${r} — ${d > 0 ? d + ' días tarde' : d === 0 ? 'a tiempo' : -d + ' días antes'}.`,
     reqAdjNote: (b, c) => `La ETA requerida cambió de ${b} a ${c}; las alertas y los KPI siguen usando la original ${b}.`,
-    reopened: (at, a, b) => `El retraso empeoró después de cerrar esta alerta, por lo que se reabrió automáticamente el ${at} (${a} → ${b}).`,
+    reopened: (a, b) => `El retraso empeoró después del cierre, por lo que la alerta se reabrió (al cerrar: ${a}; ahora: ${b}). Dé seguimiento de nuevo.`, dLate: d => `${d} d de retraso`, dNoEta: d => `sin ETA ${d} d`,
     baseLine: (p, r) => `Base original: recolección planeada ${p} · ETA requerida ${r} (se usa para alertas y KPI)`,
     baseReasonLbl: 'Motivo del cambio de recolección planeada / ETA requerida (obligatorio)',
     eBaseReason: 'Esta demanda tiene reserva o una alerta, por lo que cambiar la recolección planeada o la ETA requerida requiere un motivo.',
@@ -774,7 +777,7 @@ function poIssue(o) {                       // 同一 PO 的其他行：完全�
   const mis = sib.find(r => diffLine(o, r)); if (mis) return { kind: 'mis', w: mis };
   return null;
 }
-const contOf = list => { const s = new Set(list.map(o => o.bid).filter(Boolean)); let n = 0; s.forEach(id => n += B[id].cont || 1); return n; };
+const contOf = list => { const s = new Set(list.map(o => o.bid).filter(Boolean)); let n = 0; s.forEach(id => n += (B[id] && B[id].cont) || 1); return n; };
 const fwdKey = o => o.fwd || NONE;
 const fwdLabel = v => v === NONE ? t('unassigned') : v;
 
@@ -813,7 +816,7 @@ const mine = o => !ME.fwd || (o.bid ? o.fwd === ME.fwd : (!assignFwd(o) || assig
 function isTodo(o, r) {
   if (r === 'planner') return !o.req || level(o) === 'red' || !!poIssue(o);
   if (r === 'fw') return mine(o) && (!o.bid || stale(o) || (!!o.bid && alertKind(o) === 'ovd'));
-  return isAlert(o) && !o.closed;
+  return isAlert(o) && !isClosed(o);
 }
 
 let ME = null, role = 'log', tab = 'active', quick = 'all', shown = PAGE, cur = null;
@@ -1055,11 +1058,11 @@ const head4 = (title, owner) => { const me = owner === role;
   return `<h4>${title}<span class="own ${me ? 'me' : ''}">${t('role' + owner)} · ${me ? t('yours') : t('readonly')}</span></h4>`; };
 function banner(o) {
   const lv = level(o), od = overdueDays(o);
-  const reo = o.reopened ? `<br>${esc(t('reopened', o.reopened.at, t('lv' + o.reopened.from), t('lv' + o.reopened.to)))}` : '';
+  const reo = worse(o) ? `<br>${esc(t('reopened', closeDesc(o.closedLevel, o.closedDelay, o.closedOvd), closeDesc(level(o), delayDays(o), overdueDays(o))))}` : '';
   const adj = o.req && o.reqBase && o.req !== o.reqBase ? `<br>${esc(t('reqAdjNote', o.reqBase, o.req))}` : '';
-  if (od >= OVERDUE_Y) return `<div class="banner ${lv}"><b>${t('lv' + lv)}${o.closed ? t('closedTag') : ''}</b>${t(o.bid ? 'bannerNoEta' : 'bannerUnbooked', basePlan(o), od)}${reo}</div>`;
+  if (od >= OVERDUE_Y) return `<div class="banner ${lv}"><b>${t('lv' + lv)}${isClosed(o) ? t('closedTag') : ''}</b>${t(o.bid ? 'bannerNoEta' : 'bannerUnbooked', basePlan(o), od)}${reo}</div>`;
   if (lv === 'na') return `<div class="banner na"><b>${t('cannotAssess')}</b>${t('missing', [!baseReq(o) && t('reqEta'), !o.eta && t('fwdEta')].filter(Boolean).join(t('sep')))}</div>`;
-  return `<div class="banner ${lv}"><b>${t('lv' + lv)}${o.closed ? t('closedTag') : ''}</b>${t(arrival(o) ? 'bannerArr' : 'bannerTxt', arrival(o) || o.eta, baseReq(o), delayDays(o))}${adj}${reo}</div>`;
+  return `<div class="banner ${lv}"><b>${t('lv' + lv)}${isClosed(o) ? t('closedTag') : ''}</b>${t(arrival(o) ? 'bannerArr' : 'bannerTxt', arrival(o) || o.eta, baseReq(o), delayDays(o))}${adj}${reo}</div>`;
 }
 function showDrawer(title, sub, html, saveLabel) {
   $('dtitle').textContent = title; $('dsub').textContent = sub; $('dbody').innerHTML = html;
@@ -1119,7 +1122,7 @@ function openDrawer(id) {
       ${DEL && role === 'planner' ? `<div class="btnrow" style="margin-top:10px"><button class="ghost" id="restore">${t('restore')}</button></div>` : ''}</div>
     ${booking}
     ${b ? `<div class="sec">${head4(t('secPick'), 'fw')}<div class="grid">${fld(t('fApick'), 'apick', o.apick, W, 'date')}</div></div>` : ''}
-    <div class="sec">${head4(t('secLog'), 'log')}<div class="grid">${fld(t('fNote'), 'note', o.note, L, 'text', true)}${fld(t('fClosed'), 'closed', o.closed, L, 'yn')}</div></div>
+    <div class="sec">${head4(t('secLog'), 'log')}<div class="grid">${fld(t('fNote'), 'note', o.note, L, 'text', true)}${fld(t('fClosed'), 'closed', isClosed(o), L, 'yn')}</div></div>
     ${b ? `<div class="sec"><h4>${t('secEtaLog')}<span class="own">${t('etaLogBadge')}</span></h4>${log}</div>` : ''}`;
   showDrawer(poLabel(o), `${o.sup} · ${routeOf(o)} · ${t('plantSub', o.plant)}`, html, (P || L || (W && b)) ? t('save') : '');
 }
@@ -1210,7 +1213,7 @@ function save(opts = {}) {
   if (role === 'log') {
     const note = txt('note'), closed = val('closed') === '1';
     if (closed && !note) return err(t('eNote'));
-    if (closed && !o.closed) { o.closedLevel = level(o); o.reopened = null; o.closedAt = TODAY; o.closedBy = ME.name; }
+    if (closed && !isClosed(o)) { o.closedLevel = level(o); o.closedDelay = delayDays(o); o.closedOvd = overdueDays(o) || null; delete o.reopened; o.closedAt = TODAY; o.closedBy = ME.name; }
     Object.assign(o, { note, closed });
     if (b && get('fwd')) {
       const nf = val('fwd');
@@ -1384,10 +1387,17 @@ function saveAdd(opts) {
   if (!bad.length) closeDrawer();
 }
 
-function syncReopen() {                      // 闭环后报警级别升高（黄 → 红）时自动重新打开
-  rows.forEach(o => { if (o.closed && LV_RANK[level(o)] > LV_RANK[o.closedLevel || 'na']) {
-    o.reopened = { at: TODAY, from: o.closedLevel, to: level(o) }; o.closed = false; } });
+// 闭环后延误加重 → 视为重新打开。只计算、不写回：谁打开页面都不会改动数据，版本历史里也不会冒出无关的修改人
+// 加重的标准：级别升高（黄 → 红），或 ETA 延误比闭环时又多 7 天以上，或无 ETA 比闭环时又多拖 14 天以上
+function worse(o) {
+  if (!o.closed) return false;
+  if (LV_RANK[level(o)] > LV_RANK[o.closedLevel || 'na']) return true;
+  const d = delayDays(o); if (d !== null && o.closedDelay != null && d - o.closedDelay >= 7) return true;
+  const od = overdueDays(o); if (od && o.closedOvd != null && od - o.closedOvd >= 14) return true;
+  return false;
 }
+const isClosed = o => !!o.closed && !worse(o);
+const closeDesc = (lv, d, od) => t('lv' + lv) + (od ? ' · ' + t('dNoEta', od) : d !== null && d !== undefined ? ' · ' + t('dLate', d) : '');
 /* ---------- 招标与运价：每月中标详情（Tender/tender.json，仅内部人员有权限读取） ---------- */
 let TD = null, tenderState = 0;                   // 0 未加载 1 加载中 2 就绪
 const TF = { period: '', f: '', q: '' }, tOpen = new Set();
@@ -1470,7 +1480,7 @@ function renderTender() {
     tr.onclick = tog; tr.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } };
   });
 }
-function renderAll() { syncReopen(); renderTop();
+function renderAll() { renderTop();
   document.querySelector('main').classList.toggle('tender-mode', tab === 'tender');
   $('tab-tender').classList.toggle('hidden', role === 'fw' || !!ME.fwd);
   if (tab === 'tender') { if (role === 'fw') tab = 'active'; else { showTender(); flush(); return; } } renderTiles(); renderToolbar(); renderList(); renderBar(); flush(); }
@@ -1718,12 +1728,54 @@ function setSync(s) {
   syncState = s; const el = $('sync'); if (!el) return;
   el.textContent = t('sync_' + s); el.className = 'sync ' + s;
 }
+// 读入的数据一律先按格式清洗：有人绕过平台直接改 SharePoint，也塞不进可执行的代码
+const ISO = /^\d{4}-\d{2}-\d{2}$/, IDB = /^B[A-Z0-9]{1,15}$/, IDL = /^L[A-Z0-9]{1,15}$/;
+const dOk = v => typeof v === 'string' && ISO.test(v) ? v : null;
+const txt = v => v === null || v === undefined ? '' : String(v).replace(/[<>]/g, '');
+const prim = v => typeof v === 'number' && isFinite(v) ? v : v === null || v === undefined ? null : txt(v);
+const oneOf = (v, L) => L.includes(v) ? v : '';
+const arr = v => Array.isArray(v) ? v.filter(x => x && typeof x === 'object') : [];
+function cleanBooking(b) {
+  if (!b || typeof b !== 'object' || !IDB.test(b.id)) return null;
+  ['etd', 'eta', 'ata', 'lastUpd'].forEach(k => b[k] = dOk(b[k]));
+  ['fwd', 'carrier', 'mbl', 'lastBy'].forEach(k => b[k] = txt(b[k]));
+  b.status = oneOf(b.status, S4); b.type = oneOf(b.type, ['整柜', '拼箱']);
+  b.cont = isFinite(+b.cont) && +b.cont > 0 ? Math.round(+b.cont) : 1;
+  b.ataLegacy = !!b.ataLegacy;
+  b.etaLog = arr(b.etaLog).map(e => ({ at: dOk(e.at), from: dOk(e.from), to: dOk(e.to), reason: txt(e.reason), by: txt(e.by) })).filter(e => e.at);
+  b.reassign = arr(b.reassign).map(e => ({ at: dOk(e.at), from: txt(e.from), to: txt(e.to), by: txt(e.by) })).filter(e => e.at);
+  b.legacyConflict = Array.isArray(b.legacyConflict) ? b.legacyConflict.filter(k => /^[a-z]{1,12}$/.test(k)) : [];
+  return b;
+}
+function cleanLine(o) {
+  if (!o || typeof o !== 'object' || !IDL.test(o.id)) return null;
+  o.bid = IDB.test(o.bid || '') ? o.bid : null;
+  ['plan', 'req', 'reqBase', 'planBase', 'apick', 'closedAt'].forEach(k => o[k] = dOk(o[k]));
+  ['sup', 'po', 'origin', 'plant', 'afwd', 'note', 'closedBy'].forEach(k => o[k] = txt(o[k]));
+  o.planLoad = oneOf(o.planLoad, ['整柜', '拼箱']);
+  o.month = Number.isInteger(o.month) && o.month >= 1 && o.month <= 12 ? o.month : null;
+  o.split = Number.isInteger(o.split) && o.split > 0 ? o.split : 1;
+  o.qty = o.qty === null || o.qty === undefined || o.qty === '' || !isFinite(+o.qty) ? null : +o.qty;
+  o.closed = !!o.closed; o.closedLevel = oneOf(o.closedLevel, ['na', 'ok', 'amber', 'red']);
+  ['closedDelay', 'closedOvd'].forEach(k => o[k] = typeof o[k] === 'number' && isFinite(o[k]) ? o[k] : null);
+  o.editLog = arr(o.editLog).map(e => ({ at: dOk(e.at), k: oneOf(e.k, Object.keys(EDIT_LBL)), from: prim(e.from), to: prim(e.to), why: txt(e.why), by: txt(e.by) })).filter(e => e.at && e.k);
+  o.deleted = o.deleted && typeof o.deleted === 'object' ? { at: dOk(o.deleted.at), by: oneOf(o.deleted.by, ROLE_KEYS) || 'planner',
+    byName: txt(o.deleted.byName), reason: txt(o.deleted.reason), note: txt(o.deleted.note) } : null;
+  delete o.reopened; o.isNew = !!o.isNew;
+  return o;
+}
+let dropped = 0;
 async function load() {
   const d = await Store.loadAll();
   rows.length = 0; RM.clear(); SAVED.clear(); Object.keys(B).forEach(k => delete B[k]);
-  d.bookings.forEach(x => { const b = JSON.parse(x.json); B[b.id] = b; SAVED.set('B:' + b.id, { itemId: x.itemId, etag: x.etag, json: serBk(b) }); });
-  d.lines.forEach(x => { const o = JSON.parse(x.json); defineBK(o); rows.push(o); RM.set(o.id, o); SAVED.set('L:' + o.id, { itemId: x.itemId, etag: x.etag, json: serRow(o) }); });
+  dropped = 0;
+  const parse = s => { try { return JSON.parse(s); } catch (e) { return null; } };
+  d.bookings.forEach(x => { const b = cleanBooking(parse(x.json)); if (!b) { dropped++; return; } B[b.id] = b; SAVED.set('B:' + b.id, { itemId: x.itemId, etag: x.etag, json: serBk(b) }); });
+  d.lines.forEach(x => { const o = cleanLine(parse(x.json)); if (!o) { dropped++; return; }
+    if (o.bid && !B[o.bid]) { o.bid = null; dropped++; }          // 所属订舱记录损坏 → 先按未订舱显示
+    defineBK(o); rows.push(o); RM.set(o.id, o); SAVED.set('L:' + o.id, { itemId: x.itemId, etag: x.etag, json: serRow(o) }); });
   lastLoad = Date.now();
+  if (dropped) { console.warn(`有 ${dropped} 条记录格式不对，已跳过`); if (ME && (ME.admin || ME.role === 'log')) setTimeout(() => toast(t('dataWarn', dropped)), 600); }
 }
 function dirty() {
   const jobs = [];
