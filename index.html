@@ -1585,13 +1585,18 @@ function spStore() {
   let app, acct, siteId, listIds = {};
   const SCOPES = ['User.Read', 'Sites.ReadWrite.All'];
   const redirectUri = location.origin + location.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || location.origin;
-  async function token() {
-    try { return (await app.acquireTokenSilent({ scopes: SCOPES, account: acct })).accessToken; }
+  async function token(force) {
+    try { return (await app.acquireTokenSilent({ scopes: SCOPES, account: acct, forceRefresh: !!force })).accessToken; }
     catch (e) { await app.acquireTokenRedirect({ scopes: SCOPES, account: acct }); throw new Error('redirect'); }
   }
-  async function g(path, opt = {}, tries = 0) {
+  async function g(path, opt = {}, tries = 0, force = false) {
     const r = await fetch(path.startsWith('https:') ? path : 'https://graph.microsoft.com/v1.0' + path, {
-      ...opt, headers: { Authorization: 'Bearer ' + await token(), 'Content-Type': 'application/json', ...(opt.headers || {}) } });
+      ...opt, headers: { Authorization: 'Bearer ' + await token(force), 'Content-Type': 'application/json', ...(opt.headers || {}) } });
+    if (r.status === 401 && !force) return g(path, opt, tries, true);       // 缓存的凭证可能已失效：换一个新凭证重试一次
+    if (r.status === 401) {                                                // 仍然不行：重新登录一次（每个浏览器会话只自动跳一次，避免来回跳转）
+      let did = false; try { did = sessionStorage.getItem('ship-relogin') === '1'; sessionStorage.setItem('ship-relogin', '1'); } catch (e) {}
+      if (!did) { await app.acquireTokenRedirect({ scopes: SCOPES, account: acct, prompt: 'login' }); throw new Error('redirect'); }
+    }
     if ((r.status === 429 || r.status === 503) && tries < 4) {
       await new Promise(f => setTimeout(f, 1000 * (+r.headers.get('Retry-After') || 2 ** tries)));
       return g(path, opt, tries + 1);
@@ -1659,7 +1664,7 @@ function spStore() {
       try { sessionStorage.setItem('ship-signedout', '1'); } catch (e) {}
       await app.logoutRedirect({ account: acct, postLogoutRedirectUri: redirectUri });
     },
-    async signInAgain() { await app.loginRedirect({ scopes: SCOPES, prompt: 'select_account' }); },
+    async signInAgain() { try { sessionStorage.removeItem('ship-relogin'); } catch (e) {} await app.loginRedirect({ scopes: SCOPES, prompt: 'login' }); },
     async loadAll() {
       const wrap = a => a.map(x => ({ itemId: x.id, etag: x.eTag, json: x.fields.Data || '' })).filter(x => x.json);
       const [l, b] = await Promise.all([items('lines'), items('bookings')]);
@@ -1835,14 +1840,16 @@ async function boot() {
     };
     await Promise.all([load().catch(e => { e.message = '[读取台账] ' + e.message; throw e; }), Store.getFile('Portal/awards.json').then(j => { if (j) AW = JSON.parse(j); }).catch(e => console.warn('awards', e))]);
     gate('');
+    try { sessionStorage.removeItem('ship-relogin'); } catch (e) {}   // 正常进入后，下次再遇到 401 仍可自动重新登录
     renderAll();
     setInterval(refresh, 180000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
   } catch (e) {
     if (e.message === 'redirect') return;
     console.error(e);
-    gate(`<div class="gcard"><h2>${t('gError')}</h2><p class="muted">${esc(e.message)}</p><p class="muted" style="font-size:12px">${esc(Store.who || '')}</p><p><button class="ghost" id="gout">${t('signOut')}</button></p></div>`);
+    gate(`<div class="gcard"><h2>${t('gError')}</h2><p class="muted">${esc(e.message)}</p><p class="muted" style="font-size:12px">${esc(Store.who || '')}</p><p style="display:flex;gap:8px;justify-content:center"><button class="btn" id="grelogin">${t('gSignIn')}</button><button class="ghost" id="gout">${t('signOut')}</button></p></div>`);
     const go = $('gout'); if (go) go.onclick = () => Store.signOut();
+    const gr = $('grelogin'); if (gr) gr.onclick = () => Store.signInAgain ? Store.signInAgain() : location.reload();
   }
 }
 function showSetup(me) {
