@@ -273,9 +273,9 @@ textarea[data-a]{height:auto;min-height:150px;padding:10px 12px;font-family:var(
 @media (max-width:760px){.who #who{display:none}}
 
 .tender{display:none}
-main.tender-mode > :not(.tabbar):not(#tender){display:none!important}
-main.tender-mode #q{display:none}
-main.tender-mode .tender{display:block;margin-top:12px}
+main.tender-mode > :not(.tabbar):not(#tender),main.audit-mode > :not(.tabbar):not(#audit){display:none!important}
+main.tender-mode #q,main.audit-mode #q{display:none}
+main.tender-mode #tender,main.audit-mode #audit{display:block;margin-top:12px}
 .tframe{width:100%;border:0;border-radius:18px;background:#fff;min-height:600px;display:block;box-shadow:var(--shadow)}
 
 .signout{font:inherit;font-size:12px;padding:3px 10px;border-radius:980px;border:1px solid var(--line-strong);background:transparent;color:var(--muted);cursor:pointer}
@@ -336,6 +336,10 @@ main.tender-mode .tender{display:block;margin-top:12px}
 }
 
 a.btn{text-decoration:none}
+
+.au-h{font-size:15px;margin:18px 0 8px}
+.au-d{font-size:12.5px;min-width:220px}
+.au-d div{overflow-wrap:anywhere}
 </style>
 </head><body>
 <header class="top"><div class="wrap">
@@ -354,10 +358,12 @@ a.btn{text-decoration:none}
       <button role="tab" aria-selected="false" data-tab="hist"><span data-i18n="tabHist"></span><span class="n" id="n-hist"></span></button>
       <button role="tab" aria-selected="false" data-tab="del" id="tab-del"><span data-i18n="tabDel"></span><span class="n" id="n-del"></span></button>
       <button role="tab" aria-selected="false" data-tab="tender" id="tab-tender" class="hidden"><span data-i18n="tabTender"></span></button>
+      <button role="tab" aria-selected="false" data-tab="audit" id="tab-audit" class="hidden"><span data-i18n="tabAudit"></span></button>
     </div>
     <input id="q" type="search" data-i18n-ph="search" data-i18n-aria="search">
   </div>
   <div id="tender" class="tender"></div>
+  <div id="audit" class="tender"></div>
   <div id="tiles" class="tiles"></div>
   <div id="hsum" class="hsum hidden"></div>
   <div class="toolbar">
@@ -390,6 +396,12 @@ const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'ag
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MSG = {
   zh: {
+    tabAudit: '日志', auditNA: '还没有日志列表：请在站点里用 list_templates/ShipAudit.xlsx 导入建表（Detail 列设为多行文本），并设置成只能看自己创建的项目。',
+    aWho: '人员', aAllPeople: '全部人员', aAction: '动作', aAllAct: '全部动作', aLogin: '登录', aCreate: '新建', aEdit: '修改', aRange: '时间范围',
+    aToday: '最近 1 天', a7: '最近 7 天', a30: '最近 30 天', aAllTime: '全部', aSearch: '搜索人员 / PO / 订舱号', aReload: '刷新',
+    aPeopleTitle: '人员概况', aRoleCol: '角色', aLastLogin: '最近登录', aLogins30: '30 天登录', aEdits30: '30 天修改', aLastEdit: '最近修改',
+    aEventsTitle: n => `操作记录（${n} 条）`, aTime: '时间', aTarget: '对象', aDetail: '内容', aBid: '订舱号', aDeleted: '删除', aReason: '原因', aField: '其他字段',
+    aHint: '登录在每个浏览器会话里记一次；每次保存记一条，列出改了哪些字段、从什么改成什么。点人员概况里的一行可只看这个人。只有管理员能看到所有人的日志。',
     wMonthAw: m => `需求月份是 ${m}，但计划提货日不在 ${m}；中标货代按计划提货日所在月份确定，请确认两者是否都要改`,
     fPlantOpt: '工厂（选填）', reqAutoNote: (o, n) => `已按 ${o} 航线自动填写：计划提货日 + ${n} 天，可手动修改`, reqAutoShort: d => `要求 ETA 自动填 ${d}`,
     g401Title: '还差一步：先打开一次公司站点', g401Txt: '外部账号第一次使用（或隔一段时间后）需要先打开一次公司的 SharePoint 站点。请点下面的按钮，用同一个邮箱登录，<b>看到站点首页</b>后回到这里点「重新加载」。', gOpenSite: '打开 SharePoint 站点', gReload: '重新加载',
@@ -492,6 +504,12 @@ const MSG = {
     tImported: (n, b) => `已导入 ${n} 条需求` + (b ? `，${b} 条有错误留在框里待修正` : ''),
   },
   en: {
+    tabAudit: 'Activity log', auditNA: 'No log list yet. Create it in the site from list_templates/ShipAudit.xlsx (Detail as multiple lines of text) and set it so people only see items they created.',
+    aWho: 'Person', aAllPeople: 'Everyone', aAction: 'Action', aAllAct: 'All actions', aLogin: 'Sign-in', aCreate: 'Created', aEdit: 'Edited', aRange: 'Period',
+    aToday: 'Last day', a7: 'Last 7 days', a30: 'Last 30 days', aAllTime: 'All time', aSearch: 'Search person / PO / booking', aReload: 'Refresh',
+    aPeopleTitle: 'People', aRoleCol: 'Role', aLastLogin: 'Last sign-in', aLogins30: 'Sign-ins (30d)', aEdits30: 'Edits (30d)', aLastEdit: 'Last edit',
+    aEventsTitle: n => `Activity (${n})`, aTime: 'Time', aTarget: 'Record', aDetail: 'Changes', aBid: 'Booking', aDeleted: 'Deleted', aReason: 'Reason', aField: 'Other field',
+    aHint: 'A sign-in is recorded once per browser session; every save is recorded with the fields changed and their old and new values. Click a person to see only their activity. Only admins can see everyone’s log.',
     wMonthAw: m => `Demand month is ${m}, but the planned pickup is not in ${m}. The awarded forwarder follows the planned pickup month — check whether both need changing`,
     fPlantOpt: 'Plant (optional)', reqAutoNote: (o, n) => `Filled in for the ${o} route: planned pickup + ${n} days. You can change it`, reqAutoShort: d => `required ETA auto-filled ${d}`,
     g401Title: 'One more step: open the company site once', g401Txt: 'External accounts need to open the company SharePoint site once before first use (and sometimes again later). Click the button below, sign in with the same email, and <b>once you see the site home page</b>, come back here and click “Reload”.', gOpenSite: 'Open SharePoint site', gReload: 'Reload',
@@ -594,6 +612,12 @@ const MSG = {
     tImported: (n, b) => `Imported ${n} PO${n > 1 ? 's' : ''}` + (b ? `; ${b} with errors left in the box to fix` : ''),
   },
   es: {
+    tabAudit: 'Registro', auditNA: 'Aún no existe la lista de registro. Créela en el sitio con list_templates/ShipAudit.xlsx (Detail como texto de varias líneas) y configúrela para que cada quien solo vea sus propios elementos.',
+    aWho: 'Persona', aAllPeople: 'Todos', aAction: 'Acción', aAllAct: 'Todas las acciones', aLogin: 'Inicio de sesión', aCreate: 'Creación', aEdit: 'Edición', aRange: 'Periodo',
+    aToday: 'Último día', a7: 'Últimos 7 días', a30: 'Últimos 30 días', aAllTime: 'Todo', aSearch: 'Buscar persona / PO / reserva', aReload: 'Actualizar',
+    aPeopleTitle: 'Personas', aRoleCol: 'Rol', aLastLogin: 'Último acceso', aLogins30: 'Accesos (30 d)', aEdits30: 'Ediciones (30 d)', aLastEdit: 'Última edición',
+    aEventsTitle: n => `Actividad (${n})`, aTime: 'Hora', aTarget: 'Registro', aDetail: 'Cambios', aBid: 'Reserva', aDeleted: 'Eliminado', aReason: 'Motivo', aField: 'Otro campo',
+    aHint: 'El inicio de sesión se registra una vez por sesión del navegador; cada guardado se registra con los campos cambiados y sus valores. Haga clic en una persona para ver solo su actividad. Solo los administradores ven el registro de todos.',
     wMonthAw: m => `El mes de demanda es ${m.toLowerCase()}, pero la recolección planeada no cae en ese mes. El agente adjudicado se determina por el mes de recolección; verifique si hay que cambiar ambos`,
     fPlantOpt: 'Planta (opcional)', reqAutoNote: (o, n) => `Calculada para la ruta ${o}: recolección planeada + ${n} días. Puede modificarla`, reqAutoShort: d => `ETA requerida calculada ${d}`,
     g401Title: 'Un paso más: abra el sitio de la empresa', g401Txt: 'Las cuentas externas deben abrir una vez el sitio SharePoint de la empresa antes del primer uso (y a veces de nuevo más tarde). Haga clic en el botón, inicie sesión con el mismo correo y, <b>cuando vea la página de inicio del sitio</b>, vuelva aquí y haga clic en «Recargar».', gOpenSite: 'Abrir sitio SharePoint', gReload: 'Recargar',
@@ -1421,6 +1445,63 @@ function worse(o) {
 }
 const isClosed = o => !!o.closed && !worse(o);
 const closeDesc = (lv, d, od) => t('lv' + lv) + (od ? ' · ' + t('dNoEta', od) : d !== null && d !== undefined ? ' · ' + t('dLate', d) : '');
+/* ---------- 操作日志（仅管理员）：每个人的登录和修改 ---------- */
+let AU = null; const AF = { who: '', act: '', range: '7', q: '' }; let auShown = 200;
+const AUDIT_LBL = { eta: 'fEta', etd: 'fEtd', ata: 'fAta', status: 'fStatus', mbl: 'fMbl', carrier: 'fCarrier', cont: 'fCont', type: 'fType', fwd: 'fFwd',
+  note: 'fNote', closed: 'fClosed', apick: 'fApick', plan: 'fPlan', req: 'fReq', qty: 'fQty', planLoad: 'fPlanLoad', month: 'fMonth', origin: 'fOrigin',
+  plant: 'fPlant', sup: 'fSup', po: 'fPO', bid: 'aBid', deleted: 'aDeleted', reason: 'aReason', afwd: 'fFwd' };
+const auVal = (k, v) => v === '' || v === null || v === undefined ? '—' : k === 'status' || k === 'type' || k === 'planLoad' || k === 'reason' ? tv(String(v))
+  : k === 'closed' ? (v === true || v === 'true' ? t('yes') : t('no')) : k === 'month' ? t('monthShort', v) : String(v);
+const auTime = s => { const d = new Date(s); return isNaN(d) ? String(s || '') : d.toLocaleString(LANGS[lang], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }); };
+async function showAudit(reload) {
+  const box = $('audit');
+  if (!AU || reload) {
+    box.innerHTML = `<div class="empty">${t('gLoading')}</div>`;
+    const a = await Store.loadAudit().catch(e => { console.error(e); return null; });
+    if (!a) { box.innerHTML = `<div class="empty">${t('auditNA')}</div>`; return; }
+    AU = a.sort((x, y) => String(y.at).localeCompare(String(x.at)));
+  }
+  renderAudit();
+}
+function renderAudit() {
+  const box = $('audit'), now = Date.now(), q = AF.q.toLowerCase();
+  const inRange = e => AF.range === 'all' || now - new Date(e.at).getTime() <= (+AF.range) * DAY;
+  const people = {};
+  AU.forEach(e => { const p = people[e.email] || (people[e.email] = { name: e.user, email: e.email, role: e.role, login: null, logins: 0, edits: 0, lastEdit: null });
+    if (e.action === 'login') { if (!p.login) p.login = e.at; if (now - new Date(e.at).getTime() <= 30 * DAY) p.logins++; }
+    else { if (!p.lastEdit) p.lastEdit = e.at; if (now - new Date(e.at).getTime() <= 30 * DAY) p.edits++; } });
+  const plist = Object.values(people).sort((a, b) => String(b.login || b.lastEdit).localeCompare(String(a.login || a.lastEdit)));
+  const list = AU.filter(e => (!AF.who || e.email === AF.who) && (!AF.act || e.action === AF.act) && inRange(e) &&
+    (!q || [e.user, e.target, e.detail].some(v => String(v || '').toLowerCase().includes(q))));
+  const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? 'selected' : ''}>${esc(label)}</option>`;
+  const detail = e => { let d; try { d = JSON.parse(e.detail || 'null'); } catch (x) { d = null; }
+    if (!d || !d.ch) return '';
+    return d.ch.map(([k, a, b]) => `<div><span class="muted">${esc(t(AUDIT_LBL[k] || 'aField'))}</span> ${k === 'reason' ? esc(auVal(k, b)) : `${esc(auVal(k, a))} → <b>${esc(auVal(k, b))}</b>`}</div>`).join(''); };
+  box.innerHTML = `<div class="tt-bar">
+      <select id="a-who" aria-label="${esc(t('aWho'))}">${opt('', AF.who, t('aAllPeople'))}${plist.map(p => opt(p.email, AF.who, `${p.name} · ${p.email}`)).join('')}</select>
+      <select id="a-act" aria-label="${esc(t('aAction'))}">${[['', t('aAllAct')], ['login', t('aLogin')], ['create', t('aCreate')], ['edit', t('aEdit')]].map(([v, l]) => opt(v, AF.act, l)).join('')}</select>
+      <select id="a-range" aria-label="${esc(t('aRange'))}">${[['1', t('aToday')], ['7', t('a7')], ['30', t('a30')], ['all', t('aAllTime')]].map(([v, l]) => opt(v, AF.range, l)).join('')}</select>
+      <input id="a-q" type="search" placeholder="${esc(t('aSearch'))}" value="${esc(AF.q)}">
+      <button class="ghost" id="a-reload">${t('aReload')}</button>
+    </div>
+    <h3 class="au-h">${t('aPeopleTitle')}</h3>
+    <div class="tt-wrap"><table class="tt"><thead><tr><th>${t('aWho')}</th><th>${t('aRoleCol')}</th><th>${t('aLastLogin')}</th><th class="n">${t('aLogins30')}</th><th class="n">${t('aEdits30')}</th><th>${t('aLastEdit')}</th></tr></thead><tbody>
+      ${plist.map(p => `<tr class="tt-r" data-who="${esc(p.email)}"><td class="tt-lane"><b>${esc(p.name)}</b><span>${esc(p.email)}</span></td><td>${esc(p.role || '—')}</td><td>${esc(p.login ? auTime(p.login) : '—')}</td><td class="n">${p.logins}</td><td class="n">${p.edits}</td><td>${esc(p.lastEdit ? auTime(p.lastEdit) : '—')}</td></tr>`).join('') || `<tr><td colspan="6" class="muted">${t('empty')}</td></tr>`}
+    </tbody></table></div>
+    <h3 class="au-h">${t('aEventsTitle', list.length)}</h3>
+    <div class="tt-wrap"><table class="tt"><thead><tr><th>${t('aTime')}</th><th>${t('aWho')}</th><th>${t('aAction')}</th><th>${t('aTarget')}</th><th>${t('aDetail')}</th></tr></thead><tbody>
+      ${list.slice(0, auShown).map(e => `<tr><td class="tt-tr">${esc(auTime(e.at))}</td><td><b>${esc(e.user || '—')}</b></td><td><span class="pill ${e.action === 'login' ? 'na' : e.action === 'create' ? 'ok' : 'amber'}">${esc(t({ login: 'aLogin', create: 'aCreate', edit: 'aEdit' }[e.action] || 'aEdit'))}</span></td><td>${esc(e.target || '—')}</td><td class="au-d">${detail(e)}</td></tr>`).join('') || `<tr><td colspan="5" class="muted">${t('empty')}</td></tr>`}
+    </tbody></table></div>
+    ${list.length > auShown ? `<button class="more" id="a-more">${t('more', list.length - auShown)}</button>` : ''}
+    <p class="hint">${t('aHint')}</p>`;
+  $('a-who').onchange = e => { AF.who = e.target.value; auShown = 200; renderAudit(); };
+  $('a-act').onchange = e => { AF.act = e.target.value; auShown = 200; renderAudit(); };
+  $('a-range').onchange = e => { AF.range = e.target.value; auShown = 200; renderAudit(); };
+  const qi = $('a-q'); qi.oninput = e => { AF.q = e.target.value; const pos = qi.selectionStart; renderAudit(); const n = $('a-q'); n.focus(); n.setSelectionRange(pos, pos); };
+  $('a-reload').onclick = () => showAudit(true);
+  const mo = $('a-more'); if (mo) mo.onclick = () => { auShown += 200; renderAudit(); };
+  box.querySelectorAll('[data-who]').forEach(tr => tr.onclick = () => { AF.who = tr.dataset.who; AF.range = 'all'; renderAudit(); });
+}
 /* ---------- 招标与运价：每月中标详情（Tender/tender.json，仅内部人员有权限读取） ---------- */
 let TD = null, tenderState = 0;                   // 0 未加载 1 加载中 2 就绪
 const TF = { period: '', f: '', q: '' }, tOpen = new Set();
@@ -1505,7 +1586,10 @@ function renderTender() {
 }
 function renderAll() { renderTop();
   document.querySelector('main').classList.toggle('tender-mode', tab === 'tender');
+  document.querySelector('main').classList.toggle('audit-mode', tab === 'audit');
   $('tab-tender').classList.toggle('hidden', role === 'fw' || !!ME.fwd);
+  $('tab-audit').classList.toggle('hidden', !ME.admin);
+  if (tab === 'audit') { if (!ME.admin) tab = 'active'; else { showAudit(); flush(); return; } }
   if (tab === 'tender') { if (role === 'fw') tab = 'active'; else { showTender(); flush(); return; } } renderTiles(); renderToolbar(); renderList(); renderBar(); flush(); }
 
 [['f-month', 'month'], ['f-route', 'route'], ['f-fwd', 'fwd'], ['f-status', 'status']].forEach(([id, k]) =>
@@ -1565,7 +1649,7 @@ const CFG = {
   site: 'aithermal2.sharepoint.com:/sites/AIMXShipping',                                    // 例：ai-thermal.sharepoint.com:/sites/AIMXShipping
 };
 const MOCK = QS.has('mock');
-const LISTS = { lines: 'ShipLines', bookings: 'ShipBookings', users: 'ShipUsers' };
+const LISTS = { lines: 'ShipLines', bookings: 'ShipBookings', users: 'ShipUsers', audit: 'ShipAudit' };
 const SAVED = new Map();                       // 'L:id' / 'B:id' → { json, itemId, etag }
 const serRow = o => { const x = {}; Object.keys(o).forEach(k => { if (!BK.includes(k)) x[k] = o[k]; }); return JSON.stringify(x); };
 const serBk = b => JSON.stringify(b);
@@ -1601,6 +1685,8 @@ function mockStore() {
     },
     async getFile(path) { const r = await fetch('sharepoint_out/' + path); return r.ok ? r.text() : null; },
     async signOut() { location.reload(); },
+    async audit(ev) { try { const a = JSON.parse(localStorage.getItem(K + '-audit') || '[]'); a.push(ev); localStorage.setItem(K + '-audit', JSON.stringify(a)); } catch (e) {} },
+    async loadAudit() { try { return JSON.parse(localStorage.getItem(K + '-audit') || '[]'); } catch (e) { return []; } },
     reset() { try { localStorage.removeItem(K); } catch (e) {} },
   };
 }
@@ -1635,7 +1721,8 @@ function spStore() {
     m.Title = 'Title';
     return COLS[list] = m;
   }
-  const KEYS = { users: ['Title', 'DisplayName', 'Role', 'Forwarder'], lines: ['Title', 'Data'], bookings: ['Title', 'Data'] };
+  const KEYS = { users: ['Title', 'DisplayName', 'Role', 'Forwarder'], lines: ['Title', 'Data'], bookings: ['Title', 'Data'],
+    audit: ['Title', 'At', 'User', 'Email', 'Role', 'Action', 'Target', 'Detail'] };
   const toInternal = (list, f) => { const m = COLS[list], o = {};
     Object.entries(f).forEach(([k, v]) => { if (!m[k]) throw new Error(`列表 ${LISTS[list]} 缺少列「${k}」`); o[m[k]] = v; }); return o; };
   async function items(list) {
@@ -1701,6 +1788,17 @@ function spStore() {
       }
       const j = await g(`/sites/${siteId}/lists/${listIds[list]}/items`, { method: 'POST', body: JSON.stringify({ fields }) });
       return { itemId: j.id, etag: j.eTag };
+    },
+    async audit(ev) {                           // 操作日志：每条一行；没建 ShipAudit 列表就不记
+      if (!listIds.audit) return;
+      await cols('audit');
+      const f = toInternal('audit', { Title: ev.id, At: ev.at, User: ev.user, Email: ev.email, Role: ev.role, Action: ev.action, Target: ev.target, Detail: ev.detail });
+      await g(`/sites/${siteId}/lists/${listIds.audit}/items`, { method: 'POST', body: JSON.stringify({ fields: f }) });
+    },
+    async loadAudit() {                         // 只有站点 Owner 能读到所有人的日志（列表设了"只能看自己创建的项目"）
+      if (!listIds.audit) return null;
+      return (await items('audit')).map(x => ({ id: x.fields.Title, at: x.fields.At, user: x.fields.User, email: x.fields.Email,
+        role: x.fields.Role, action: x.fields.Action, target: x.fields.Target, detail: x.fields.Detail })).filter(e => e.id && e.id !== 'delete-me');
     },
     async getFile(path) {                       // 站点"文档"库里的文件；无权限 / 不存在 → null
       const r = await fetch(`https://graph.microsoft.com/v1.0/sites/${siteId}/drive/root:/${path.split('/').map(encodeURIComponent).join('/')}:/content`,
@@ -1811,6 +1909,37 @@ function dirty() {
     if (!m || m.json !== json) jobs.push({ kind: 'L', id: o.id, json, mirror: mirrorRow(o), itemId: m?.itemId, etag: m?.etag }); });
   return jobs;                                   // 订舱在前：PO 行引用的订舱先落库
 }
+/* ---------- 操作日志：登录每个浏览器会话记一次；每次保存把改了哪些字段、从什么改成什么记一条 ---------- */
+const AUDIT_SKIP = new Set(['etaLog', 'editLog', 'reassign', 'lastUpd', 'lastBy', 'closedAt', 'closedBy', 'closedLevel', 'closedDelay', 'closedOvd',
+  'awardAtBook', 'isNew', 'legacyConflict', 'ataLegacy', 'reqBase', 'planBase', 'id', 'split', 'reopened']);
+const auditQ = []; let auditBusy = false;
+function audit(action, target, detail) {
+  if (!ME || !Store.audit) return;
+  auditQ.push({ id: 'A' + rid(), at: new Date().toISOString(), user: ME.name, email: ME.email,
+    role: ME.admin ? (role === 'log' ? 'admin' : 'admin/' + role) : role, action, target, detail: detail ? JSON.stringify(detail) : '' });
+  drainAudit();
+}
+async function drainAudit() {
+  if (auditBusy) return; auditBusy = true;
+  while (auditQ.length) { const ev = auditQ[0]; try { await Store.audit(ev); } catch (e) { console.warn('audit', e.message); } auditQ.shift(); }
+  auditBusy = false;
+}
+const auPlain = v => v === null || v === undefined || v === '' ? '' : typeof v === 'object' ? '' : v;
+function logChange(j, prevJson) {
+  let a = {}, b = {}; try { a = prevJson ? JSON.parse(prevJson) : {}; b = JSON.parse(j.json); } catch (e) { return; }
+  const ch = [];
+  new Set([...Object.keys(a), ...Object.keys(b)]).forEach(k => {
+    if (AUDIT_SKIP.has(k)) return;
+    if (k === 'deleted') { if (!!a.deleted !== !!b.deleted) ch.push(['deleted', a.deleted ? 'Y' : '', b.deleted ? (b.deleted.reason || 'Y') : '']); return; }
+    const x = auPlain(a[k]), y = auPlain(b[k]); if (String(x) !== String(y)) ch.push([k, x, y]);
+  });
+  const last = (arr, n) => (b[arr] || []).length > (a[arr] || []).length ? b[arr][b[arr].length - 1] : null;   // 新追加的变更原因
+  const er = last('etaLog'); if (er && er.reason && prevJson) ch.push(['reason', '', er.reason]);
+  const pr = last('editLog'); if (pr && pr.why) ch.push(['reason', '', pr.why]);
+  if (!ch.length) return;
+  const target = j.kind === 'L' ? (b.po || j.id) + (b.sup ? ' · ' + b.sup : '') : j.id + (b.fwd ? ' · ' + b.fwd : '');
+  audit(prevJson ? 'edit' : 'create', target, { k: j.kind, id: j.id, ch });
+}
 async function flush() {
   if (!ME) return;
   if (flushing) { flushAgain = true; return; }
@@ -1819,7 +1948,7 @@ async function flush() {
     let jobs;
     while ((jobs = dirty()).length) {
       setSync('saving');
-      for (const j of jobs) { const r = await Store.put(j); SAVED.set(j.kind + ':' + j.id, { itemId: r.itemId, etag: r.etag, json: j.json }); }
+      for (const j of jobs) { const prev = SAVED.get(j.kind + ':' + j.id); const r = await Store.put(j); SAVED.set(j.kind + ':' + j.id, { itemId: r.itemId, etag: r.etag, json: j.json }); logChange(j, prev && prev.json); }
     }
     setSync('ok');
   } catch (e) {
@@ -1862,6 +1991,8 @@ async function boot() {
     await Promise.all([load().catch(e => { e.message = '[读取台账] ' + e.message; throw e; }), Store.getFile('Portal/awards.json').then(j => { if (j) AW = JSON.parse(j); }).catch(e => console.warn('awards', e))]);
     gate('');
     try { sessionStorage.removeItem('ship-relogin'); } catch (e) {}   // 正常进入后，下次再遇到 401 仍可自动重新登录
+    let logged = false; try { logged = sessionStorage.getItem('ship-login') === ME.email; sessionStorage.setItem('ship-login', ME.email); } catch (e) {}
+    if (!logged) audit('login', '', null);
     renderAll();
     setInterval(refresh, 180000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
