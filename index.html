@@ -1446,7 +1446,7 @@ function worse(o) {
 const isClosed = o => !!o.closed && !worse(o);
 const closeDesc = (lv, d, od) => t('lv' + lv) + (od ? ' · ' + t('dNoEta', od) : d !== null && d !== undefined ? ' · ' + t('dLate', d) : '');
 /* ---------- 操作日志（仅管理员）：每个人的登录和修改 ---------- */
-let AU = null; const AF = { who: '', act: '', range: '7', q: '' }; let auShown = 200;
+let AU = null, auAt = 0; const AF = { who: '', act: '', range: '7', q: '' }; let auShown = 200;
 const AUDIT_LBL = { eta: 'fEta', etd: 'fEtd', ata: 'fAta', status: 'fStatus', mbl: 'fMbl', carrier: 'fCarrier', cont: 'fCont', type: 'fType', fwd: 'fFwd',
   note: 'fNote', closed: 'fClosed', apick: 'fApick', plan: 'fPlan', req: 'fReq', qty: 'fQty', planLoad: 'fPlanLoad', month: 'fMonth', origin: 'fOrigin',
   plant: 'fPlant', sup: 'fSup', po: 'fPO', bid: 'aBid', deleted: 'aDeleted', reason: 'aReason', afwd: 'fFwd' };
@@ -1455,11 +1455,11 @@ const auVal = (k, v) => v === '' || v === null || v === undefined ? '—' : k ==
 const auTime = s => { const d = new Date(s); return isNaN(d) ? String(s || '') : d.toLocaleString(LANGS[lang], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }); };
 async function showAudit(reload) {
   const box = $('audit');
-  if (!AU || reload) {
-    box.innerHTML = `<div class="empty">${t('gLoading')}</div>`;
+  if (!AU || reload || Date.now() - auAt > 60000) {             // 超过 1 分钟就重新读取，别人刚写的日志也能看到
+    if (!AU) box.innerHTML = `<div class="empty">${t('gLoading')}</div>`;
     const a = await Store.loadAudit().catch(e => { console.error(e); return null; });
     if (!a) { box.innerHTML = `<div class="empty">${t('auditNA')}</div>`; return; }
-    AU = a.sort((x, y) => String(y.at).localeCompare(String(x.at)));
+    AU = a.sort((x, y) => String(y.at).localeCompare(String(x.at))); auAt = Date.now();
   }
   renderAudit();
 }
@@ -1963,6 +1963,7 @@ async function flush() {
   if (flushAgain) { flushAgain = false; flush(); }
 }
 async function refresh() {                       // 定时 / 回到页面时拉取别人的修改（编辑中不打扰）
+  if (ME && tab === 'audit' && !cur) { showAudit(true); return; }
   if (!ME || cur || flushing || dirty().length || Date.now() - lastLoad < 60000) return;
   try { await load(); renderAll(); } catch (e) { console.error(e); }
 }
