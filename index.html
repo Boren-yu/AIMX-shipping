@@ -340,6 +340,8 @@ a.btn{text-decoration:none}
 .au-h{font-size:15px;margin:18px 0 8px}
 .au-d{font-size:12.5px;min-width:220px}
 .au-d div{overflow-wrap:anywhere}
+
+a.au-sp{display:inline-flex;align-items:center;text-decoration:none;font-size:13px}
 </style>
 </head><body>
 <header class="top"><div class="wrap">
@@ -396,6 +398,14 @@ const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'ag
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MSG = {
   zh: {
+    archTag: '已归档', archBanner: (at, by, r) => `${at} 由 ${by} 归档（${r}）：迁移时没有维护的旧数据，不计入报警、待办和准时率统计。`, unarchive: '恢复为进行中', tUnarchived: '已恢复为进行中',
+    hArchived: '已归档（不计入统计）', noMonth: '无需求月份', archTitle: '批量归档旧数据', archSub: '移入历史货柜，不再计入报警和待办',
+    archIntro: c => `将把需求月份早于 ${c}（没填需求月份的按计划提货日判断）、尚未到港的需求标为「已归档」。`,
+    archCount: (n, b, u, k) => `共 ${n} 票：已订舱 ${b} 票（${k} 个订舱）、待订舱 ${u} 票`,
+    archMixed: ids => `以下订舱里还有不在本次范围内的需求，归档后这些订舱仍会以剩余需求显示在进行中：${ids}`,
+    archHint: '归档不会删除任何数据，也不会编造到港日期。每一票的归档都会记入日志；管理员和海外物流可以在历史货柜里打开某一票，点「恢复为进行中」。',
+    archConfirm: n => `确认归档 ${n} 票`, tArchived: n => `已归档 ${n} 票`,
+    aOpenSp: '在 SharePoint 查看全部日志 ↗', aOwnOnly: '平台目前只能读到你自己写入的日志（应用权限所限）。查看所有人的日志，请点右上方「在 SharePoint 查看全部日志」；或者把 ShipAudit 的「项目级权限」改成「读取所有项目」，这里就能看到全部。',
     tabAudit: '日志', auditNA: '还没有日志列表：请在站点里用 list_templates/ShipAudit.xlsx 导入建表（Detail 列设为多行文本），并设置成只能看自己创建的项目。',
     aWho: '人员', aAllPeople: '全部人员', aAction: '动作', aAllAct: '全部动作', aLogin: '登录', aCreate: '新建', aEdit: '修改', aRange: '时间范围',
     aToday: '最近 1 天', a7: '最近 7 天', a30: '最近 30 天', aAllTime: '全部', aSearch: '搜索人员 / PO / 订舱号', aReload: '刷新',
@@ -504,6 +514,14 @@ const MSG = {
     tImported: (n, b) => `已导入 ${n} 条需求` + (b ? `，${b} 条有错误留在框里待修正` : ''),
   },
   en: {
+    archTag: 'Archived', archBanner: (at, by, r) => `Archived on ${at} by ${by} (${r}): old data that was not maintained before migration. Excluded from alerts, to-dos and on-time statistics.`, unarchive: 'Restore to in progress', tUnarchived: 'Restored to in progress',
+    hArchived: 'Archived (not counted)', noMonth: 'No demand month', archTitle: 'Archive old data', archSub: 'Move to history; no longer counted in alerts or to-dos',
+    archIntro: c => `Marks as “Archived” every demand not yet arrived whose demand month is before ${c} (planned pickup is used when there is no demand month).`,
+    archCount: (n, b, u, k) => `${n} POs: ${b} booked (${k} bookings), ${u} not booked`,
+    archMixed: ids => `These bookings also hold demands outside this range; they will stay in progress with the remaining demands: ${ids}`,
+    archHint: 'Archiving deletes nothing and does not invent arrival dates. Each archived PO is logged; admins and Overseas Logistics can open it in History and click “Restore to in progress”.',
+    archConfirm: n => `Archive ${n} POs`, tArchived: n => `${n} POs archived`,
+    aOpenSp: 'View all logs in SharePoint ↗', aOwnOnly: 'The portal can currently read only the log entries you wrote yourself (an app-permission limit). To see everyone’s, use “View all logs in SharePoint”; or set ShipAudit’s item-level read access to “Read all items” to see everything here.',
     tabAudit: 'Activity log', auditNA: 'No log list yet. Create it in the site from list_templates/ShipAudit.xlsx (Detail as multiple lines of text) and set it so people only see items they created.',
     aWho: 'Person', aAllPeople: 'Everyone', aAction: 'Action', aAllAct: 'All actions', aLogin: 'Sign-in', aCreate: 'Created', aEdit: 'Edited', aRange: 'Period',
     aToday: 'Last day', a7: 'Last 7 days', a30: 'Last 30 days', aAllTime: 'All time', aSearch: 'Search person / PO / booking', aReload: 'Refresh',
@@ -612,6 +630,14 @@ const MSG = {
     tImported: (n, b) => `Imported ${n} PO${n > 1 ? 's' : ''}` + (b ? `; ${b} with errors left in the box to fix` : ''),
   },
   es: {
+    archTag: 'Archivado', archBanner: (at, by, r) => `Archivado el ${at} por ${by} (${r}): datos antiguos que no se mantuvieron antes de la migración. No cuentan en alertas, pendientes ni puntualidad.`, unarchive: 'Restaurar a en curso', tUnarchived: 'Restaurado a en curso',
+    hArchived: 'Archivados (no cuentan)', noMonth: 'Sin mes de demanda', archTitle: 'Archivar datos antiguos', archSub: 'Pasan al historial; ya no cuentan en alertas ni pendientes',
+    archIntro: c => `Marca como «Archivado» toda demanda aún no arribada cuyo mes de demanda sea anterior a ${c} (sin mes de demanda se usa la recolección planeada).`,
+    archCount: (n, b, u, k) => `${n} POs: ${b} con reserva (${k} reservas), ${u} sin reserva`,
+    archMixed: ids => `Estas reservas también tienen demandas fuera de este rango; seguirán en curso con las demandas restantes: ${ids}`,
+    archHint: 'Archivar no borra nada ni inventa fechas de arribo. Cada PO archivado queda en el registro; administradores y Logística pueden abrirlo en Historial y hacer clic en «Restaurar a en curso».',
+    archConfirm: n => `Archivar ${n} POs`, tArchived: n => `${n} POs archivados`,
+    aOpenSp: 'Ver todo el registro en SharePoint ↗', aOwnOnly: 'Por ahora el portal solo puede leer los registros que usted mismo escribió (límite de permisos de la aplicación). Para ver los de todos, use «Ver todo el registro en SharePoint»; o cambie el permiso de lectura por elemento de ShipAudit a «Leer todos los elementos» para verlo todo aquí.',
     tabAudit: 'Registro', auditNA: 'Aún no existe la lista de registro. Créela en el sitio con list_templates/ShipAudit.xlsx (Detail como texto de varias líneas) y configúrela para que cada quien solo vea sus propios elementos.',
     aWho: 'Persona', aAllPeople: 'Todos', aAction: 'Acción', aAllAct: 'Todas las acciones', aLogin: 'Inicio de sesión', aCreate: 'Creación', aEdit: 'Edición', aRange: 'Periodo',
     aToday: 'Último día', a7: 'Últimos 7 días', a30: 'Últimos 30 días', aAllTime: 'Todo', aSearch: 'Buscar persona / PO / reserva', aReload: 'Actualizar',
@@ -721,10 +747,10 @@ const MSG = {
   },
 };
 const VAL_EN = { '已订舱': 'Booked', '已提货': 'Picked up', '在途': 'On water', '已到港': 'Arrived', '待订舱': 'To book',
-  '整柜': 'FCL', '拼箱': 'LCL', '首次报告': 'First report', '迁移数据': 'Migrated from Excel', '船期延误': 'Vessel delay', '甩柜 / 改船': 'Rolled / vessel change',
+  '整柜': 'FCL', '拼箱': 'LCL', '首次报告': 'First report', '旧数据归档': 'old data archived', '迁移数据': 'Migrated from Excel', '船期延误': 'Vessel delay', '甩柜 / 改船': 'Rolled / vessel change',
   '港口拥堵': 'Port congestion', '供应商延迟出货': 'Supplier shipped late', '天气 / 不可抗力': 'Weather / force majeure', '其他': 'Other', '录入错误': 'Entry error', '重复录入': 'Duplicate entry', '需求取消': 'Demand cancelled', '生产计划调整': 'Production plan change', '客户需求变更': 'Customer demand change', '原值录入错误': 'Original value entered wrong' };
 const VAL_ES = { '已订舱': 'Reservado', '已提货': 'Recolectado', '在途': 'En tránsito', '已到港': 'Arribado', '待订舱': 'Por reservar',
-  '整柜': 'FCL', '拼箱': 'LCL', '首次报告': 'Primer reporte', '迁移数据': 'Migrado de Excel', '船期延误': 'Retraso del buque', '甩柜 / 改船': 'Roleo / cambio de buque',
+  '整柜': 'FCL', '拼箱': 'LCL', '首次报告': 'Primer reporte', '旧数据归档': 'datos antiguos archivados', '迁移数据': 'Migrado de Excel', '船期延误': 'Retraso del buque', '甩柜 / 改船': 'Roleo / cambio de buque',
   '港口拥堵': 'Congestión portuaria', '供应商延迟出货': 'Proveedor embarcó tarde', '天气 / 不可抗力': 'Clima / fuerza mayor', '其他': 'Otro', '录入错误': 'Error de captura', '重复录入': 'Captura duplicada', '需求取消': 'Demanda cancelada', '生产计划调整': 'Cambio de plan de producción', '客户需求变更': 'Cambio en la demanda del cliente', '原值录入错误': 'Valor original capturado mal' };
 const LANGS = { zh: 'zh-CN', en: 'en', es: 'es-MX' };
 let lang = 'zh';
@@ -859,8 +885,9 @@ function isTodo(o, r) {
 let ME = null, role = 'log', tab = 'active', quick = 'all', shown = PAGE, cur = null;
 const sel = new Set();
 const F = { route: '', fwd: '', status: '', month: '', q: '' };
-const active = () => rows.filter(o => !o.deleted && o.status !== '已到港');
-const hist = () => rows.filter(o => !o.deleted && o.status === '已到港');
+// 已归档：迁移时没维护的旧数据，放进历史货柜，不计入报警、待办和准时率
+const active = () => rows.filter(o => !o.deleted && !o.archived && o.status !== '已到港');
+const hist = () => rows.filter(o => !o.deleted && (o.status === '已到港' || o.archived));
 const dels = () => rows.filter(o => o.deleted);
 const tabRows = () => tab === 'active' ? active() : tab === 'hist' ? hist() : dels();
 const canSeeDel = () => role === 'planner' || role === 'log';
@@ -928,13 +955,14 @@ function renderTiles() {
   if (tab === 'del') { $('tiles').classList.add('hidden'); $('hsum').classList.add('hidden'); return; }
   if (tab === 'hist') {
     $('tiles').classList.add('hidden'); $('hsum').classList.remove('hidden');
-    const v = hist().filter(passFilters), j = v.filter(o => delayDays(o) !== null);
+    const all = hist().filter(passFilters), v = all.filter(o => !o.archived), arc = all.length - v.length, j = v.filter(o => delayDays(o) !== null);
     const on = j.filter(o => delayDays(o) <= 0).length;
     const avg = j.length ? j.reduce((s, o) => s + Math.max(0, delayDays(o)), 0) / j.length : 0;
     $('hsum').innerHTML = `<div><b>${t('nPOc', v.length, contOf(v))}</b><span>${t('arrived')}</span></div>
       <div><b>${j.length ? Math.round(on / j.length * 100) + '%' : '—'}</b><span>${t('onTimeRate', on, j.length)}</span></div>
       <div><b>${j.length ? t('days', avg.toFixed(1)) : '—'}</b><span>${t('avgDelay')}</span></div>
-      <div><b style="color:var(--amber)">${v.filter(isAlert).length}</b><span>${t('hadAlerts')}</span></div>`;
+      <div><b style="color:var(--amber)">${v.filter(isAlert).length}</b><span>${t('hadAlerts')}</span></div>
+      ${arc ? `<div><b class="muted">${arc}</b><span>${t('hArchived')}</span></div>` : ''}`;
     return;
   }
   $('tiles').classList.remove('hidden'); $('hsum').classList.add('hidden');
@@ -988,6 +1016,7 @@ function renderToolbar() {
 /* ---------- 清单 ---------- */
 function delayPill(o) {
   if (o.deleted) return `<span class="pill na">${t('deletedTitle')}</span>`;
+  if (o.archived) return `<span class="pill na">${t('archTag')}</span>`;
   const od = overdueDays(o);
   if (od >= OVERDUE_Y) return `<span class="pill ${level(o)}">${t(o.bid ? 'noEtaPill' : 'unbookedPill', od)}</span>`;
   if (!baseReq(o)) return `<span class="pill na">${t('noReq')}</span>`;
@@ -1112,8 +1141,8 @@ function showDrawer(title, sub, html, saveLabel) {
 function openDrawer(id) {
   cur = { mode: 'row', id };
   const o = R(id), b = o.bid ? B[o.bid] : null, s = stepOf(o);
-  const DEL = !!o.deleted;
-  const P = role === 'planner' && !DEL, W = role === 'fw' && !DEL && (!b || myFwd(b.fwd)), L = role === 'log' && !DEL;
+  const DEL = !!o.deleted, ARC = !!o.archived && !DEL, LOCK = DEL || ARC;
+  const P = role === 'planner' && !LOCK, W = role === 'fw' && !LOCK && (!b || myFwd(b.fwd)), L = role === 'log' && !LOCK;
   const mem = b ? members(b.id) : [];
   const LC = t('lcFields');
   const reasonSel = W ? `<div class="fld wide"><label>${t('reasonLbl')}</label><select data-k="reason"><option value="">—</option>${REASONS.map(r => `<option value="${r}">${tv(r)}</option>`).join('')}</select></div>` : '';
@@ -1142,6 +1171,7 @@ function openDrawer(id) {
   const log = b && b.etaLog.length ? `<ul class="log">${b.etaLog.slice().reverse().map(e => `<li class="${e.from ? 'chg' : ''}"><span class="when">${e.at}</span> · ${esc(e.by || t('logBy'))}<br>${e.from ? `ETA <span class="mono">${e.from}</span> → <span class="mono">${e.to}</span>` : `${t('firstEta')} <span class="mono">${e.to}</span>`}　<span class="muted">${esc(tv(e.reason))}</span></li>`).join('')}</ul>` : `<div class="muted" style="font-size:13px">${t('noEtaLog')}</div>`;
   const html = `
     <div class="bigtrk ${s === 3 ? 'done' : ''}">${S4.map((n, i) => `<div class="${i <= s ? 'on' : ''} ${i === s ? 'cur' : ''}"><i></i>${tv(n)}</div>`).join('')}</div>
+    ${ARC ? `<div class="banner na"><b>${t('archTag')}</b>${esc(t('archBanner', o.archived.at, o.archived.by || '—', tv(o.archived.reason || '')))}${role === 'log' || ME.admin ? `<div class="btnrow" style="margin-top:10px"><button class="ghost" id="unarchive">${t('unarchive')}</button></div>` : ''}</div>` : ''}
     ${DEL ? `<div class="banner na"><b>${t('deletedTitle')}</b>${esc(t('deletedBanner', o.deleted.at, t('role' + o.deleted.by) + (o.deleted.byName ? ' ' + o.deleted.byName : ''), tv(o.deleted.reason)))}${o.deleted.note ? '<br>' + esc(o.deleted.note) : ''}</div>` : banner(o)}
     ${(pi => pi ? `<div class="wn">${esc(pi.kind === 'dup' ? t('noteDup', `${pi.w.po}-${pi.w.split}`) : t('noteMis', `${pi.w.po}-${pi.w.split}`, pi.w.sup, pi.w.plant))}</div>` : '')(poIssue(o))}
     <div class="sec">${head4(t('secPlan'), 'planner')}<div class="grid">
@@ -1188,6 +1218,7 @@ function openNew(ids) {
 function closeDrawer() { $('drawer').classList.remove('open'); $('scrim').classList.remove('open'); cur = null; }
 const err = m => { $('dmsg').textContent = m; $('dmsg').className = 'msg err'; };
 function save(opts = {}) {
+  if (cur.mode === 'arch') return doArchive();
   if (cur.mode === 'add') return saveAdd(opts);
   const get = k => document.querySelector(`#dbody [data-k="${k}"]`);
   const val = k => get(k)?.value;
@@ -1445,11 +1476,36 @@ function worse(o) {
 }
 const isClosed = o => !!o.closed && !worse(o);
 const closeDesc = (lv, d, od) => t('lv' + lv) + (od ? ' · ' + t('dNoEta', od) : d !== null && d !== undefined ? ' · ' + t('dLate', d) : '');
+/* ---------- 批量归档旧数据（管理员，网址加 ?archive=2026-08-01）：需求月份早于该日（没填需求月份的看计划提货日）且未到港的需求 ---------- */
+function archCands(cut) {
+  const before = o => { if (o.month) { const y = (o.plan || cut).slice(0, 4); return `${y}-${String(o.month).padStart(2, '0')}-01` < cut; } return !!o.plan && o.plan < cut; };
+  return active().filter(before);
+}
+function openArchive(cut) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(cut || '')) return;
+  cur = { mode: 'arch', cut };
+  const list = archCands(cut), bids = [...new Set(list.map(o => o.bid).filter(Boolean))];
+  const mixed = bids.filter(id => members(id).some(r => !r.deleted && !r.archived && !list.includes(r)));
+  const byM = {}; list.forEach(o => { const k = o.month ? t('monthShort', o.month) : t('noMonth'); byM[k] = (byM[k] || 0) + 1; });
+  const html = `<p>${esc(t('archIntro', cut))}</p>
+    <div class="box" style="margin-top:12px"><div class="box-h">${esc(t('archCount', list.length, list.filter(o => o.bid).length, list.filter(o => !o.bid).length, bids.length))}</div>
+      <div class="box-i" style="cursor:default">${Object.entries(byM).map(([k, n]) => `${esc(k)} ${n}`).join(' · ') || '—'}</div></div>
+    ${mixed.length ? `<div class="wn">${esc(t('archMixed', mixed.join(', ')))}</div>` : ''}
+    <div class="box" style="margin-top:12px;max-height:260px;overflow:auto">${list.map(o => `<div class="box-i" style="cursor:default"><span>${esc(o.sup)} · <span class="mono">${esc(poLabel(o))}</span></span><span class="date">${o.plan || '—'}</span>${delayPill(o)}</div>`).join('')}</div>
+    <p class="hint">${t('archHint')}</p>`;
+  showDrawer(t('archTitle'), t('archSub'), html, list.length ? t('archConfirm', list.length) : '');
+}
+function doArchive() {
+  const list = archCands(cur.cut);
+  list.forEach(o => { o.archived = { at: TODAY, by: ME.name, reason: '旧数据归档' }; });
+  closeDrawer(); renderAll(); toast(t('tArchived', list.length));
+  try { history.replaceState(null, '', location.pathname); } catch (e) {}
+}
 /* ---------- 操作日志（仅管理员）：每个人的登录和修改 ---------- */
 let AU = null, auAt = 0; const AF = { who: '', act: '', range: '7', q: '' }; let auShown = 200;
 const AUDIT_LBL = { eta: 'fEta', etd: 'fEtd', ata: 'fAta', status: 'fStatus', mbl: 'fMbl', carrier: 'fCarrier', cont: 'fCont', type: 'fType', fwd: 'fFwd',
   note: 'fNote', closed: 'fClosed', apick: 'fApick', plan: 'fPlan', req: 'fReq', qty: 'fQty', planLoad: 'fPlanLoad', month: 'fMonth', origin: 'fOrigin',
-  plant: 'fPlant', sup: 'fSup', po: 'fPO', bid: 'aBid', deleted: 'aDeleted', reason: 'aReason', afwd: 'fFwd' };
+  plant: 'fPlant', sup: 'fSup', po: 'fPO', bid: 'aBid', deleted: 'aDeleted', archived: 'archTag', reason: 'aReason', afwd: 'fFwd' };
 const auVal = (k, v) => v === '' || v === null || v === undefined ? '—' : k === 'status' || k === 'type' || k === 'planLoad' || k === 'reason' ? tv(String(v))
   : k === 'closed' ? (v === true || v === 'true' ? t('yes') : t('no')) : k === 'month' ? t('monthShort', v) : String(v);
 const auTime = s => { const d = new Date(s); return isNaN(d) ? String(s || '') : d.toLocaleString(LANGS[lang], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }); };
@@ -1460,6 +1516,7 @@ async function showAudit(reload) {
     const a = await Store.loadAudit().catch(e => { console.error(e); return null; });
     if (!a) { box.innerHTML = `<div class="empty">${t('auditNA')}</div>`; return; }
     AU = a.sort((x, y) => String(y.at).localeCompare(String(x.at))); auAt = Date.now();
+    if (Store.auditUrl && !AF.url) AF.url = await Store.auditUrl();
   }
   renderAudit();
 }
@@ -1483,7 +1540,9 @@ function renderAudit() {
       <select id="a-range" aria-label="${esc(t('aRange'))}">${[['1', t('aToday')], ['7', t('a7')], ['30', t('a30')], ['all', t('aAllTime')]].map(([v, l]) => opt(v, AF.range, l)).join('')}</select>
       <input id="a-q" type="search" placeholder="${esc(t('aSearch'))}" value="${esc(AF.q)}">
       <button class="ghost" id="a-reload">${t('aReload')}</button>
+      ${AF.url ? `<a class="ghost au-sp" href="${esc(AF.url)}" target="_blank" rel="noopener">${t('aOpenSp')}</a>` : ''}
     </div>
+    ${Store.auditSource === 'audit' && AU.length && AU.every(e => e.email === ME.email) ? `<div class="wn" style="margin-top:10px">${t('aOwnOnly')}</div>` : ''}
     <h3 class="au-h">${t('aPeopleTitle')}</h3>
     <div class="tt-wrap"><table class="tt"><thead><tr><th>${t('aWho')}</th><th>${t('aRoleCol')}</th><th>${t('aLastLogin')}</th><th class="n">${t('aLogins30')}</th><th class="n">${t('aEdits30')}</th><th>${t('aLastEdit')}</th></tr></thead><tbody>
       ${plist.map(p => `<tr class="tt-r" data-who="${esc(p.email)}"><td class="tt-lane"><b>${esc(p.name)}</b><span>${esc(p.email)}</span></td><td>${esc(p.role || '—')}</td><td>${esc(p.login ? auTime(p.login) : '—')}</td><td class="n">${p.logins}</td><td class="n">${p.edits}</td><td>${esc(p.lastEdit ? auTime(p.lastEdit) : '—')}</td></tr>`).join('') || `<tr><td colspan="6" class="muted">${t('empty')}</td></tr>`}
@@ -1622,6 +1681,9 @@ $('dbody').addEventListener('click', e => {
     o.deleted = { at: TODAY, by: role, byName: ME.name, reason: r, note: document.querySelector('#dbody [data-k="delNote"]').value.trim() };
     sel.delete(o.id); const lbl = poLabel(o); closeDrawer(); renderAll(); toast(t('tDeleted', lbl)); return;
   }
+  if (e.target.id === 'unarchive') {
+    const o = R(cur.id); o.archived = null; renderAll(); openDrawer(o.id); toast(t('tUnarchived')); return;
+  }
   if (e.target.id === 'restore') {
     const o = R(cur.id); o.deleted = null; renderAll(); openDrawer(o.id); toast(t('tRestored')); return;
   }
@@ -1649,7 +1711,7 @@ const CFG = {
   site: 'aithermal2.sharepoint.com:/sites/AIMXShipping',                                    // 例：ai-thermal.sharepoint.com:/sites/AIMXShipping
 };
 const MOCK = QS.has('mock');
-const LISTS = { lines: 'ShipLines', bookings: 'ShipBookings', users: 'ShipUsers', audit: 'ShipAudit' };
+const LISTS = { lines: 'ShipLines', bookings: 'ShipBookings', users: 'ShipUsers', audit: 'ShipAudit', auditAll: 'ShipAuditAll' };
 const SAVED = new Map();                       // 'L:id' / 'B:id' → { json, itemId, etag }
 const serRow = o => { const x = {}; Object.keys(o).forEach(k => { if (!BK.includes(k)) x[k] = o[k]; }); return JSON.stringify(x); };
 const serBk = b => JSON.stringify(b);
@@ -1722,7 +1784,7 @@ function spStore() {
     return COLS[list] = m;
   }
   const KEYS = { users: ['Title', 'DisplayName', 'Role', 'Forwarder'], lines: ['Title', 'Data'], bookings: ['Title', 'Data'],
-    audit: ['Title', 'At', 'User', 'Email', 'Role', 'Action', 'Target', 'Detail'] };
+    audit: ['Title', 'At', 'User', 'Email', 'Role', 'Action', 'Target', 'Detail'], auditAll: ['Title', 'At', 'User', 'Email', 'Role', 'Action', 'Target', 'Detail'] };
   const toInternal = (list, f) => { const m = COLS[list], o = {};
     Object.entries(f).forEach(([k, v]) => { if (!m[k]) throw new Error(`列表 ${LISTS[list]} 缺少列「${k}」`); o[m[k]] = v; }); return o; };
   async function items(list) {
@@ -1795,9 +1857,17 @@ function spStore() {
       const f = toInternal('audit', { Title: ev.id, At: ev.at, User: ev.user, Email: ev.email, Role: ev.role, Action: ev.action, Target: ev.target, Detail: ev.detail });
       await g(`/sites/${siteId}/lists/${listIds.audit}/items`, { method: 'POST', body: JSON.stringify({ fields: f }) });
     },
-    async loadAudit() {                         // 只有站点 Owner 能读到所有人的日志（列表设了"只能看自己创建的项目"）
+    // 读日志：优先读 ShipAuditAll（Power Automate 把每条日志复制过去，只有 Owners 有权限）。
+    // ShipAudit 设了"只能看自己创建的项目"，而应用授权只到"读写"级别，Owner 的"看全部"特权用不上，经平台读只能读到自己的
+    async auditUrl() {                          // ShipAudit 在 SharePoint 里的网址（站点 Owner 在那里能看到所有人的日志）
       if (!listIds.audit) return null;
-      return (await items('audit')).map(x => ({ id: x.fields.Title, at: x.fields.At, user: x.fields.User, email: x.fields.Email,
+      try { return (await g(`/sites/${siteId}/lists/${listIds.audit}?$select=webUrl`)).webUrl; } catch (e) { return null; }
+    },
+    async loadAudit() {
+      const L = listIds.auditAll ? 'auditAll' : listIds.audit ? 'audit' : null;
+      if (!L) return null;
+      api.auditSource = L;
+      return (await items(L)).map(x => ({ id: x.fields.Title, at: x.fields.At, user: x.fields.User, email: x.fields.Email,
         role: x.fields.Role, action: x.fields.Action, target: x.fields.Target, detail: x.fields.Detail })).filter(e => e.id && e.id !== 'delete-me');
     },
     async getFile(path) {                       // 站点"文档"库里的文件；无权限 / 不存在 → null
@@ -1885,6 +1955,7 @@ function cleanLine(o) {
   o.deleted = o.deleted && typeof o.deleted === 'object' ? { at: dOk(o.deleted.at), by: oneOf(o.deleted.by, ROLE_KEYS) || 'planner',
     byName: txt(o.deleted.byName), reason: txt(o.deleted.reason), note: txt(o.deleted.note) } : null;
   delete o.reopened; o.isNew = !!o.isNew;
+  o.archived = o.archived && typeof o.archived === 'object' ? { at: dOk(o.archived.at), by: txt(o.archived.by), reason: txt(o.archived.reason) } : null;
   const ab = o.awardAtBook; o.awardAtBook = ab && typeof ab === 'object' && FORWARDERS.includes(ab.fwd) ? { fwd: ab.fwd, period: txt(ab.period) } : null;
   return o;
 }
@@ -1931,6 +2002,7 @@ function logChange(j, prevJson) {
   new Set([...Object.keys(a), ...Object.keys(b)]).forEach(k => {
     if (AUDIT_SKIP.has(k)) return;
     if (k === 'deleted') { if (!!a.deleted !== !!b.deleted) ch.push(['deleted', a.deleted ? 'Y' : '', b.deleted ? (b.deleted.reason || 'Y') : '']); return; }
+    if (k === 'archived') { if (!!a.archived !== !!b.archived) ch.push(['archived', a.archived ? 'Y' : '', b.archived ? (b.archived.reason || 'Y') : '']); return; }
     const x = auPlain(a[k]), y = auPlain(b[k]); if (String(x) !== String(y)) ch.push([k, x, y]);
   });
   const last = (arr, n) => (b[arr] || []).length > (a[arr] || []).length ? b[arr][b[arr].length - 1] : null;   // 新追加的变更原因
@@ -1991,6 +2063,7 @@ async function boot() {
     };
     await Promise.all([load().catch(e => { e.message = '[读取台账] ' + e.message; throw e; }), Store.getFile('Portal/awards.json').then(j => { if (j) AW = JSON.parse(j); }).catch(e => console.warn('awards', e))]);
     gate('');
+    if (QS.has('archive') && me.admin) setTimeout(() => openArchive(QS.get('archive')), 300);
     try { sessionStorage.removeItem('ship-relogin'); } catch (e) {}   // 正常进入后，下次再遇到 401 仍可自动重新登录
     let logged = false; try { logged = sessionStorage.getItem('ship-login') === ME.email; sessionStorage.setItem('ship-login', ME.email); } catch (e) {}
     if (!logged) audit('login', '', null);
