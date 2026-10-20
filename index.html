@@ -276,7 +276,6 @@ textarea[data-a]{height:auto;min-height:150px;padding:10px 12px;font-family:var(
 main.tender-mode > :not(.tabbar):not(#tender),main.audit-mode > :not(.tabbar):not(#audit){display:none!important}
 main.tender-mode #q,main.audit-mode #q{display:none}
 main.tender-mode #tender,main.audit-mode #audit{display:block;margin-top:12px}
-.tframe{width:100%;border:0;border-radius:18px;background:#fff;min-height:600px;display:block;box-shadow:var(--shadow)}
 
 .signout{font:inherit;font-size:12px;padding:3px 10px;border-radius:980px;border:1px solid var(--line-strong);background:transparent;color:var(--muted);cursor:pointer}
 .signout:hover{color:var(--ink);background:var(--fill-2)}
@@ -342,6 +341,70 @@ a.btn{text-decoration:none}
 .au-d div{overflow-wrap:anywhere}
 
 a.au-sp{display:inline-flex;align-items:center;text-decoration:none;font-size:13px}
+
+#notifyBtn{white-space:nowrap}
+.nf-frame{width:100%;height:520px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.nf-pick{width:16px;height:16px;margin-top:3px}
+
+/* 货代批量更新 */
+.xpanel{position:fixed;top:0;right:0;bottom:0;left:0;z-index:45;background:var(--bg);overflow:auto;padding:16px}
+.gwrap{max-width:1600px;margin:0 auto}
+.ghead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.ghead h2{margin:0;font-size:20px}.ghead p{margin:4px 0 0;font-size:13px}
+.gacts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.gbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:14px 0 8px}
+.gbar input{margin-left:auto;font:inherit;font-size:13px;border:0;background:var(--fill);border-radius:10px;padding:7px 12px;min-width:200px}
+.gchip{font:inherit;font-size:13px;border:0;background:var(--fill);border-radius:980px;padding:5px 12px;cursor:pointer;color:var(--ink)}
+.gchip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}.gchip span{opacity:.7;margin-left:2px}
+.gbulk{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--brand-wash);border-radius:12px;padding:8px 12px;margin:0 0 8px;font-size:13px}
+.gbulk select,.gbulk input{font:inherit;font-size:13px;border:0;background:var(--surface);border-radius:8px;padding:5px 8px}
+.gscroll{overflow:auto;background:var(--surface);border-radius:16px;box-shadow:var(--shadow);max-height:calc(100vh - 230px)}
+.gt{border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums;min-width:100%}
+.gt th{position:sticky;top:0;z-index:1;background:var(--surface);text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+.gt td{padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+.gt tr.gsame td{border-top:0}.gt tr.gsame .gpo{padding-left:18px}
+.gpo b{display:block}.gpo span,.gd span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap}
+.gd{white-space:nowrap;font-size:12.5px}
+.gi{font:inherit;font-size:12.5px;border:1px solid transparent;background:var(--fill-2);border-radius:6px;padding:4px 6px;color:var(--ink)}
+.gi:focus{outline:none;border-color:var(--brand);background:var(--surface)}
+.gi.gch{background:var(--amber-wash);border-color:var(--amber-solid)}
+.gi.ger,.gt tr.gerr .gi.gch{border-color:var(--red-solid)}
+.gt tr.gerrmsg td{color:var(--red);font-size:12px;padding-top:0;border-bottom:1px solid var(--line)}
+.gt tr.gerr td{background:var(--red-wash)}
+.gfb{height:26px;padding:0 8px}
+.gfbform{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:6px 0}
+.gfbform input{flex:1;min-width:220px;font:inherit;font-size:13px;border:0;background:var(--fill);border-radius:8px;padding:6px 10px}
+.gfbform select{font:inherit;font-size:13px;border:0;background:var(--fill);border-radius:8px;padding:6px 8px}
+.gfbhist{width:100%;font-size:12px;color:var(--muted)}
+.gpaste{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:14px 16px;margin:12px 0 0}
+.gpaste textarea{width:100%;font:12px/1.5 var(--mono, ui-monospace, Menlo, monospace);border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--fill-2);color:var(--ink)}
+.pendbar{display:block;width:100%;text-align:left;font:inherit;font-size:13.5px;font-weight:600;border:0;cursor:pointer;background:var(--amber-wash);color:var(--amber);border-radius:12px;padding:10px 14px;margin:0 0 10px}
+
+.updrop{margin-top:14px;border:2px dashed var(--line-strong);border-radius:16px;padding:18px;text-align:center;display:flex;flex-direction:column;gap:6px;background:var(--surface)}
+.updrop.on{border-color:var(--brand);background:var(--brand-wash)}
+.updrop b{font-size:15px}.updrop textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--fill-2);color:var(--ink);resize:vertical}
+.upcols{margin-top:12px;background:var(--surface);border-radius:12px;padding:10px 14px;font-size:13px}
+.upcols summary{cursor:pointer;font-weight:600}
+.ucols{display:flex;flex-wrap:wrap;gap:8px}
+.ucol{display:flex;flex-direction:column;gap:2px;font-size:12px;background:var(--fill-2);border-radius:8px;padding:6px 8px}
+.ucol select{font:inherit;font-size:12.5px;border:0;background:var(--surface);border-radius:6px;padding:3px 6px}
+.au-h.err{color:var(--red)}
+
+.tb-acts{margin-left:auto;display:flex;gap:8px;align-items:center;flex:none}
+.toolbar .tb-acts #addBtn{margin-left:0;height:32px}
+.tb-acts .ghost{height:32px}
+@media (max-width:760px){.tb-acts{flex:1 1 100%;margin-left:0}.tb-acts>button{flex:1 1 0;height:38px}}
+.rbulk{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 8px;font-size:13px}
+.rbulk label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.db > *{flex-shrink:0}
+.pcard{background:var(--surface);border:.5px solid var(--line-strong);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.pcard.bad{border:1.5px solid var(--amber)}
+.pc-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:13.5px}
+.pc-po{font-size:15.5px}
+.pc-warn{color:var(--amber);font-size:12.5px;font-weight:600;margin-left:auto}
+.pc-note{font-size:12.5px;background:var(--fill-2);border-radius:8px;padding:7px 10px;line-height:1.5}
+.pc-req{font-size:12.5px;margin-top:-4px}
+.pcard .btnrow{margin:0}
 </style>
 </head><body>
 <header class="top"><div class="wrap">
@@ -362,6 +425,7 @@ a.au-sp{display:inline-flex;align-items:center;text-decoration:none;font-size:13
       <button role="tab" aria-selected="false" data-tab="tender" id="tab-tender" class="hidden"><span data-i18n="tabTender"></span></button>
       <button role="tab" aria-selected="false" data-tab="audit" id="tab-audit" class="hidden"><span data-i18n="tabAudit"></span></button>
     </div>
+    <button class="ghost hidden" id="notifyBtn"></button>
     <input id="q" type="search" data-i18n-ph="search" data-i18n-aria="search">
   </div>
   <div id="tender" class="tender"></div>
@@ -374,8 +438,14 @@ a.au-sp{display:inline-flex;align-items:center;text-decoration:none;font-size:13
     <select id="f-fwd" data-i18n-aria="ariaFwd"></select>
     <select id="f-status" data-i18n-aria="ariaStatus"></select>
     <button class="clear hidden" id="clear" data-i18n="clear"></button>
-    <button class="btn hidden" id="addBtn" data-i18n="addBtn"></button>
+    <div class="tb-acts">
+      <button class="ghost hidden" id="fwGridBtn" data-i18n="gOpen"></button>
+      <button class="btn hidden" id="fwUpBtn" data-i18n="upOpen"></button>
+      <button class="ghost hidden" id="addBtn" data-i18n="addBtn"></button>
+      <button class="btn hidden" id="plUpBtn" data-i18n="plUpOpen"></button>
+    </div>
   </div>
+  <button class="pendbar hidden" id="pendBar"></button>
   <div class="list" id="list"></div>
   <p class="hint" id="hint"></p>
   <p class="note" data-i18n="note"></p>
@@ -388,6 +458,9 @@ a.au-sp{display:inline-flex;align-items:center;text-decoration:none;font-size:13
   <div class="db" id="dbody"></div>
   <div class="df" id="dfoot"><button class="btn" id="save" data-i18n="save"></button><button class="ghost hidden" id="save2" data-i18n="saveAgain"></button><span class="msg" id="dmsg"></span></div>
 </aside>
+<div class="xpanel hidden" id="fwgrid" role="dialog" aria-modal="true"></div>
+<div class="xpanel hidden" id="fwup" role="dialog" aria-modal="true"></div>
+<div class="xpanel hidden" id="plup" role="dialog" aria-modal="true"></div>
 <div class="toast" id="toast"></div>
 
 <div class="gate hidden" id="gate"></div>
@@ -398,6 +471,60 @@ const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'ag
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MSG = {
   zh: {
+    plUpOpen: '⬆ 上传需求表', plUpTitle: '上传需求表', plUpSub: '直接上传你们平时维护的需求表（比如 AIMX input），格式不用改。平台找出新增、修改和取消的需求，确认后一次写入。',
+    plApply: n => `确认写入（${n} 项）`, plDrop: '把需求表拖到这里', plKAdd: '新增', plKEdit: '修改', plKCancel: '取消', plKErr: '有错误',
+    plNeedReason: n => `这 ${n} 票已订舱或已报警，改日期要选原因（可勾选后批量设置）`, plSecAdd: n => `新增需求（${n}）`, plSecEdit: n => `修改（${n}）`, plSecCancel: n => `表里标记取消（${n}）`, plWillDelete: '确认后删除（可恢复）',
+    plSecAbsent: n => `平台里有、这份表里没有的需求（${n}）`, plAbsentHelp: '只做提醒，不会自动删除。确实已经取消的，勾选后会一起删除（原因：需求取消，可在「已删除」里恢复）。',
+    plUpHint: '表里空着的格子表示不修改。同一个 PO 出现多次，按先后对应平台里的第 1、2、3 批；装载写 Cancel 的视为取消。已订舱的需求不能通过上传删除。',
+    plDelNoteCancel: '需求表中标记为 Cancel', plDelNoteAbsent: '上传需求表时确认已取消', plDone: n => `已写入 ${n} 项`, plCancelBooked: (po, b) => `${po} 已订舱（${b}），不能直接取消，请在平台上联系货代处理`,
+    pf_po: 'PO', pf_month: '需求月份', pf_load: '装载需求', pf_origin: '起运地', pf_plant: '工厂', pf_sup: '供应商', pf_qty: '数量（托）', pf_plan: '计划提货日', pf_req: '要求 ETA', pf_note: '备注',
+    upOpen: '⬆ 上传报表', gOpen: '✎ 批量修改', upTitle: '上传报表', upSub: '直接上传你们平时用的报表，格式不用改。平台会自动识别各列，按柜子列出这次的变化，确认后一次写入。',
+    upApply: n => `确认写入（${n} 柜）`, upDrop: '把报表拖到这里', upDropSub: '支持 .xlsx / .xls / .csv，可以一次选多个文件、文件里可以有多个工作表；也可以在下框直接粘贴表格内容',
+    upPick: '选择文件', upPastePh: '或者：在 Excel 里选中整张表复制，点这里粘贴', upBadFile: n => `无法读取 ${n}`, upPasted: '粘贴的内容', upNoPo: '没有在表里找到 PO 号（CGDD 开头的 9 位数字）',
+    upCols: (f, n) => `已识别：${f} · ${n} 行 PO（点开查看或调整各列的含义）`, upColsHelp: '平台按表头自动判断每一列是什么。认错或没认出的，在这里改一次，平台会记住你们的格式，下次自动对上。', upIgnore: '（不用这一列）',
+    upMatched: n => `对上了平台里的 ${n} 票`, upKNew: '新订舱', upKEta: 'ETA 变更', upKArr: '已到港', upKSame: '无变化', upKMiss: '平台没有的 PO', upKNot: '属于别家的 PO',
+    rbAll: '全选', rbBulk: n => `勾选的 ${n} 项统一设为`, rbLeft: n => n ? `还有 ${n} 项未选` : '已全部选好',
+    upNeedReason: n => `这 ${n} 柜的 ETA 有变化，请选原因（可勾选后批量设置）`, upSecNew: n => `新订舱（${n}）`, upSecEta: n => `ETA 变更（${n}）`, upSecArr: n => `已到港（${n}）`, upSecOth: n => `其他更新（${n}）`,
+    upSecMiss: n => `⚑ 平台里没有的 PO（${n}）：如果是计划员漏录，请报告`, upSecNot: n => `⚑ 在平台里属于别家货代的 PO（${n}）`, upAbsent: n => `你们在平台上还有 ${n} 柜进行中，但这份报表里没有提到（点开查看）`,
+    upMissSend: n => `一键报告勾选的 ${n} 个漏单`, upMissDone: n => `已报告 ${n} 个漏单，等计划员确认`, upMissLack: x => `缺${x}，点右边「报告漏单」补全`, upMissFrom: f => `来自上传的报表：${f}`, upMissPlanGuess: '计划提货日暂按报表里的提货 / 开船日',
+    upHint: '「无变化」的柜子在确认后记为「本周已确认」，不会再出现在"超过 7 天未更新"里。没有订舱号也没有提单号的待订舱行无法建立订舱，请在报表里补上。',
+    upConfirmAudit: n => `本周确认无变化 ${n} 柜`, upDone: (n, m) => `已写入 ${n} 处更新，${m} 柜确认无变化`,
+    uf_po: 'PO', uf_bkno: '订舱号', uf_mbl: '提单号', uf_carrier: '承运人', uf_cont: '柜数', uf_apick: '实际提货日', uf_etd: 'ETD', uf_eta: 'ETA', uf_ata: '实际到港日', uf_status: '状态', uf_sup: '供应商', uf_origin: '起运地', uf_plant: '工厂', uf_plan: '计划提货日', uf_qty: '数量', uf_note: '备注',
+    repDup: po => `${po} 已经报告过，正在等计划员确认`,
+    gNotSaved: '这一行没有保存，请检查后再试',
+    gTitle: '批量修改', gSub: '直接在表格里改，改过的格子标黄；同一订舱的几行会一起改。点「保存」后统一检查并写入。',
+    gDiscard: n => `还有 ${n} 行改动没有保存，确定关闭吗？`, gReportBtn: '报告漏单', gSave: n => n ? `保存 ${n} 行改动` : '保存',
+    gAll: '全部', gUnbooked: '待订舱', gBooked: '已订舱', gAlert: '有报警', gChanged: '已修改', gSelN: n => `已勾选 ${n} 行`, gBulkPh: '要填入的值', gBulkGo: '填入勾选的行',
+    gBulkHint: '勾选几票待订舱的需求，给「订舱号」填同一个值，保存后就合并成一个订舱', gBk: '订舱 / 提醒', notBookedS: '待订舱',
+    gHint: '小技巧：从自己的 Excel 复制一整列（比如 ETA），点表格里对应列的第一格粘贴，会往下依次填入。改了已有的 ETA 要选「ETA 变更原因」。每行最右边的 ⚑ 可以反馈问题。',
+    fbBtn: '反馈问题', fb_wrongInfo: 'PO 信息有误', fb_notOurs: '不是我们的货', fb_other: '其他问题', fbNotePh: '写明哪里不对，例如：供应商应为 PMC', fbSend: '提交反馈',
+    fbNeedNote: '请写明具体情况', fbSent: '反馈已提交，计划员 / 海外物流会处理', fbSt_open: '待处理', fbSt_done: '已处理', fbTag: '货代反馈',
+    fbResPh: '处理结果，例如：已改为 PMC', fbResolve: '标记已处理', fbResNeed: '请写明处理结果', fbResolved: '已标记处理', fbDoneBy: (by, at, r) => `${by} ${at} 已处理：${r}`, gNotOurs: w => `在平台里属于 ${w}，不是你们的`,
+    repTitle: '报告漏单', repHelp: '你们手上有、但平台里没有的 PO。提交后由计划员确认，确认后才会成为正式需求出现在你的列表里。', repNote: '说明',
+    repSend: '提交给计划员', repNeed: '请填写正确的 PO、供应商、起运地和计划提货日', repExists: po => `平台里已经有 ${po}`, repSent: po => `已报告 ${po}，等待计划员确认`,
+    repMine: n => `我报告的漏单（${n}）`, repSt_open: '待确认', repSt_ok: '已确认', repSt_rej: '已驳回',
+    gSavedAll: n => `已保存 ${n} 处改动`, gSavedSome: (a, b) => `已保存 ${a} 处；${b} 行有问题，留在表里标红，请改正后再保存`,
+    pendBar: n => `⚑ 货代报告了 ${n} 票漏单，等待确认`, pendTitle: n => `货代报告的漏单（${n}）`, pendSub: '确认后成为正式需求；驳回要写明原因', pendTag: '漏单报告',
+    pendHelp: '核对计划提货日、起运地等信息，有误可以直接在这里改；确认后成为正式需求。', pendBy: (f, by, at) => `${f} · ${by} 于 ${at} 报告`, pendFix: '计划提货日或起运地不对，请改正后再确认', pendReq: d => `要求 ETA 将按航线自动填为 ${d}`, upSecGone: n => `平台里已删除的 PO（${n}）：计划员删过，不算漏单，有疑问请联系计划员`,
+    pendOk: '确认，加入需求', pendRej: '驳回', pendRejPh: '驳回原因', pendRejNeed: '请写明驳回原因', pendConfirmed: f => `确认货代 ${f} 报告的漏单`,
+    pendOkDone: po => `${po} 已加入需求`, pendRejected: n => `驳回货代漏单报告：${n}`, pendRejDone: po => `已驳回 ${po}`,
+    xlFwNoMatch: po => `平台里找不到 PO ${po}：新需求请先由计划员录入`, xlAmbig: (po, n) => `PO ${po} 在平台里有 ${n} 行，无法确定是哪一行：请从平台下载带行号的表再填写`, xEtaReason: 'ETA 变更原因',
+    xJoinBk: '并入已有订舱', xNewBk: '新建订舱', xlLibFail: 'Excel 组件加载失败，请检查网络后重试',
+    xlRoleOnly: '只有计划员和货代可以导入；管理员请先在右上角切换到计划员或货代视角', xlNoLine: id => `找不到行号 ${id}：这一行可能已被删除或不是本平台的数据`,
+    xlSkipClosed: po => `${po} 已删除或已归档，跳过`, xlBadVal: (l, v) => `「${l}」的值无法识别：${v}`, xlLocked: (po, f) => `${po} 已订舱，需求字段（${f}）不能改，已忽略`,
+    xlFwNoNew: '货代不能新增需求行；新增需求请联系计划员', xlNotOwn: po => `${po} 不是你公司的订舱或指派给你的需求，已忽略`, xlNeedBkno: po => `${po} 还没订舱：请先填写订舱号`,
+    xlClash: (k, f, r) => `${k}：同一订舱的几行填写不一致（${f}，见第 ${r} 行）`, xlRouteMix: k => `订舱号 ${k}：几票需求的起运地不同，不能拼在同一订舱`, xlErrs: n => `有错误，不会导入（${n}）`, xlRow: n => `第 ${n} 行`, xlNotes: n => `已忽略（${n}）`,
+    fBkno: '订舱号', fFwNote: '货代备注', fPlNote: '计划员备注',
+    aNotify: '发提醒',
+    nfBtn: '📧 发送本周提醒', nfBtnSent: '📧 本周提醒已发送', nfTitle: '每周提醒邮件', nfSub: w => `${w} · 由 Power Automate 从你的邮箱发出`,
+    nfNoList: '还没有 ShipNotify 列表。请在站点里用 list_templates/ShipNotify.xlsx 导入建表（Body 列设为多行文本），并配置 Power Automate 发信流程。',
+    nfHint: '每位计划员和货代一封，内容与各自的「我的待办」一致；没有待办的人不发。本周已发过的默认不勾选。', nfNone: '本周无待办，不发送', nfSent: '本周已发送',
+    nfPreview: '预览', nfSend: n => `发送 ${n} 封`, nfDone: n => `已提交 ${n} 封提醒邮件，Power Automate 会在几分钟内从你的邮箱发出`, nfFail: (n, m) => `已提交 ${n} 封后出错：${m}`, nfNoUsers: '人员名单里还没有计划员或货代',
+    mfSubjFw: (c, w) => `【海运出运协同平台】${c} 本周待办（${w}）`, mfSubjPl: (c, w) => `【海运出运协同平台】计划员本周待办（${w}）`, mfHello: n => `${n} 您好：`,
+    mfIntroFw: (c, n) => `以下是 ${c} 本周需要在平台上处理的 ${n} 票货物，请在本周内登录平台更新。`, mfIntroPl: (c, n) => `以下是本周需要计划员处理的 ${n} 票需求，请登录平台确认。`,
+    mfUnbooked: n => `两周内要提货、尚未订舱（${n}）`, mfNoEta: n => `已订舱但计划提货日已过，仍没有 ETA（${n}）`, mfStale: n => `超过 7 天没有更新（${n}）`, mfDelay: n => `ETA 比要求晚 2 周以上（${n}）`,
+    mfNoReq: n => `缺少要求 ETA（${n}）`, mfRed: n => `红色预警，请评估对生产的影响（${n}）`, mfPoIssue: n => `PO 疑似重复或录错（${n}）`, mfMore: n => `另有 ${n} 票未列出，请登录平台查看。`,
+    mfBtn: '打开平台', mfFoot: '此邮件由海运出运协同平台每周生成，内容与平台上的「我的待办」一致。请直接在平台上更新，不需要回复邮件或发送 Excel。',
     archTag: '已归档', archBanner: (at, by, r) => `${at} 由 ${by} 归档（${r}）：迁移时没有维护的旧数据，不计入报警、待办和准时率统计。`, unarchive: '恢复为进行中', tUnarchived: '已恢复为进行中',
     hArchived: '已归档（不计入统计）', noMonth: '无需求月份', archTitle: '批量归档旧数据', archSub: '移入历史货柜，不再计入报警和待办',
     archIntro: c => `将把需求月份早于 ${c}（没填需求月份的按计划提货日判断）、尚未到港的需求标为「已归档」。`,
@@ -462,7 +589,7 @@ const MSG = {
     todoplanner: '待补要求ETA / 待评估 / 核对PO', todofw: '待订舱 / 本周未更新', todolog: '报警待处置',
     nPOc: (n, c) => `${n} 票 · ${c} 柜`, arrived: '已到港', onTimeRate: (a, b) => `准时到港率（${a}/${b}）`,
     avgDelay: '平均延误', days: x => `${x} 天`, hadAlerts: '曾触发报警',
-    tileAll: c => `进行中票数 · 已订舱 ${c} 柜`, tileRed: '红色预警 · 晚 ≥4 周 / 超期 ≥14 天未订舱', tileAmber: '黄色提醒 · 晚 ≥2 周 / 超期 ≥7 天未订舱', tileTodo: x => `我的待办 · ${x}`,
+    tileAll: c => `进行中票数 · 已订舱 ${c} 柜`, tileTodo: x => `我的待办 · ${x}`,
     allMonths: '全部需求月份', monthOpt: (n, a) => `(${n}${a ? ' · 预警 ' + a : ''})`,
     monthLabel: m => m ? `${m} 月需求` : '未填月份', monthShort: m => `${m} 月`,
     allRoutes: '全部航线', allFwd: '全部货代', allStatus: '全部状态', unassigned: '（未指定）', notAssigned: '未指定',
@@ -514,6 +641,60 @@ const MSG = {
     tImported: (n, b) => `已导入 ${n} 条需求` + (b ? `，${b} 条有错误留在框里待修正` : ''),
   },
   en: {
+    plUpOpen: '⬆ Upload demand sheet', plUpTitle: 'Upload demand sheet', plUpSub: 'Upload the demand sheet you already maintain (e.g. AIMX input) as is. The portal finds new, changed and cancelled demand and writes it all after one confirmation.',
+    plApply: n => `Confirm (${n} items)`, plDrop: 'Drop your demand sheet here', plKAdd: 'New', plKEdit: 'Changed', plKCancel: 'Cancelled', plKErr: 'Errors',
+    plNeedReason: n => `${n} demands are booked or alerted — choose a reason for the date change (tick rows to set them all at once)`, plSecAdd: n => `New demand (${n})`, plSecEdit: n => `Changes (${n})`, plSecCancel: n => `Marked as cancelled (${n})`, plWillDelete: 'Deleted after confirming (can be restored)',
+    plSecAbsent: n => `In the portal but not in this sheet (${n})`, plAbsentHelp: 'For your information only — nothing is deleted automatically. Tick the ones that are really cancelled to delete them too (reason: demand cancelled; restorable from Deleted).',
+    plUpHint: 'Empty cells mean no change. A PO that appears several times maps in order to splits 1, 2, 3 in the portal; load type “Cancel” means cancelled. Booked demand cannot be deleted by upload.',
+    plDelNoteCancel: 'Marked Cancel in the demand sheet', plDelNoteAbsent: 'Confirmed cancelled when uploading the demand sheet', plDone: n => `${n} items written`, plCancelBooked: (po, b) => `${po} is booked (${b}) and cannot be cancelled here; handle it with the forwarder in the portal`,
+    pf_po: 'PO', pf_month: 'Demand month', pf_load: 'Load', pf_origin: 'Origin', pf_plant: 'Plant', pf_sup: 'Supplier', pf_qty: 'Qty (pallets)', pf_plan: 'Planned pickup', pf_req: 'Required ETA', pf_note: 'Comments',
+    upOpen: '⬆ Upload report', gOpen: '✎ Bulk edit', upTitle: 'Upload report', upSub: 'Upload the report you already use — no format changes. The portal recognizes the columns, lists what changed per container, and writes everything after one confirmation.',
+    upApply: n => `Confirm (${n} containers)`, upDrop: 'Drop your report here', upDropSub: '.xlsx / .xls / .csv, several files and sheets at once; or paste the table content below',
+    upPick: 'Choose files', upPastePh: 'Or copy the whole sheet in Excel and paste it here', upBadFile: n => `Cannot read ${n}`, upPasted: 'Pasted content', upNoPo: 'No PO numbers found (9 digits after CGDD)',
+    upCols: (f, n) => `Recognized: ${f} · ${n} PO rows (open to check or adjust the columns)`, upColsHelp: 'Columns are recognized from the headers. Fix any wrong one here once; the portal remembers your format next time.', upIgnore: '(ignore this column)',
+    upMatched: n => `Matched ${n} lines in the portal`, upKNew: 'New bookings', upKEta: 'ETA changes', upKArr: 'Arrived', upKSame: 'No change', upKMiss: 'POs not in portal', upKNot: 'Other forwarders’ POs',
+    rbAll: 'Select all', rbBulk: n => `Set the ${n} ticked to`, rbLeft: n => n ? `${n} still to choose` : 'All set',
+    upNeedReason: n => `ETA changed on ${n} containers — choose a reason (tick rows to set them all at once)`, upSecNew: n => `New bookings (${n})`, upSecEta: n => `ETA changes (${n})`, upSecArr: n => `Arrived (${n})`, upSecOth: n => `Other updates (${n})`,
+    upSecMiss: n => `⚑ POs not in the portal (${n}): report them if the planner missed them`, upSecNot: n => `⚑ POs that belong to other forwarders (${n})`, upAbsent: n => `You have ${n} more containers in progress that this report does not mention (open to see)`,
+    upMissSend: n => `Report the ${n} ticked missing POs`, upMissDone: n => `Reported ${n} missing POs — waiting for the planner`, upMissLack: x => `Missing ${x} — use “Report missing PO” on the right to fill it in`, upMissFrom: f => `From uploaded report: ${f}`, upMissPlanGuess: 'Planned pickup taken from the report’s pickup / ETD date for now',
+    upHint: 'Containers with no change are recorded as confirmed this week and drop out of “not updated for 7 days”. Unbooked rows with neither booking number nor B/L cannot create a booking — add one in your report.',
+    upConfirmAudit: n => `Confirmed no change on ${n} containers`, upDone: (n, m) => `${n} updates written, ${m} containers confirmed with no change`,
+    uf_po: 'PO', uf_bkno: 'Booking No.', uf_mbl: 'B/L', uf_carrier: 'Carrier', uf_cont: 'Containers', uf_apick: 'Actual pickup', uf_etd: 'ETD', uf_eta: 'ETA', uf_ata: 'Actual arrival', uf_status: 'Status', uf_sup: 'Supplier', uf_origin: 'Origin', uf_plant: 'Plant', uf_plan: 'Planned pickup', uf_qty: 'Qty', uf_note: 'Comments',
+    repDup: po => `${po} was already reported and is waiting for the planner`,
+    gNotSaved: 'This row was not saved; check it and try again',
+    gTitle: 'Bulk edit', gSub: 'Edit right in the table; changed cells turn yellow and rows of the same booking change together. “Save” checks everything before writing.',
+    gDiscard: n => `${n} rows have unsaved changes. Close anyway?`, gReportBtn: 'Report missing PO', gSave: n => n ? `Save ${n} rows` : 'Save',
+    gAll: 'All', gUnbooked: 'Not booked', gBooked: 'Booked', gAlert: 'Alerts', gChanged: 'Changed', gSelN: n => `${n} rows selected`, gBulkPh: 'Value to fill', gBulkGo: 'Fill selected rows',
+    gBulkHint: 'Select several unbooked demands and give them the same Booking No.; after saving they become one booking', gBk: 'Booking / alert', notBookedS: 'Not booked',
+    gHint: 'Tip: copy a whole column (e.g. ETA) from your Excel and paste it into the first cell of that column here — it fills downward. Changing an existing ETA needs an ETA change reason. Use ⚑ at the end of a row to report a problem.',
+    fbBtn: 'Report a problem', fb_wrongInfo: 'Wrong PO details', fb_notOurs: 'Not our shipment', fb_other: 'Other problem', fbNotePh: 'Say what is wrong, e.g. supplier should be PMC', fbSend: 'Send',
+    fbNeedNote: 'Describe the problem', fbSent: 'Sent. The planner / Overseas Logistics will follow up', fbSt_open: 'Open', fbSt_done: 'Resolved', fbTag: 'Forwarder feedback',
+    fbResPh: 'Resolution, e.g. changed to PMC', fbResolve: 'Mark resolved', fbResNeed: 'Describe how it was resolved', fbResolved: 'Marked resolved', fbDoneBy: (by, at, r) => `Resolved by ${by} on ${at}: ${r}`, gNotOurs: w => `belongs to ${w} in the portal, not to you`,
+    repTitle: 'Report missing PO', repHelp: 'A PO you are handling that is not in the portal. The planner confirms it before it becomes demand in your list.', repNote: 'Comments',
+    repSend: 'Send to planner', repNeed: 'Enter a valid PO, supplier, origin and planned pickup', repExists: po => `${po} is already in the portal`, repSent: po => `${po} reported; waiting for the planner`,
+    repMine: n => `Missing POs I reported (${n})`, repSt_open: 'Waiting', repSt_ok: 'Confirmed', repSt_rej: 'Rejected',
+    gSavedAll: n => `${n} changes saved`, gSavedSome: (a, b) => `${a} saved; ${b} rows have problems and stay highlighted in red — fix and save again`,
+    pendBar: n => `⚑ Forwarders reported ${n} missing POs to confirm`, pendTitle: n => `Missing POs reported by forwarders (${n})`, pendSub: 'Confirm to add as demand; a rejection needs a reason', pendTag: 'Missing PO report',
+    pendHelp: 'Check the planned pickup, origin and other details and correct them here if needed; confirming adds the demand.', pendBy: (f, by, at) => `${f} · reported by ${by} on ${at}`, pendFix: 'Planned pickup or origin looks wrong — correct it before confirming', pendReq: d => `Required ETA will be set by route to ${d}`, upSecGone: n => `POs deleted in the portal (${n}): the planner removed them, so they are not missing — ask the planner if unsure`,
+    pendOk: 'Confirm and add', pendRej: 'Reject', pendRejPh: 'Reason for rejecting', pendRejNeed: 'Enter a reason for rejecting', pendConfirmed: f => `Confirmed missing PO reported by ${f}`,
+    pendOkDone: po => `${po} added to demand`, pendRejected: n => `Forwarder missing-PO report rejected: ${n}`, pendRejDone: po => `${po} rejected`,
+    xlFwNoMatch: po => `PO ${po} is not in the portal: new demand must be added by the planner first`, xlAmbig: (po, n) => `PO ${po} has ${n} lines in the portal and the row cannot be matched: download a sheet with line IDs from the portal`, xEtaReason: 'ETA change reason',
+    xJoinBk: 'Join existing booking', xNewBk: 'New booking', xlLibFail: 'Could not load the Excel component. Check your connection and try again',
+    xlRoleOnly: 'Only planners and forwarders can import. Admins: switch to the planner or forwarder view first', xlNoLine: id => `Line ID ${id} not found: it may have been deleted or is not portal data`,
+    xlSkipClosed: po => `${po} is deleted or archived; skipped`, xlBadVal: (l, v) => `“${l}” value not recognized: ${v}`, xlLocked: (po, f) => `${po} is booked; demand fields (${f}) cannot change and were ignored`,
+    xlFwNoNew: 'Forwarders cannot add demand rows. Ask the planner to add new demand', xlNotOwn: po => `${po} is not your booking or assigned to you; ignored`, xlNeedBkno: po => `${po} is not booked yet: enter a Booking No. first`,
+    xlClash: (k, f, r) => `${k}: rows of the same booking disagree (${f}; rows ${r})`, xlRouteMix: k => `Booking No. ${k}: the demands come from different origins and cannot share a booking`, xlErrs: n => `Errors — will not be imported (${n})`, xlRow: n => `Row ${n}`, xlNotes: n => `Ignored (${n})`,
+    fBkno: 'Booking No.', fFwNote: 'Forwarder comments', fPlNote: 'Planner comments',
+    aNotify: 'Reminders',
+    nfBtn: '📧 Send weekly reminders', nfBtnSent: '📧 Reminders sent this week', nfTitle: 'Weekly reminder emails', nfSub: w => `${w} · sent from your mailbox by Power Automate`,
+    nfNoList: 'There is no ShipNotify list yet. Create it in the site from list_templates/ShipNotify.xlsx (Body as multiple lines of text) and set up the Power Automate sending flow.',
+    nfHint: 'One email per planner and forwarder, matching their own “My to-do”. People with nothing to do get nothing. Anyone already sent this week is unticked.', nfNone: 'Nothing to do this week, not sent', nfSent: 'sent this week',
+    nfPreview: 'Preview', nfSend: n => `Send ${n}`, nfDone: n => `${n} reminder emails queued; Power Automate will send them from your mailbox within minutes`, nfFail: (n, m) => `Error after ${n} queued: ${m}`, nfNoUsers: 'No planners or forwarders in the people list yet',
+    mfSubjFw: (c, w) => `[Ocean Shipment Portal] ${c} to-do this week (${w})`, mfSubjPl: (c, w) => `[Ocean Shipment Portal] Planner to-do this week (${w})`, mfHello: n => `Hello ${n},`,
+    mfIntroFw: (c, n) => `These ${n} shipments for ${c} need updating in the portal this week.`, mfIntroPl: (c, n) => `These ${n} demands need a planner’s attention this week. Please check them in the portal.`,
+    mfUnbooked: n => `Pickup within 2 weeks, not booked (${n})`, mfNoEta: n => `Booked, pickup date passed, still no ETA (${n})`, mfStale: n => `Not updated for over 7 days (${n})`, mfDelay: n => `ETA 2+ weeks later than required (${n})`,
+    mfNoReq: n => `Missing required ETA (${n})`, mfRed: n => `Red alerts — assess production impact (${n})`, mfPoIssue: n => `Possible duplicate or wrong PO (${n})`, mfMore: n => `${n} more not listed — see the portal.`,
+    mfBtn: 'Open the portal', mfFoot: 'This weekly email is generated by the Ocean Shipment Portal and matches “My to-do” in the portal. Please update directly in the portal — no need to reply or send Excel files.',
     archTag: 'Archived', archBanner: (at, by, r) => `Archived on ${at} by ${by} (${r}): old data that was not maintained before migration. Excluded from alerts, to-dos and on-time statistics.`, unarchive: 'Restore to in progress', tUnarchived: 'Restored to in progress',
     hArchived: 'Archived (not counted)', noMonth: 'No demand month', archTitle: 'Archive old data', archSub: 'Move to history; no longer counted in alerts or to-dos',
     archIntro: c => `Marks as “Archived” every demand not yet arrived whose demand month is before ${c} (planned pickup is used when there is no demand month).`,
@@ -578,7 +759,7 @@ const MSG = {
     todoplanner: 'Missing req. ETA / to assess / check PO', todofw: 'To book / not updated this week', todolog: 'Alerts to handle',
     nPOc: (n, c) => `${n} PO${n === 1 ? '' : 's'} · ${c} cntr${c === 1 ? '' : 's'}`, arrived: 'Arrived', onTimeRate: (a, b) => `On-time arrival (${a}/${b})`,
     avgDelay: 'Avg. delay', days: x => `${x} days`, hadAlerts: 'Had alerts',
-    tileAll: c => `POs in progress · ${c} cntr${c === 1 ? '' : 's'} booked`, tileRed: 'Red · ≥4 wks late / unbooked ≥14 d past pickup', tileAmber: 'Yellow · ≥2 wks late / unbooked ≥7 d past pickup', tileTodo: x => `My to-dos · ${x}`,
+    tileAll: c => `POs in progress · ${c} cntr${c === 1 ? '' : 's'} booked`, tileTodo: x => `My to-dos · ${x}`,
     allMonths: 'All demand months', monthOpt: (n, a) => `(${n}${a ? ' · alerts ' + a : ''})`,
     monthLabel: m => m ? `${MON[m - 1]} demand` : 'No month', monthShort: m => MON[m - 1],
     allRoutes: 'All routes', allFwd: 'All forwarders', allStatus: 'All statuses', unassigned: '(Unassigned)', notAssigned: 'Unassigned',
@@ -630,6 +811,60 @@ const MSG = {
     tImported: (n, b) => `Imported ${n} PO${n > 1 ? 's' : ''}` + (b ? `; ${b} with errors left in the box to fix` : ''),
   },
   es: {
+    plUpOpen: '⬆ Subir hoja de demanda', plUpTitle: 'Subir hoja de demanda', plUpSub: 'Suba la hoja de demanda que ya mantienen (p. ej. AIMX input), sin cambiar el formato. El portal identifica demanda nueva, cambiada y cancelada, y la escribe con una sola confirmación.',
+    plApply: n => `Confirmar (${n})`, plDrop: 'Arrastre aquí su hoja de demanda', plKAdd: 'Nuevas', plKEdit: 'Cambios', plKCancel: 'Canceladas', plKErr: 'Errores',
+    plNeedReason: n => `${n} demandas tienen reserva o alerta: elija el motivo del cambio de fecha (marque filas para asignarlo a todas)`, plSecAdd: n => `Demanda nueva (${n})`, plSecEdit: n => `Cambios (${n})`, plSecCancel: n => `Marcadas como canceladas (${n})`, plWillDelete: 'Se eliminan al confirmar (se pueden restaurar)',
+    plSecAbsent: n => `En el portal pero no en esta hoja (${n})`, plAbsentHelp: 'Solo informativo: nada se elimina automáticamente. Marque las que realmente se cancelaron para eliminarlas también (motivo: demanda cancelada; restaurables desde Eliminados).',
+    plUpHint: 'Las celdas vacías significan sin cambio. Un PO que aparece varias veces corresponde en orden a las partidas 1, 2, 3 del portal; carga «Cancel» significa cancelada. La demanda con reserva no se puede eliminar al subir.',
+    plDelNoteCancel: 'Marcada Cancel en la hoja de demanda', plDelNoteAbsent: 'Confirmada como cancelada al subir la hoja de demanda', plDone: n => `${n} elementos escritos`, plCancelBooked: (po, b) => `${po} tiene reserva (${b}) y no se puede cancelar aquí; resuélvalo con el agente en el portal`,
+    pf_po: 'PO', pf_month: 'Mes de demanda', pf_load: 'Carga', pf_origin: 'Origen', pf_plant: 'Planta', pf_sup: 'Proveedor', pf_qty: 'Cantidad (tarimas)', pf_plan: 'Recolección planeada', pf_req: 'ETA requerida', pf_note: 'Comentarios',
+    upOpen: '⬆ Subir reporte', gOpen: '✎ Edición masiva', upTitle: 'Subir reporte', upSub: 'Suba el reporte que ya usan, sin cambiar el formato. El portal reconoce las columnas, muestra los cambios por contenedor y escribe todo con una sola confirmación.',
+    upApply: n => `Confirmar (${n} contenedores)`, upDrop: 'Arrastre aquí su reporte', upDropSub: '.xlsx / .xls / .csv, varios archivos y hojas a la vez; o pegue abajo el contenido de la tabla',
+    upPick: 'Elegir archivos', upPastePh: 'O copie toda la hoja en Excel y péguela aquí', upBadFile: n => `No se puede leer ${n}`, upPasted: 'Contenido pegado', upNoPo: 'No se encontraron POs (9 dígitos después de CGDD)',
+    upCols: (f, n) => `Reconocido: ${f} · ${n} filas con PO (abra para revisar o ajustar las columnas)`, upColsHelp: 'Las columnas se reconocen por el encabezado. Corrija aquí una vez la que esté mal; el portal recordará su formato.', upIgnore: '(ignorar esta columna)',
+    upMatched: n => `${n} líneas encontradas en el portal`, upKNew: 'Reservas nuevas', upKEta: 'Cambios de ETA', upKArr: 'Arribados', upKSame: 'Sin cambio', upKMiss: 'POs que no están', upKNot: 'POs de otros agentes',
+    rbAll: 'Todas', rbBulk: n => `Asignar a las ${n} marcadas`, rbLeft: n => n ? `Faltan ${n}` : 'Listo',
+    upNeedReason: n => `La ETA cambió en ${n} contenedores: elija un motivo (marque filas para asignarlo a todas)`, upSecNew: n => `Reservas nuevas (${n})`, upSecEta: n => `Cambios de ETA (${n})`, upSecArr: n => `Arribados (${n})`, upSecOth: n => `Otras actualizaciones (${n})`,
+    upSecMiss: n => `⚑ POs que no están en el portal (${n}): repórtelos si planeación los omitió`, upSecNot: n => `⚑ POs que pertenecen a otros agentes (${n})`, upAbsent: n => `Tiene ${n} contenedores más en curso que este reporte no menciona (abra para ver)`,
+    upMissSend: n => `Reportar las ${n} POs marcadas`, upMissDone: n => `Se reportaron ${n} POs faltantes; esperan confirmación de planeación`, upMissLack: x => `Falta ${x}: use «Reportar PO faltante» a la derecha para completarlo`, upMissFrom: f => `Del reporte cargado: ${f}`, upMissPlanGuess: 'Fecha planeada tomada por ahora de la recolección / ETD del reporte',
+    upHint: 'Los contenedores sin cambio quedan como confirmados esta semana y salen de «sin actualizar por 7 días». Las filas sin reserva que no tengan número de reserva ni B/L no pueden crear reserva; agréguelo en su reporte.',
+    upConfirmAudit: n => `Confirmados sin cambio ${n} contenedores`, upDone: (n, m) => `${n} actualizaciones escritas, ${m} contenedores confirmados sin cambio`,
+    uf_po: 'PO', uf_bkno: 'No. de reserva', uf_mbl: 'B/L', uf_carrier: 'Naviera', uf_cont: 'Contenedores', uf_apick: 'Recolección real', uf_etd: 'ETD', uf_eta: 'ETA', uf_ata: 'Arribo real', uf_status: 'Estatus', uf_sup: 'Proveedor', uf_origin: 'Origen', uf_plant: 'Planta', uf_plan: 'Recolección planeada', uf_qty: 'Cantidad', uf_note: 'Comentarios',
+    repDup: po => `${po} ya se reportó y está en espera de planeación`,
+    gNotSaved: 'Esta fila no se guardó; revísela e intente de nuevo',
+    gTitle: 'Edición masiva', gSub: 'Edite directo en la tabla; las celdas cambiadas se marcan en amarillo y las filas de una misma reserva cambian juntas. «Guardar» revisa todo antes de escribir.',
+    gDiscard: n => `Hay ${n} filas sin guardar. ¿Cerrar de todos modos?`, gReportBtn: 'Reportar PO faltante', gSave: n => n ? `Guardar ${n} filas` : 'Guardar',
+    gAll: 'Todo', gUnbooked: 'Sin reserva', gBooked: 'Con reserva', gAlert: 'Alertas', gChanged: 'Cambiados', gSelN: n => `${n} filas seleccionadas`, gBulkPh: 'Valor a llenar', gBulkGo: 'Llenar filas seleccionadas',
+    gBulkHint: 'Seleccione varias demandas sin reserva y deles el mismo No. de reserva; al guardar forman una sola reserva', gBk: 'Reserva / alerta', notBookedS: 'Sin reserva',
+    gHint: 'Tip: copie una columna completa (p. ej. ETA) de su Excel y péguela en la primera celda de esa columna aquí; se llena hacia abajo. Cambiar una ETA existente requiere motivo. Use ⚑ al final de la fila para reportar un problema.',
+    fbBtn: 'Reportar problema', fb_wrongInfo: 'Datos del PO incorrectos', fb_notOurs: 'No es nuestro embarque', fb_other: 'Otro problema', fbNotePh: 'Indique qué está mal, p. ej. el proveedor es PMC', fbSend: 'Enviar',
+    fbNeedNote: 'Describa el problema', fbSent: 'Enviado. Planeación / Logística dará seguimiento', fbSt_open: 'Pendiente', fbSt_done: 'Resuelto', fbTag: 'Comentario del agente',
+    fbResPh: 'Resolución, p. ej. cambiado a PMC', fbResolve: 'Marcar resuelto', fbResNeed: 'Indique cómo se resolvió', fbResolved: 'Marcado como resuelto', fbDoneBy: (by, at, r) => `Resuelto por ${by} el ${at}: ${r}`, gNotOurs: w => `pertenece a ${w} en el portal, no a ustedes`,
+    repTitle: 'Reportar PO faltante', repHelp: 'Un PO que ustedes manejan y no está en el portal. Planeación lo confirma antes de que sea demanda en su lista.', repNote: 'Comentarios',
+    repSend: 'Enviar a planeación', repNeed: 'Capture un PO válido, proveedor, origen y recolección planeada', repExists: po => `${po} ya está en el portal`, repSent: po => `${po} reportado; en espera de planeación`,
+    repMine: n => `POs faltantes que reporté (${n})`, repSt_open: 'En espera', repSt_ok: 'Confirmado', repSt_rej: 'Rechazado',
+    gSavedAll: n => `${n} cambios guardados`, gSavedSome: (a, b) => `${a} guardados; ${b} filas tienen problemas y quedan en rojo; corrija y guarde de nuevo`,
+    pendBar: n => `⚑ Los agentes reportaron ${n} POs faltantes por confirmar`, pendTitle: n => `POs faltantes reportados por agentes (${n})`, pendSub: 'Confirme para agregar como demanda; rechazar requiere motivo', pendTag: 'Reporte de PO faltante',
+    pendHelp: 'Revise la fecha planeada, el origen y demás datos; puede corregirlos aquí. Al confirmar se vuelve demanda.', pendBy: (f, by, at) => `${f} · reportado por ${by} el ${at}`, pendFix: 'La fecha planeada o el origen no son correctos: corríjalos antes de confirmar', pendReq: d => `La ETA requerida se fijará por ruta en ${d}`, upSecGone: n => `POs eliminadas en el portal (${n}): planeación las borró, no son faltantes; consulte a planeación si tiene dudas`,
+    pendOk: 'Confirmar y agregar', pendRej: 'Rechazar', pendRejPh: 'Motivo del rechazo', pendRejNeed: 'Indique el motivo del rechazo', pendConfirmed: f => `Confirmado PO faltante reportado por ${f}`,
+    pendOkDone: po => `${po} agregado a la demanda`, pendRejected: n => `Reporte de PO faltante rechazado: ${n}`, pendRejDone: po => `${po} rechazado`,
+    xlFwNoMatch: po => `El PO ${po} no está en el portal: la demanda nueva la agrega primero el planeador`, xlAmbig: (po, n) => `El PO ${po} tiene ${n} líneas en el portal y no se puede identificar la fila: descargue del portal una hoja con ID de línea`, xEtaReason: 'Motivo del cambio de ETA',
+    xJoinBk: 'Unir a reserva existente', xNewBk: 'Nueva reserva', xlLibFail: 'No se pudo cargar el componente de Excel. Revise la conexión e intente de nuevo',
+    xlRoleOnly: 'Solo planeadores y agentes pueden importar. Administradores: cambie primero a la vista de planeador o agente', xlNoLine: id => `No se encontró el ID de línea ${id}: puede haberse eliminado o no es del portal`,
+    xlSkipClosed: po => `${po} está eliminado o archivado; se omite`, xlBadVal: (l, v) => `Valor de «${l}» no reconocido: ${v}`, xlLocked: (po, f) => `${po} ya tiene reserva; los campos de demanda (${f}) no se pueden cambiar y se ignoraron`,
+    xlFwNoNew: 'Los agentes no pueden agregar demanda. Pida al planeador que la agregue', xlNotOwn: po => `${po} no es su reserva ni está asignado a usted; se ignora`, xlNeedBkno: po => `${po} aún no tiene reserva: capture primero el No. de reserva`,
+    xlClash: (k, f, r) => `${k}: las filas de la misma reserva no coinciden (${f}; filas ${r})`, xlRouteMix: k => `No. de reserva ${k}: las demandas tienen orígenes distintos y no pueden compartir reserva`, xlErrs: n => `Con errores, no se importan (${n})`, xlRow: n => `Fila ${n}`, xlNotes: n => `Ignoradas (${n})`,
+    fBkno: 'No. de reserva', fFwNote: 'Comentarios del agente', fPlNote: 'Comentarios de planeación',
+    aNotify: 'Recordatorios',
+    nfBtn: '📧 Enviar recordatorios', nfBtnSent: '📧 Recordatorios enviados', nfTitle: 'Correos de recordatorio semanal', nfSub: w => `${w} · enviados desde su buzón por Power Automate`,
+    nfNoList: 'Aún no existe la lista ShipNotify. Créela con list_templates/ShipNotify.xlsx (Body como texto de varias líneas) y configure el flujo de envío en Power Automate.',
+    nfHint: 'Un correo por planeador y agente, igual a su «Mis pendientes». Quien no tenga pendientes no recibe nada. Los ya enviados esta semana quedan sin marcar.', nfNone: 'Sin pendientes esta semana, no se envía', nfSent: 'enviado esta semana',
+    nfPreview: 'Vista previa', nfSend: n => `Enviar ${n}`, nfDone: n => `${n} recordatorios en cola; Power Automate los enviará desde su buzón en unos minutos`, nfFail: (n, m) => `Error tras ${n} en cola: ${m}`, nfNoUsers: 'Aún no hay planeadores ni agentes en la lista de personas',
+    mfSubjFw: (c, w) => `[Portal de Embarques] Pendientes de ${c} esta semana (${w})`, mfSubjPl: (c, w) => `[Portal de Embarques] Pendientes de planeación esta semana (${w})`, mfHello: n => `Hola ${n}:`,
+    mfIntroFw: (c, n) => `Estos ${n} embarques de ${c} deben actualizarse en el portal esta semana.`, mfIntroPl: (c, n) => `Estas ${n} demandas requieren atención de planeación esta semana. Por favor revíselas en el portal.`,
+    mfUnbooked: n => `Recolección en 2 semanas, sin reserva (${n})`, mfNoEta: n => `Con reserva, recolección vencida y sin ETA (${n})`, mfStale: n => `Sin actualizar por más de 7 días (${n})`, mfDelay: n => `ETA 2+ semanas después de lo requerido (${n})`,
+    mfNoReq: n => `Falta la ETA requerida (${n})`, mfRed: n => `Alertas rojas: evaluar el impacto en producción (${n})`, mfPoIssue: n => `PO posiblemente duplicado o erróneo (${n})`, mfMore: n => `${n} más no listados; vea el portal.`,
+    mfBtn: 'Abrir el portal', mfFoot: 'Este correo semanal lo genera el Portal de Embarques y coincide con «Mis pendientes» del portal. Actualice directamente en el portal; no es necesario responder ni enviar Excel.',
     archTag: 'Archivado', archBanner: (at, by, r) => `Archivado el ${at} por ${by} (${r}): datos antiguos que no se mantuvieron antes de la migración. No cuentan en alertas, pendientes ni puntualidad.`, unarchive: 'Restaurar a en curso', tUnarchived: 'Restaurado a en curso',
     hArchived: 'Archivados (no cuentan)', noMonth: 'Sin mes de demanda', archTitle: 'Archivar datos antiguos', archSub: 'Pasan al historial; ya no cuentan en alertas ni pendientes',
     archIntro: c => `Marca como «Archivado» toda demanda aún no arribada cuyo mes de demanda sea anterior a ${c} (sin mes de demanda se usa la recolección planeada).`,
@@ -694,7 +929,7 @@ const MSG = {
     todoplanner: 'Sin ETA requerida / por evaluar / revisar PO', todofw: 'Por reservar / sin actualizar esta semana', todolog: 'Alertas por atender',
     nPOc: (n, c) => `${n} PO${n === 1 ? '' : 's'} · ${c} cont.`, arrived: 'Arribados', onTimeRate: (a, b) => `Arribo a tiempo (${a}/${b})`,
     avgDelay: 'Retraso promedio', days: x => `${x} días`, hadAlerts: 'Tuvieron alerta',
-    tileAll: c => `POs en curso · ${c} cont. reservados`, tileRed: 'Roja · ≥4 sem. tarde / sin reserva ≥14 d tras recolección', tileAmber: 'Amarilla · ≥2 sem. tarde / sin reserva ≥7 d tras recolección', tileTodo: x => `Mis pendientes · ${x}`,
+    tileAll: c => `POs en curso · ${c} cont. reservados`, tileTodo: x => `Mis pendientes · ${x}`,
     allMonths: 'Todos los meses', monthOpt: (n, a) => `(${n}${a ? ' · alertas ' + a : ''})`,
     monthLabel: m => m ? `Demanda de ${MES[m - 1]}` : 'Sin mes', monthShort: m => MES[m - 1][0].toUpperCase() + MES[m - 1].slice(1),
     allRoutes: 'Todas las rutas', allFwd: 'Todos los agentes', allStatus: 'Todos los estatus', unassigned: '(Sin asignar)', notAssigned: 'Sin asignar',
@@ -877,17 +1112,20 @@ const offAward = o => { if (!o.bid) return null; const a = o.awardAtBook || awar
 const myFwd = f => !ME.fwd || f === ME.fwd;                 // 货代账号只能改自己公司的订舱（所有人都能看）
 const mine = o => !ME.fwd || (o.bid ? o.fwd === ME.fwd : (!assignFwd(o) || assignFwd(o) === ME.fwd));
 function isTodo(o, r) {
-  if (r === 'planner') return !o.req || level(o) === 'red' || !!poIssue(o);
+  const fb = openFb(o);
+  if (r === 'planner') return !o.req || level(o) === 'red' || !!poIssue(o) || fb.some(f => f.type !== 'notOurs');
   if (r === 'fw') return mine(o) && (!o.bid || stale(o) || (!!o.bid && alertKind(o) === 'ovd'));
-  return isAlert(o) && !isClosed(o);
+  return (isAlert(o) && !isClosed(o)) || fb.some(f => f.type === 'notOurs');
 }
 
 let ME = null, role = 'log', tab = 'active', quick = 'all', shown = PAGE, cur = null;
 const sel = new Set();
 const F = { route: '', fwd: '', status: '', month: '', q: '' };
 // 已归档：迁移时没维护的旧数据，放进历史货柜，不计入报警、待办和准时率
-const active = () => rows.filter(o => !o.deleted && !o.archived && o.status !== '已到港');
-const hist = () => rows.filter(o => !o.deleted && (o.status === '已到港' || o.archived));
+// 货代报告的漏单在计划员确认前不算正式需求
+const isPend = o => !!(o.pending && o.pending.st === 'open');
+const active = () => rows.filter(o => !o.deleted && !o.archived && !isPend(o) && o.status !== '已到港');
+const hist = () => rows.filter(o => !o.deleted && !isPend(o) && (o.status === '已到港' || o.archived));
 const dels = () => rows.filter(o => o.deleted);
 const tabRows = () => tab === 'active' ? active() : tab === 'hist' ? hist() : dels();
 const canSeeDel = () => role === 'planner' || role === 'log';
@@ -897,7 +1135,7 @@ function passFilters(o) {
   if (F.fwd && fwdKey(o) !== F.fwd) return false;
   if (tab === 'active' && F.status && (o.status || '待订舱') !== F.status) return false;
   if (F.month !== '' && String(monthKey(o)) !== F.month) return false;
-  if (F.q && !`${o.po} ${o.sup} ${o.mbl || ''}`.toLowerCase().includes(F.q.toLowerCase())) return false;
+  if (F.q && !`${o.po} ${o.sup} ${o.mbl || ''} ${(B[o.bid] || {}).bkno || ''}`.toLowerCase().includes(F.q.toLowerCase())) return false;
   return true;
 }
 function quickPass(o) {
@@ -1009,6 +1247,10 @@ function renderToolbar() {
   fillSelect($('f-status'), t('allStatus'), ['待订舱', ...S4.slice(0, 3)].map(s => [s, base.filter(o => (o.status || '待订舱') === s).length]), F.status, tv);
   ['f-month', 'f-route', 'f-fwd', 'f-status'].forEach(id => fitSelect($(id)));
   $('addBtn').classList.toggle('hidden', !(role === 'planner' && tab === 'active'));
+  $('fwGridBtn').classList.toggle('hidden', !(role === 'fw' && tab === 'active'));
+  $('fwUpBtn').classList.toggle('hidden', !(role === 'fw' && tab === 'active'));
+  $('plUpBtn').classList.toggle('hidden', !(role === 'planner' && tab === 'active'));
+  { const np = pendingRows().length, pb = $('pendBar'); pb.classList.toggle('hidden', !(np && tab === 'active' && role !== 'fw')); pb.textContent = t('pendBar', np); }
   const any = F.route || F.fwd || F.status || F.month !== '' || F.q || quick !== 'all';
   $('clear').classList.toggle('hidden', !any);
 }
@@ -1065,7 +1307,7 @@ function renderList() {
     return hd + `<div class="row item${cls}" data-id="${o.id}" tabindex="0" role="button">
       <span class="bar ${lv === 'red' || lv === 'amber' ? lv : ''}"></span>
       <div class="cell c-sup">${box}${esc(o.sup)}</div>
-      <div class="cell c-po"><span class="po">${esc(poLabel(o))}</span>${loadTag(o, mc)}${(pi => pi ? `<span class="ld warn">${t(pi.kind === 'dup' ? 'poDupTag' : 'poChkTag')}</span>` : '')(poIssue(o))}${offAward(o) ? `<span class="ld warn">${t('offAwardTag')}</span>` : ''}</div>
+      <div class="cell c-po"><span class="po">${esc(poLabel(o))}</span>${loadTag(o, mc)}${(pi => pi ? `<span class="ld warn">${t(pi.kind === 'dup' ? 'poDupTag' : 'poChkTag')}</span>` : '')(poIssue(o))}${offAward(o) ? `<span class="ld warn">${t('offAwardTag')}</span>` : ''}${openFb(o).length ? `<span class="ld warn">${t('fbTag')}</span>` : ''}</div>
       <div class="cell c-route">${esc(routeOf(o))}</div>
       <div class="cell c-fw">${o.fwd ? esc(o.fwd) : `<span class="muted">${t('notAssigned')}</span>`}</div>
       <div class="cell c-trk">${track(o)}</div>
@@ -1154,10 +1396,11 @@ function openDrawer(id) {
       <div class="grid" style="margin-top:10px">
         ${fld(t('fType'), 'type', b.type, W, 'type')}${fld(t('fFwd'), 'fwd', b.fwd, L, 'fwd')}
         ${fld(t('fCont'), 'cont', b.cont, W, 'num')}${fld(t('fCarrier'), 'carrier', b.carrier, W)}
-        ${fld(t('fMbl'), 'mbl', b.mbl, W)}${fld(t('fEtd'), 'etd', b.etd, W, 'date')}
+        ${fld(t('fBkno'), 'bkno', b.bkno, W)}${fld(t('fMbl'), 'mbl', b.mbl, W)}${fld(t('fEtd'), 'etd', b.etd, W, 'date')}
         ${fld(t('fEta'), 'eta', b.eta, W, 'date')}${fld(t('fStatus'), 'status', b.status, W, 'status')}
         ${fld(t('fAta'), 'ata', b.ata, W, 'date')}
         ${reasonSel}
+        ${fld(t('fFwNote'), 'fwNote', b.fwNote, W, 'text', true)}
       </div>
       ${b.ataLegacy ? `<p class="hint" style="margin:8px 0 0">${t('ataLegacy')}</p>` : ''}
       ${W ? `<p class="hint" style="margin:8px 0 0">${t('fwdLockedHint')}</p>` : ''}
@@ -1173,13 +1416,14 @@ function openDrawer(id) {
     <div class="bigtrk ${s === 3 ? 'done' : ''}">${S4.map((n, i) => `<div class="${i <= s ? 'on' : ''} ${i === s ? 'cur' : ''}"><i></i>${tv(n)}</div>`).join('')}</div>
     ${ARC ? `<div class="banner na"><b>${t('archTag')}</b>${esc(t('archBanner', o.archived.at, o.archived.by || '—', tv(o.archived.reason || '')))}${role === 'log' || ME.admin ? `<div class="btnrow" style="margin-top:10px"><button class="ghost" id="unarchive">${t('unarchive')}</button></div>` : ''}</div>` : ''}
     ${DEL ? `<div class="banner na"><b>${t('deletedTitle')}</b>${esc(t('deletedBanner', o.deleted.at, t('role' + o.deleted.by) + (o.deleted.byName ? ' ' + o.deleted.byName : ''), tv(o.deleted.reason)))}${o.deleted.note ? '<br>' + esc(o.deleted.note) : ''}</div>` : banner(o)}
+    ${fbBlock(o)}
     ${(pi => pi ? `<div class="wn">${esc(pi.kind === 'dup' ? t('noteDup', `${pi.w.po}-${pi.w.split}`) : t('noteMis', `${pi.w.po}-${pi.w.split}`, pi.w.sup, pi.w.plant))}</div>` : '')(poIssue(o))}
     <div class="sec">${head4(t('secPlan'), 'planner')}<div class="grid">
       ${fld(t('fMonth'), 'month', o.month, P && !b, 'month')}${fld(t('fOrigin'), 'origin', o.origin, P && !b, 'origin')}
       ${fld(t('fPlant'), 'plant', o.plant, P && !b, 'plant')}${fld(t('fPO'), 'po', o.po, P && !b, 'po')}
       ${fld(t('fSup'), 'sup', o.sup, P && !b, 'sup', true)}
       ${fld(t('fPlan'), 'plan', o.plan, P, 'date')}${fld(t('fReq'), 'req', o.req, P, 'date')}
-      ${fld(t('fQty'), 'qty', o.qty, P, 'num')}${fld(t('fPlanLoad'), 'planLoad', o.planLoad, P, 'load')}</div>
+      ${fld(t('fQty'), 'qty', o.qty, P, 'num')}${fld(t('fPlanLoad'), 'planLoad', o.planLoad, P, 'load')}${fld(t('fPlNote'), 'plNote', o.plNote, P, 'text', true)}</div>
       ${(o.reqBase && o.req !== o.reqBase) || (o.planBase && o.plan !== o.planBase) ? `<p class="hint" style="margin:8px 0 0">${esc(t('baseLine', o.planBase || '—', o.reqBase || '—'))}</p>` : ''}
       ${P && (b || isAlert(o)) ? `<div class="fld" style="margin-top:10px"><label>${t('baseReasonLbl')}</label><select data-k="baseReason"><option value="">—</option>${BASE_REASONS.map(r => `<option value="${r}">${tv(r)}</option>`).join('')}</select></div>` : ''}
       ${P && b ? `<p class="hint" style="margin:10px 0 0">${t('lockedHint')}</p>` : ''}
@@ -1209,7 +1453,7 @@ function openNew(ids) {
     <div class="grid">
       ${fld(t('fType'), 'type', type0, true, 'type')}${fld(t('fFwdReq'), 'fwd', ME.fwd || fwd0, !ME.fwd, 'fwd')}
       ${fld(t('fCont'), 'cont', 1, true, 'num')}${fld(t('fCarrier'), 'carrier', '', true)}
-      ${fld(t('fMbl'), 'mbl', '', true)}${fld(t('fEtd'), 'etd', null, true, 'date')}
+      ${fld(t('fBkno'), 'bkno', '', true)}${fld(t('fMbl'), 'mbl', '', true)}${fld(t('fEtd'), 'etd', null, true, 'date')}
       ${fld(t('fEta'), 'eta', null, true, 'date')}
     </div>
     <p class="hint" style="margin:0">${t('newHint')}</p>`;
@@ -1219,6 +1463,7 @@ function closeDrawer() { $('drawer').classList.remove('open'); $('scrim').classL
 const err = m => { $('dmsg').textContent = m; $('dmsg').className = 'msg err'; };
 function save(opts = {}) {
   if (cur.mode === 'arch') return doArchive();
+  if (cur.mode === 'notify') return sendNotify();
   if (cur.mode === 'add') return saveAdd(opts);
   const get = k => document.querySelector(`#dbody [data-k="${k}"]`);
   const val = k => get(k)?.value;
@@ -1231,7 +1476,7 @@ function save(opts = {}) {
     if (!fwd) return err(t('eFwd'));
     if (new Set(list.map(o => o.origin)).size > 1) return err(t('eRoute'));
     const id = newBid();
-    const b = { id, type: val('type'), fwd, carrier: txt('carrier'), mbl: txt('mbl'), cont: num('cont') || 1,
+    const b = { id, type: val('type'), fwd, bkno: txt('bkno'), carrier: txt('carrier'), mbl: txt('mbl'), cont: num('cont') || 1,
       etd: date('etd'), eta: date('eta'), status: '已订舱', legacyConflict: [], reassign: [], etaLog: [], lastUpd: TODAY, lastBy: ME.name };
     if (b.eta) b.etaLog.push({ at: TODAY, from: null, to: b.eta, reason: '首次报告', by: ME.name });
     B[id] = b; list.forEach(o => { const a = award(o); o.awardAtBook = a ? { fwd: a.fwd, period: a.period } : null; o.bid = id; sel.delete(o.id); });
@@ -1276,6 +1521,7 @@ function save(opts = {}) {
     if (!o.planBase || why === '原值录入错误') o.planBase = nx.plan;
     if (nx.po && nx.po !== o.po) nx.split = Math.max(0, ...rows.filter(x => x.po === nx.po).map(x => x.split)) + 1;
     Object.assign(o, nx);
+    if (get('plNote')) o.plNote = txt('plNote');
     if (o.month && o.plan && +o.plan.slice(5, 7) !== o.month) W.push(t('wMonthAw', t('monthShort', o.month)));   // 中标货代按计划提货日定，月份对不上要提醒
     warn = W.join(lang === 'zh' ? '；' : '; ');
   }
@@ -1303,7 +1549,7 @@ function save(opts = {}) {
     }
     const was = b.status;
     if (ata !== b.ata) b.ataLegacy = false;
-    Object.assign(b, { type: val('type'), cont: num('cont') || 1, carrier: txt('carrier'), mbl: txt('mbl'),
+    Object.assign(b, { type: val('type'), cont: num('cont') || 1, carrier: txt('carrier'), mbl: txt('mbl'), bkno: txt('bkno'), fwNote: txt('fwNote'),
       etd, eta, ata, status: st, lastUpd: TODAY, lastBy: ME.name });
     o.apick = date('apick');
     n = members(b.id).length; arrived = was !== '已到港' && b.status === '已到港';
@@ -1326,7 +1572,7 @@ const LEAD = { CHINA: 35, THAILAND: 48, INDIA: 64, KOREA: 35 };   // 计划提�
 // 新增需求时要求 ETA 的默认值 = 计划提货日 + 下列天数（沿用计划员现行做法：中国 6 周、泰国 8 周、印度 10 周），可以手动改
 const REQ_DAYS = { CHINA: 42, THAILAND: 56, INDIA: 70, KOREA: 42 };
 const autoReq = (plan, origin) => plan && plan !== 'BAD' && REQ_DAYS[origin] ? addD(plan, REQ_DAYS[origin]) : null;
-const ORI_MAP = { '中国': 'CHINA', '泰国': 'THAILAND', '印度': 'INDIA', '韩国': 'KOREA', 'THAILANDIA': 'THAILAND', 'TAILANDIA': 'THAILAND', 'COREA': 'KOREA' };
+const ORI_MAP = { CH: 'CHINA', CN: 'CHINA', TH: 'THAILAND', IN: 'INDIA', IND: 'INDIA', KR: 'KOREA', '中国': 'CHINA', '泰国': 'THAILAND', '印度': 'INDIA', '韩国': 'KOREA', 'THAILANDIA': 'THAILAND', 'TAILANDIA': 'THAILAND', 'COREA': 'KOREA' };
 const nOrigin = s => { s = String(s || '').trim().toUpperCase().replace(/\s*→.*$/, ''); return ORI_MAP[s] || s; };
 const nLoad = s => { s = String(s || '').trim().toLowerCase();
   if (['整柜', 'fcl', '1', '2', 'completo', 'contenedor completo'].includes(s)) return '整柜';
@@ -1476,6 +1722,98 @@ function worse(o) {
 }
 const isClosed = o => !!o.closed && !worse(o);
 const closeDesc = (lv, d, od) => t('lv' + lv) + (od ? ' · ' + t('dNoEta', od) : d !== null && d !== undefined ? ' · ' + t('dLate', d) : '');
+/* ---------- 每周提醒邮件：平台按"我的待办"同样的规则算内容，写进 ShipNotify，由 Power Automate 从管理员邮箱发出 ---------- */
+const PORTAL_URL = 'https://boren-yu.github.io/AIMX-shipping/';
+const NOTIFY_ON = false;   // 每周提醒邮件：内容还在完善，先不显示按钮
+const NF = { week: '', sent: null, list: null, pick: new Set(), preview: '' };
+function isoWeek(ds) {
+  const d = new Date(ds + 'T00:00:00Z'), day = (d.getUTCDay() + 6) % 7; d.setUTCDate(d.getUTCDate() - day + 3);
+  const y = d.getUTCFullYear(), w1 = new Date(Date.UTC(y, 0, 4)), w = 1 + Math.round(((d - w1) / DAY - 3 + ((w1.getUTCDay() + 6) % 7)) / 7);
+  return `${y}-W${String(w).padStart(2, '0')}`;
+}
+async function loadNotifyState() {
+  NF.week = isoWeek(TODAY);
+  try { NF.sent = Store.hasNotify && Store.hasNotify() ? new Set(await Store.notified(NF.week)) : null; } catch (e) { NF.sent = null; }
+  renderNotifyBtn();
+}
+function renderNotifyBtn() {
+  const b = $('notifyBtn'); if (!b) return;
+  const show = !!(NOTIFY_ON && ME && ME.admin && tab === 'active'); b.classList.toggle('hidden', !show); if (!show) return;
+  const done = NF.sent && NF.sent.size > 0;
+  b.textContent = done ? t('nfBtnSent') : t('nfBtn');
+  b.className = done ? 'ghost' : 'btn';                 // 本周还没发 → 醒目
+  b.onclick = openNotify;
+}
+const withLang = (L, f) => { const k = lang; lang = L; try { return f(); } finally { lang = k; } };
+function mailFor(u) {
+  const L = u.role === 'fw' ? 'zh' : 'es';
+  return withLang(L, () => {
+    const A = active(), soon = addD(TODAY, 14);
+    const own = o => o.bid ? o.fwd === u.fwd : assignFwd(o) === u.fwd;
+    const secs = u.role === 'fw' ? [
+      ['mfUnbooked', A.filter(o => own(o) && !o.bid && o.plan && o.plan <= soon).sort((a, b) => String(a.plan).localeCompare(String(b.plan)))],
+      ['mfNoEta', A.filter(o => own(o) && o.bid && alertKind(o) === 'ovd')],
+      ['mfStale', A.filter(o => own(o) && stale(o) && alertKind(o) !== 'ovd')],
+      ['mfDelay', A.filter(o => own(o) && alertKind(o) === 'eta')],
+    ] : [
+      ['mfNoReq', A.filter(o => !o.req)],
+      ['mfRed', A.filter(o => o.req && level(o) === 'red')],
+      ['mfPoIssue', A.filter(o => o.req && level(o) !== 'red' && poIssue(o))],
+    ];
+    const total = secs.reduce((n, [, l]) => n + l.length, 0);
+    const td = 'padding:6px 10px;border-bottom:1px solid #e5e5ea;font-size:13px;';
+    const th = 'padding:6px 10px;border-bottom:1px solid #d1d1d6;font-size:12px;color:#6e6e73;text-align:left;';
+    const table = l => `<table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;margin:6px 0 4px">
+      <tr><th style="${th}">PO</th><th style="${th}">${esc(t('hSup'))}</th><th style="${th}">${esc(t('fPlan'))}</th><th style="${th}">${esc(t('fReq'))}</th><th style="${th}">ETA</th><th style="${th}">${esc(t('fStatus'))}</th></tr>
+      ${l.slice(0, 30).map(o => `<tr><td style="${td}font-family:Menlo,Consolas,monospace">${esc(poLabel(o))}</td><td style="${td}">${esc(o.sup)}</td><td style="${td}">${o.plan || '—'}</td><td style="${td}">${o.req || '—'}</td><td style="${td}">${o.eta || '—'}</td><td style="${td}">${esc(o.bid ? tv(o.status) : tv('待订舱'))}${o.bid ? ' · ' + esc(o.bid) : ''}</td></tr>`).join('')}
+      </table>${l.length > 30 ? `<p style="font-size:12px;color:#6e6e73;margin:0 0 6px">${esc(t('mfMore', l.length - 30))}</p>` : ''}`;
+    const who = u.role === 'fw' ? u.fwd : t('roleplanner');
+    const html = `<div style="font-family:-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;color:#1d1d1f;max-width:760px">
+      <p style="font-size:14px">${esc(t('mfHello', u.name))}</p>
+      <p style="font-size:14px">${esc(t(u.role === 'fw' ? 'mfIntroFw' : 'mfIntroPl', who, total))}</p>
+      ${secs.filter(([, l]) => l.length).map(([k, l]) => `<h3 style="font-size:15px;margin:18px 0 4px">${esc(t(k, l.length))}</h3>${table(l)}`).join('')}
+      <p style="margin:22px 0"><a href="${PORTAL_URL}" style="background:#0071e3;color:#fff;padding:9px 18px;border-radius:980px;text-decoration:none;font-size:14px">${esc(t('mfBtn'))}</a></p>
+      <p style="font-size:12px;color:#6e6e73">${esc(t('mfFoot'))}</p></div>`;
+    return { subject: t(u.role === 'fw' ? 'mfSubjFw' : 'mfSubjPl', who, NF.week), html, total, counts: secs.map(([k, l]) => [k, l.length]), lang: L };
+  });
+}
+async function openNotify() {
+  cur = { mode: 'notify' };
+  if (!(Store.hasNotify && Store.hasNotify())) { showDrawer(t('nfTitle'), '', `<div class="wn">${t('nfNoList')}</div>`, ''); return; }
+  showDrawer(t('nfTitle'), t('nfSub', NF.week), `<div class="empty">${t('gLoading')}</div>`, '');
+  let users = [];
+  try { users = await Store.loadUsers(); NF.sent = new Set(await Store.notified(NF.week)); } catch (e) { err(e.message); return; }
+  NF.list = users.filter(u => (u.role === 'planner') || (u.role === 'fw' && FORWARDERS.includes(u.fwd))).map(u => ({ u, m: mailFor(u) }));
+  NF.pick = new Set(NF.list.filter(x => x.m.total && !NF.sent.has(x.u.email)).map(x => x.u.email));
+  NF.preview = ''; renderNotify();
+}
+function renderNotify() {
+  if (!cur || cur.mode !== 'notify') return;
+  const rowsH = NF.list.map(({ u, m }) => `<div class="box-i" style="cursor:default;grid-template-columns:auto 1fr auto">
+      <input type="checkbox" class="nf-pick" data-em="${esc(u.email)}" ${NF.pick.has(u.email) ? 'checked' : ''} ${m.total ? '' : 'disabled'}>
+      <span><b>${esc(u.name)}</b> <span class="muted">· ${esc(u.role === 'fw' ? u.fwd : t('roleplanner'))} · ${esc(u.email)}</span><br>
+        <span class="muted" style="font-size:12px">${m.total ? m.counts.filter(([, n]) => n).map(([k, n]) => withLang(m.lang, () => t(k, n))).join(' · ') : t('nfNone')}${NF.sent.has(u.email) ? ' · ' + t('nfSent') : ''}</span></span>
+      ${m.total ? `<button class="ghost nf-pv" data-em="${esc(u.email)}">${t('nfPreview')}</button>` : '<span></span>'}</div>`).join('');
+  const pv = NF.preview ? NF.list.find(x => x.u.email === NF.preview) : null;
+  $('dbody').innerHTML = `<p class="hint" style="margin:0">${t('nfHint')}</p>
+    <div class="box" style="margin-top:10px">${rowsH || `<div class="box-i">${t('nfNoUsers')}</div>`}</div>
+    ${pv ? `<h4 style="margin:14px 0 6px">${esc(pv.m.subject)}</h4><iframe class="nf-frame" sandbox srcdoc="${esc(pv.m.html)}"></iframe>` : ''}`;
+  $('save').textContent = t('nfSend', NF.pick.size); $('save').disabled = !NF.pick.size; $('save').classList.remove('hidden');
+  $('dbody').querySelectorAll('.nf-pick').forEach(c => c.onchange = () => { c.checked ? NF.pick.add(c.dataset.em) : NF.pick.delete(c.dataset.em); renderNotify(); });
+  $('dbody').querySelectorAll('.nf-pv').forEach(b => b.onclick = () => { NF.preview = NF.preview === b.dataset.em ? '' : b.dataset.em; renderNotify(); });
+}
+async function sendNotify() {
+  const todo = NF.list.filter(x => NF.pick.has(x.u.email)); if (!todo.length) return;
+  $('save').disabled = true; let n = 0;
+  try {
+    for (const { u, m } of todo) {
+      await Store.notify({ Title: `${NF.week}|${u.email}`, To: u.email, Subject: m.subject, Body: m.html, Week: NF.week });
+      n++; NF.sent.add(u.email); $('dmsg').textContent = `${n} / ${todo.length}`;
+    }
+  } catch (e) { $('save').disabled = false; return err(t('nfFail', n, e.message)); }
+  audit('notify', NF.week, { k: 'N', id: NF.week, ch: [['reason', '', todo.map(x => x.u.email).join(', ')]] });
+  closeDrawer(); renderNotifyBtn(); toast(t('nfDone', n));
+}
 /* ---------- 批量归档旧数据（管理员，网址加 ?archive=2026-08-01）：需求月份早于该日（没填需求月份的看计划提货日）且未到港的需求 ---------- */
 function archCands(cut) {
   const before = o => { if (o.month) { const y = (o.plan || cut).slice(0, 4); return `${y}-${String(o.month).padStart(2, '0')}-01` < cut; } return !!o.plan && o.plan < cut; };
@@ -1505,7 +1843,8 @@ function doArchive() {
 let AU = null, auAt = 0; const AF = { who: '', act: '', range: '7', q: '' }; let auShown = 200;
 const AUDIT_LBL = { eta: 'fEta', etd: 'fEtd', ata: 'fAta', status: 'fStatus', mbl: 'fMbl', carrier: 'fCarrier', cont: 'fCont', type: 'fType', fwd: 'fFwd',
   note: 'fNote', closed: 'fClosed', apick: 'fApick', plan: 'fPlan', req: 'fReq', qty: 'fQty', planLoad: 'fPlanLoad', month: 'fMonth', origin: 'fOrigin',
-  plant: 'fPlant', sup: 'fSup', po: 'fPO', bid: 'aBid', deleted: 'aDeleted', archived: 'archTag', reason: 'aReason', afwd: 'fFwd' };
+  plant: 'fPlant', sup: 'fSup', po: 'fPO', bid: 'aBid', deleted: 'aDeleted', archived: 'archTag', reason: 'aReason', afwd: 'fFwd',
+  bkno: 'fBkno', fwNote: 'fFwNote', plNote: 'fPlNote', fbk: 'fbTag', pending: 'pendTag' };
 const auVal = (k, v) => v === '' || v === null || v === undefined ? '—' : k === 'status' || k === 'type' || k === 'planLoad' || k === 'reason' ? tv(String(v))
   : k === 'closed' ? (v === true || v === 'true' ? t('yes') : t('no')) : k === 'month' ? t('monthShort', v) : String(v);
 const auTime = s => { const d = new Date(s); return isNaN(d) ? String(s || '') : d.toLocaleString(LANGS[lang], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }); };
@@ -1549,7 +1888,7 @@ function renderAudit() {
     </tbody></table></div>
     <h3 class="au-h">${t('aEventsTitle', list.length)}</h3>
     <div class="tt-wrap"><table class="tt"><thead><tr><th>${t('aTime')}</th><th>${t('aWho')}</th><th>${t('aAction')}</th><th>${t('aTarget')}</th><th>${t('aDetail')}</th></tr></thead><tbody>
-      ${list.slice(0, auShown).map(e => `<tr><td class="tt-tr">${esc(auTime(e.at))}</td><td><b>${esc(e.user || '—')}</b></td><td><span class="pill ${e.action === 'login' ? 'na' : e.action === 'create' ? 'ok' : 'amber'}">${esc(t({ login: 'aLogin', create: 'aCreate', edit: 'aEdit' }[e.action] || 'aEdit'))}</span></td><td>${esc(e.target || '—')}</td><td class="au-d">${detail(e)}</td></tr>`).join('') || `<tr><td colspan="5" class="muted">${t('empty')}</td></tr>`}
+      ${list.slice(0, auShown).map(e => `<tr><td class="tt-tr">${esc(auTime(e.at))}</td><td><b>${esc(e.user || '—')}</b></td><td><span class="pill ${e.action === 'login' ? 'na' : e.action === 'create' ? 'ok' : 'amber'}">${esc(t({ login: 'aLogin', create: 'aCreate', edit: 'aEdit', notify: 'aNotify' }[e.action] || 'aEdit'))}</span></td><td>${esc(e.target || '—')}</td><td class="au-d">${detail(e)}</td></tr>`).join('') || `<tr><td colspan="5" class="muted">${t('empty')}</td></tr>`}
     </tbody></table></div>
     ${list.length > auShown ? `<button class="more" id="a-more">${t('more', list.length - auShown)}</button>` : ''}
     <p class="hint">${t('aHint')}</p>`;
@@ -1648,6 +1987,7 @@ function renderAll() { renderTop();
   document.querySelector('main').classList.toggle('audit-mode', tab === 'audit');
   $('tab-tender').classList.toggle('hidden', role === 'fw' || !!ME.fwd);
   $('tab-audit').classList.toggle('hidden', !ME.admin);
+  renderNotifyBtn();
   if (tab === 'audit') { if (!ME.admin) tab = 'active'; else { showAudit(); flush(); return; } }
   if (tab === 'tender') { if (role === 'fw') tab = 'active'; else { showTender(); flush(); return; } } renderTiles(); renderToolbar(); renderList(); renderBar(); flush(); }
 
@@ -1681,6 +2021,11 @@ $('dbody').addEventListener('click', e => {
     o.deleted = { at: TODAY, by: role, byName: ME.name, reason: r, note: document.querySelector('#dbody [data-k="delNote"]').value.trim() };
     sel.delete(o.id); const lbl = poLabel(o); closeDrawer(); renderAll(); toast(t('tDeleted', lbl)); return;
   }
+  if (e.target.dataset && e.target.dataset.fbres) {
+    const o = R(cur.id), note = (document.querySelector(`#dbody [data-fbnote="${e.target.dataset.fbres}"]`) || {}).value?.trim();
+    if (!note) return err(t('fbResNeed'));
+    resolveFb(o, e.target.dataset.fbres, note); renderAll(); openDrawer(o.id); toast(t('fbResolved')); return;
+  }
   if (e.target.id === 'unarchive') {
     const o = R(cur.id); o.archived = null; renderAll(); openDrawer(o.id); toast(t('tUnarchived')); return;
   }
@@ -1699,10 +2044,869 @@ $('dbody').addEventListener('input', e => { if (cur?.mode === 'add') { markReq(e
 $('dbody').addEventListener('change', e => { if (cur?.mode === 'add') { markReq(e); refreshAdd(); } });
 $('dclose').onclick = closeDrawer;
 $('scrim').onclick = closeDrawer;
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && cur) closeDrawer(); });
+document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (cur) closeDrawer(); else if (!$('plup').classList.contains('hidden')) closePlUpload(); else if (!$('fwup').classList.contains('hidden')) closeUpload(); else if (!$('fwgrid').classList.contains('hidden')) closeFwGrid(); });
 $('save').onclick = () => save();
 $('save2').onclick = () => save({ again: true });
 $('addBtn').onclick = () => openAdd('one');
+$('fwGridBtn').onclick = () => openFwGrid();
+$('fwUpBtn').onclick = () => openUpload();
+$('plUpBtn').onclick = () => openPlUpload();
+$('pendBar').onclick = () => openPending();
+
+/* ---------- 导入引擎：货代上传报表、计划员上传需求表、货代批量修改共用 ----------
+   把"表里的值"和平台现状比对，得出要做的修改（先不写入），校验规则与平台上手动修改完全一致：
+   改 ETA 要原因、到港要实际日期、同一订舱要一致、货代只能改自己公司的、已订舱需求字段锁定、改日期要选原因。 */
+const noComma = s => String(s).replace(/,/g, ' ');
+function xDate(v) {                                   // 表里的日期：Excel 日期 / 2026-11-03 / 3.11.2026（日.月.年）/ 11/3/2026（月/日/年）
+  if (v === '' || v === null) return null;
+  if (typeof v === 'number') return new Date(Math.round((v - 25569) * DAY)).toISOString().slice(0, 10);
+  const m = String(v).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  if (m) return nDate(`${m[3]}-${m[2]}-${m[1]}`);
+  return nDate(v);
+}
+const xNum = v => v === '' || v === null ? null : isFinite(+String(v).replace(/[^\d.]/g, '')) && String(v).replace(/[^\d.]/g, '') !== '' ? +String(v).replace(/[^\d.]/g, '') : 'BAD';
+function revMap(vals) {                              // 三种语言的显示文字 → 内部值
+  const m = {}; vals.forEach(x => { m[x.toLowerCase()] = x; ['zh', 'en', 'es'].forEach(L => { const s = withLang(L, () => tv(x)); m[String(s).toLowerCase()] = x; m[noComma(s).toLowerCase()] = x; }); });
+  return s => s === '' ? '' : m[String(s).trim().toLowerCase()] ?? 'BAD';
+}
+const xStatus = revMap(S4), xReason = revMap(REASONS), xBaseReason = revMap(BASE_REASONS);
+const xLoad = s => s === '' ? '' : nLoad(s) || 'BAD';
+// 没有行号的行：按 PO 匹配进行中的记录（同一 PO 多行时再看系统订舱号、供应商 + 计划提货日）
+function matchRow(v) {
+  const po = String(v.po || '').trim().toUpperCase(); if (!po) return { o: null };
+  const plan = xDate(v.plan), sup = nSup(v.sup);
+  const live = rows.filter(x => !x.deleted && !x.archived && x.po === po);
+  let c = po === 'TBC' ? live.filter(x => nSup(x.sup) === sup && x.plan === plan) : live;
+  if (c.length > 1) {
+    const c2 = c.filter(x => (v.bookingId && x.bid === String(v.bookingId)) || (nSup(x.sup) === sup && x.plan === plan));
+    if (c2.length === 1) c = c2;
+    else return { err: t('xlAmbig', po, c.length) };
+  }
+  return { o: c[0] || null };
+}
+// 把表里的每一行和系统里的现状比对，得出要做的修改（此时还不写入）
+function planImport(data) {
+  const P = { ops: [], errs: [], notes: [], newLines: [], role };
+  const err = (n, msg) => P.errs.push({ n, msg });
+  const isPl = role === 'planner', isFw = role === 'fw';
+  if (!isPl && !isFw) { P.errs.push({ n: 0, msg: t('xlRoleOnly') }); return P; }
+  const norm = v => v === '' || v === undefined ? null : v;
+  const bkGroups = {}, newBk = {};
+  const batch = [];
+  for (const { n, v } of data) {
+    let o = v.lineId ? R(String(v.lineId)) : null;
+    if (v.lineId && !o) { err(n, t('xlNoLine', v.lineId)); continue; }
+    if (!v.lineId) { const m = matchRow(v); if (m.err) { err(n, m.err); continue; } o = m.o; }   // 没有行号：按 PO 找回原记录，同一份表重复上传不会重复新增
+    if (o && (o.deleted || o.archived)) { P.notes.push({ n, msg: t('xlSkipClosed', poLabel(o)) }); continue; }
+    if (isPl) {
+      const nx = { month: v.month === '' ? null : +v.month, origin: nOrigin(v.origin), plant: String(v.plant || '').trim().toUpperCase(),
+        sup: String(v.sup || '').trim(), po: String(v.po || '').trim().toUpperCase(), qty: xNum(v.qty), plan: xDate(v.plan), req: xDate(v.req),
+        planLoad: xLoad(v.planLoad), plNote: String(v.plNote || '').trim() };
+      const why = xBaseReason(v.baseReason || '');
+      if (!o) {                                        // 表格底部新加的行 = 新增需求
+        if (nx.qty === 'BAD') { err(n, t('xlBadVal', t('fQty'), v.qty)); continue; }
+        const r = { ...nx, req: nx.req || autoReq(nx.plan, nx.origin), reqAuto: !nx.req && !!autoReq(nx.plan, nx.origin) };
+        const { E, W } = checkDemand(r, batch);
+        if (E.length) { err(n, t('eFix', E.join(t('sep')))); continue; }
+        batch.push(r); P.newLines.push({ n, r, warn: W });
+        continue;
+      }
+      const ch = [], E = [];
+      const cmp = (k, val) => { if (val === null || val === '') return; if (String(norm(o[k]) ?? '') !== String(norm(val) ?? '')) ch.push([k, o[k], val]); };   // 空着的格子 = 不修改
+      ['qty', 'plan', 'req', 'planLoad', 'plNote'].forEach(k => cmp(k, nx[k]));
+      const locked = ['month', 'origin', 'plant', 'sup', 'po'].filter(k => nx[k] !== null && nx[k] !== '' && !(k === 'month' && isNaN(nx[k])) && String(norm(o[k]) ?? '') !== String(norm(nx[k]) ?? ''));
+      if (o.bid && locked.length) P.notes.push({ n, msg: t('xlLocked', poLabel(o), locked.map(k => t(EDIT_LBL[k])).join(t('sep'))) });
+      else locked.forEach(k => ch.push([k, o[k], nx[k]]));
+      if (!ch.length) continue;
+      const after = { ...o, ...Object.fromEntries(ch.map(([k, , z]) => [k, z])) };
+      if (nx.qty === 'BAD') E.push(t('xlBadVal', t('fQty'), v.qty));
+      ['plan', 'req'].forEach(k => { if (after[k] === 'BAD') E.push(t('xlBadVal', t(EDIT_LBL[k]), v[k])); });
+      if (after.planLoad === 'BAD') E.push(t('xlBadVal', t('fPlanLoad'), v.planLoad));
+      const chg = new Set(ch.map(([k]) => k));         // 只检查这次改到的字段：旧数据本来缺的（如没填需求月份）不挡住改备注
+      if (!o.bid) {
+        if (chg.has('month') && !(after.month >= 1 && after.month <= 12)) E.push(t('cMonth'));
+        if (chg.has('origin') && !ORIGINS.includes(after.origin)) E.push(t('cOrigin'));
+        if (chg.has('plant') && after.plant && !PLANTS.includes(after.plant)) E.push(t('cPlant'));
+        if (chg.has('sup') && !after.sup) E.push(t('cSup'));
+        if (chg.has('po') && !/^CGDD\d{9}$/.test(after.po) && after.po !== 'TBC') E.push(t('cPO'));
+      }
+      if (after.plan && after.req && after.plan !== 'BAD' && after.req !== 'BAD' && after.req < after.plan) E.push(t('cReqBefore'));
+      const moved = ch.some(([k, a]) => (k === 'plan' || k === 'req') && a);
+      if (moved && (o.bid || isAlert(o)) && (!why || why === 'BAD')) E.push(t('eBaseReason'));
+      if (E.length) { err(n, `${poLabel(o)}：${E.join(t('sep'))}`); continue; }
+      P.ops.push({ n, ids: [o.id], target: `${poLabel(o)} · ${o.sup}`, ch: ch.map(([k, a, z]) => [EDIT_LBL[k] || 'fPlNote', a, z]),
+        apply: () => {
+          if (!o.editLog) o.editLog = [];
+          ch.forEach(([k, a, z]) => { if (k !== 'plNote') o.editLog.push({ at: TODAY, k, from: norm(a), to: norm(z), why: (k === 'plan' || k === 'req') ? why : '', by: ME.name }); });
+          ch.forEach(([k, , z]) => { o[k] = k === 'plNote' ? z : norm(z); });
+          if (!o.reqBase || why === '原值录入错误') o.reqBase = o.req;
+          if (!o.planBase || why === '原值录入错误') o.planBase = o.plan;
+        } });
+      continue;
+    }
+    // ----- 货代 -----
+    if (!o) { err(n, v.po ? t('xlFwNoMatch', String(v.po)) : t('xlFwNoNew')); continue; }
+    const f = { bkno: String(v.bkno || '').trim(), mbl: String(v.mbl || '').replace(/\s/g, ''), carrier: String(v.carrier || '').trim(),
+      type: xLoad(v.type), cont: xNum(v.cont), apick: xDate(v.apick), etd: xDate(v.etd), eta: xDate(v.eta), reason: xReason(v.reason || ''),
+      ata: xDate(v.ata), status: xStatus(v.status || ''), fwNote: String(v.fwNote || '').trim() };
+    const bad = [['type', 'fType'], ['cont', 'fCont'], ['apick', 'fApick'], ['etd', 'fEtd'], ['eta', 'fEta'], ['reason', 'xEtaReason'], ['ata', 'fAta'], ['status', 'fStatus']]
+      .filter(([k]) => f[k] === 'BAD').map(([k, l]) => t('xlBadVal', t(l), v[k]));
+    if (bad.length) { err(n, `${poLabel(o)}：${bad.join(t('sep'))}`); continue; }
+    const b = o.bid ? B[o.bid] : null;
+    const ownLine = b ? myFwd(b.fwd) : (!ME.fwd || !assignFwd(o) || assignFwd(o) === ME.fwd);
+    const filled = ['bkno', 'mbl', 'carrier', 'type', 'cont', 'etd', 'eta', 'ata', 'status', 'fwNote'].some(k => f[k] !== null && f[k] !== '') || (!!f.apick && f.apick !== o.apick);   // 下载时带出的原值不算填写
+    if (!ownLine) { if (filled) P.notes.push({ n, msg: t('xlNotOwn', poLabel(o)) }); continue; }
+    if (b) { (bkGroups[b.id] = bkGroups[b.id] || []).push({ n, o, f }); continue; }
+    if (!f.bkno) { if (filled) err(n, t('xlNeedBkno', poLabel(o))); continue; }
+    (newBk[f.bkno.toUpperCase()] = newBk[f.bkno.toUpperCase()] || []).push({ n, o, f });
+  }
+  // 同一订舱的多行要一致；按订舱生成修改
+  const BKF = [['bkno', 'fBkno'], ['mbl', 'fMbl'], ['carrier', 'fCarrier'], ['type', 'fType'], ['cont', 'fCont'], ['etd', 'fEtd'], ['eta', 'fEta'], ['ata', 'fAta'], ['status', 'fStatus'], ['fwNote', 'fFwNote']];
+  const merge = (list, label) => {
+    const m = {}, clash = [];
+    BKF.forEach(([k, l]) => { const vals = [...new Set(list.map(x => x.f[k]).filter(x => x !== null && x !== ''))].map(String);
+      if (vals.length > 1) clash.push(t(l)); m[k] = vals.length ? list.find(x => x.f[k] !== null && x.f[k] !== '').f[k] : null; });
+    m.reason = list.map(x => x.f.reason).find(x => x) || '';
+    if (clash.length) { err(list[0].n, t('xlClash', label, clash.join(t('sep')), list.map(x => x.n).join(', '))); return null; }
+    return m;
+  };
+  const checkBk = (m, prev, label, n) => {
+    const st = m.status || (prev ? prev.status : '已订舱'), ata = m.ata ?? (prev ? prev.ata : null), etd = m.etd ?? (prev ? prev.etd : null);
+    if (st === '已到港' && !ata) return t('eAta');
+    if (ata && st !== '已到港') return t('eAtaStatus');
+    if (ata && etd && ata < etd) return t('eAtaEtd');
+    if (prev && prev.eta && m.eta && m.eta !== prev.eta && !m.reason) return t('eReason');
+    return '';
+  };
+  Object.entries(bkGroups).forEach(([bid, list]) => {
+    const b = B[bid], m = merge(list, bid); if (!m) return;
+    const ch = []; BKF.forEach(([k, l]) => { if (m[k] !== null && m[k] !== '' && String(m[k]) !== String(b[k] ?? '')) ch.push([k, l, b[k], m[k]]); });
+    const pk = list.filter(x => x.f.apick && x.f.apick !== x.o.apick);
+    if (!ch.length && !pk.length) return;
+    const e = checkBk(Object.fromEntries(ch.map(([k, , , z]) => [k, z]).concat([['reason', m.reason]])), b, bid, list[0].n);
+    if (e) { err(list[0].n, `${bid}：${e}`); return; }
+    P.ops.push({ n: list[0].n, ids: list.map(x => x.o.id), target: `${bid}${b.bkno ? ' · ' + b.bkno : ''} · ${list.map(x => poLabel(x.o)).join(', ')}`,
+      ch: ch.map(([, l, a, z]) => [l, a, z]).concat(pk.map(x => ['fApick', x.o.apick, x.f.apick])).concat(m.reason && ch.some(c => c[0] === 'eta') ? [['xEtaReason', '', m.reason]] : []),
+      apply: () => {
+        const eta = ch.find(c => c[0] === 'eta');
+        if (eta) b.etaLog.push({ at: TODAY, from: b.eta, to: eta[3], reason: b.eta ? m.reason : '首次报告', by: ME.name });
+        if (ch.some(c => c[0] === 'ata')) b.ataLegacy = false;
+        ch.forEach(([k, , , z]) => { b[k] = k === 'cont' ? (+z || 1) : z; });
+        b.lastUpd = TODAY; b.lastBy = ME.name;
+        pk.forEach(x => { x.o.apick = x.f.apick; });
+      } });
+  });
+  // 待订舱的行填了订舱号：同号的合并成一个订舱；已有同号订舱就并进去
+  Object.entries(newBk).forEach(([key, list]) => {
+    const m = merge(list, key); if (!m) return;
+    if (new Set(list.map(x => x.o.origin)).size > 1) { err(list[0].n, t('xlRouteMix', key)); return; }
+    const exist = Object.values(B).find(b => (b.bkno || '').toUpperCase() === key && myFwd(b.fwd) && members(b.id).some(r => !r.deleted));
+    const e = checkBk(m, exist || null, key, list[0].n); if (e) { err(list[0].n, `${key}：${e}`); return; }
+    P.ops.push({ n: list[0].n, ids: list.map(x => x.o.id), target: `${exist ? exist.id + ' · ' : ''}${key} · ${list.map(x => poLabel(x.o)).join(', ')}`,
+      ch: [[exist ? 'xJoinBk' : 'xNewBk', '', `${key}（${list.length}）`]].concat(BKF.filter(([k]) => m[k] !== null && m[k] !== '' && k !== 'bkno').map(([k, l]) => [l, exist ? exist[k] : '', m[k]])),
+      apply: () => {
+        let b = exist;
+        if (!b) {
+          const id = newBid();
+          b = B[id] = { id, type: m.type || (list.length > 1 ? '拼箱' : (list[0].o.planLoad || '整柜')), fwd: ME.fwd || assignFwd(list[0].o) || '', bkno: m.bkno || key,
+            carrier: m.carrier || '', mbl: m.mbl || '', cont: +m.cont || 1, etd: m.etd, eta: m.eta, ata: m.ata, status: m.status || '已订舱', fwNote: m.fwNote || '',
+            legacyConflict: [], reassign: [], etaLog: [], lastUpd: TODAY, lastBy: ME.name };
+          if (b.eta) b.etaLog.push({ at: TODAY, from: null, to: b.eta, reason: '首次报告', by: ME.name });
+        } else {
+          if (m.eta && m.eta !== b.eta) b.etaLog.push({ at: TODAY, from: b.eta, to: m.eta, reason: b.eta ? m.reason : '首次报告', by: ME.name });
+          BKF.forEach(([k]) => { if (m[k] !== null && m[k] !== '') b[k] = k === 'cont' ? (+m[k] || 1) : m[k]; });
+          b.lastUpd = TODAY; b.lastBy = ME.name;
+        }
+        list.forEach(x => { const a = award(x.o); x.o.awardAtBook = a ? { fwd: a.fwd, period: a.period } : null; x.o.bid = b.id; if (x.f.apick) x.o.apick = x.f.apick; });
+      } });
+  });
+  return P;
+}
+
+// 上传预览里选原因：每行可勾选，顶上一个下拉把勾选的行统一设好；单行仍可单独改
+function reasonBox(key, items, opts, cur, off) {      // items: [{id, html}]；cur: id → 原因；off: 没勾选的 id
+  const on = items.filter(x => !off.has(x.id)), left = items.filter(x => !cur[x.id]).length;
+  const sel = (attr, v) => `<select ${attr}><option value="">${t('choose')}</option>${opts.map(r => `<option value="${r}" ${v === r ? 'selected' : ''}>${tv(r)}</option>`).join('')}</select>`;
+  return `<div class="rbulk"><label><input type="checkbox" data-${key}all ${on.length === items.length ? 'checked' : ''}> ${t('rbAll')}</label>
+    <span>${t('rbBulk', on.length)}</span>${sel(`data-${key}bulk ${on.length ? '' : 'disabled'}`, '')}<span class="muted" style="margin-left:auto">${t('rbLeft', left)}</span></div>
+    <div class="box">${items.map(x => `<div class="box-i" style="cursor:default;grid-template-columns:auto 1fr auto"><input type="checkbox" data-${key}on="${esc(x.id)}" ${off.has(x.id) ? '' : 'checked'}><span>${x.html}</span>${sel(`data-${key}="${esc(x.id)}"`, cur[x.id])}</div>`).join('')}</div>`;
+}
+function reasonWire(box, key, ids, cur, off, replan, rerender) {
+  box.querySelectorAll(`[data-${key}]`).forEach(s => s.onchange = () => { cur[s.dataset[key]] = s.value; replan(); });
+  box.querySelectorAll(`[data-${key}on]`).forEach(c => c.onchange = () => { c.checked ? off.delete(c.dataset[key + 'on']) : off.add(c.dataset[key + 'on']); rerender(); });
+  box.querySelectorAll(`[data-${key}all]`).forEach(c => c.onchange = () => { off.clear(); if (!c.checked) ids.forEach(id => off.add(id)); rerender(); });
+  box.querySelectorAll(`[data-${key}bulk]`).forEach(s => s.onchange = () => { if (!s.value) return; ids.filter(id => !off.has(id)).forEach(id => { cur[id] = s.value; }); replan(); });
+}
+
+/* ---------- 货代批量更新：在平台里的一张表格里改，数据就是平台本身（不经过任何外部文件） ----------
+   · 只列出自己公司的柜子和分给自己的待订舱需求；改过的格子标黄，保存前统一检查
+   · 同一订舱的几行，订舱字段联动；勾选几行填同一个订舱号 = 合并成一个订舱
+   · 可以把自己表里的一整列粘贴进来，从点中的格子往下依次填（整份报表请用「上传报表」）
+   · 每行可反馈"信息有误 / 不是我们的货"，平台里没有的 PO 可报告漏单，由计划员 / 物流处理 */
+const GF = [['bkno', 'fBkno', 'text', 112], ['mbl', 'fMbl', 'text', 130], ['carrier', 'fCarrier', 'text', 88], ['apick', 'fApick', 'date', 116],
+  ['etd', 'fEtd', 'date', 116], ['eta', 'fEta', 'date', 116], ['reason', 'xEtaReason', 'reason', 120], ['status', 'fStatus', 'status', 96], ['ata', 'fAta', 'date', 116]];
+const BKFIELDS = ['bkno', 'mbl', 'carrier', 'etd', 'eta', 'status', 'ata'];
+const FB_TYPES = ['wrongInfo', 'notOurs', 'other'];
+const G = { list: [], ed: new Map(), sel: new Set(), errs: new Map(), filter: 'all', q: '', fbOpen: '', report: null };
+const gOrig = (o, k) => { const b = o.bid ? B[o.bid] : null;
+  if (k === 'apick') return o.apick || ''; if (k === 'reason') return ''; return b ? (b[k] ?? '') : ''; };
+const gVal = (o, k) => { const e = G.ed.get(o.id); return e && k in e ? e[k] : gOrig(o, k); };
+const openFb = o => (o.fbk || []).filter(f => f.st === 'open');
+function gSet(o, k, v) {                               // 订舱字段：同一订舱的几行一起改
+  const targets = o.bid && BKFIELDS.includes(k) ? G.list.filter(x => x.bid === o.bid) : [o];
+  targets.forEach(x => { const e = G.ed.get(x.id) || {}; if (String(v) === String(gOrig(x, k))) delete e[k]; else e[k] = v;
+    if (Object.keys(e).length) G.ed.set(x.id, e); else G.ed.delete(x.id); G.errs.delete(x.id); });
+}
+function openFwGrid() {
+  G.list = active().filter(o => mine(o)).sort((a, b) => String(a.bid || '~').localeCompare(String(b.bid || '~')) || String(a.plan || '9').localeCompare(String(b.plan || '9')));
+  G.ed.clear(); G.sel.clear(); G.errs.clear(); G.fbOpen = ''; G.report = null;
+  $('fwgrid').classList.remove('hidden'); document.body.style.overflow = 'hidden'; renderFwGrid();
+}
+function closeFwGrid(force) {
+  if (!force && G.ed.size && !confirm(t('gDiscard', G.ed.size))) return;
+  $('fwgrid').classList.add('hidden'); document.body.style.overflow = ''; G.ed.clear();
+}
+function gShown() {
+  const q = G.q.toLowerCase();
+  return G.list.filter(o => (G.filter === 'all' || (G.filter === 'unbooked' && !o.bid) || (G.filter === 'booked' && o.bid) || (G.filter === 'alert' && isAlert(o)) || (G.filter === 'changed' && G.ed.has(o.id)))
+    && (!q || `${o.po} ${o.sup} ${gVal(o, 'bkno')} ${gVal(o, 'mbl')}`.toLowerCase().includes(q)));
+}
+function gCell(o, k, kind, w) {
+  const v = gVal(o, k), ch = G.ed.has(o.id) && k in G.ed.get(o.id), ro = k === 'ata' && false;
+  const cls = `gi${ch ? ' gch' : ''}${k === 'reason' && G.errs.get(o.id) && /原因|reason|motivo/i.test(G.errs.get(o.id)) ? ' ger' : ''}`;
+  const attrs = `class="${cls}" data-id="${esc(o.id)}" data-k="${k}" style="width:${w}px"`;
+  if (kind === 'status') return `<select ${attrs}><option value="">${o.bid ? '' : '—'}</option>${S4.map(s => `<option value="${s}" ${s === v ? 'selected' : ''}>${tv(s)}</option>`).join('')}</select>`;
+  if (kind === 'reason') { const need = o.bid && gOrig(o, 'eta') && gVal(o, 'eta') !== gOrig(o, 'eta');
+    return `<select ${attrs} ${need ? '' : 'disabled'}><option value="">${need ? t('choose') : ''}</option>${REASONS.map(r => `<option value="${r}" ${r === v ? 'selected' : ''}>${tv(r)}</option>`).join('')}</select>`; }
+  return `<input ${attrs} type="${kind === 'date' ? 'date' : 'text'}" value="${esc(v)}" ${ro ? 'readonly' : ''}>`;
+}
+function renderFwGrid() {
+  const box = $('fwgrid'), list = gShown(), mineRep = rows.filter(o => o.pending && o.pending.fwd === (ME.fwd || o.pending.fwd) && o.pending.by === ME.name);
+  const cnt = k => G.list.filter(o => k === 'unbooked' ? !o.bid : k === 'booked' ? o.bid : k === 'alert' ? isAlert(o) : G.ed.has(o.id)).length;
+  const chip = (k, l) => `<button class="gchip" data-f="${k}" aria-pressed="${G.filter === k}">${l} <span>${k === 'all' ? G.list.length : cnt(k)}</span></button>`;
+  const fbList = o => openFb(o).map(f => `<span class="ld warn" title="${esc(f.note)}">${t('fb_' + f.type)}</span>`).join('');
+  let lastBid = null;
+  const body = list.map(o => {
+    const grp = o.bid && o.bid === lastBid; lastBid = o.bid;
+    const err = G.errs.get(o.id);
+    return `<tr class="${grp ? 'gsame' : ''}${err ? ' gerr' : ''}" data-row="${esc(o.id)}">
+      <td><input type="checkbox" class="gsel" data-id="${esc(o.id)}" ${G.sel.has(o.id) ? 'checked' : ''} aria-label="${esc(o.po)}"></td>
+      <td class="gpo"><b class="mono">${esc(poLabel(o))}</b><span>${esc(o.sup)} · ${esc(o.origin)}${o.plant ? ' · ' + esc(o.plant) : ''}</span>${fbList(o)}</td>
+      <td class="gd">${o.plan || '—'}<span>${t('mReq')} ${o.req || '—'}</span></td>
+      <td class="gd">${o.bid ? `<span class="mono">${esc(o.bid)}</span>` : `<span class="muted">${t('notBookedS')}</span>`}<span>${delayPill(o)}</span></td>
+      ${GF.map(([k, , kind, w]) => `<td>${gCell(o, k, kind, w)}</td>`).join('')}
+      <td><button class="ghost gfb" data-id="${esc(o.id)}" aria-label="${esc(t('fbBtn'))}" title="${esc(t('fbBtn'))}">⚑</button></td>
+    </tr>${err ? `<tr class="gerrmsg"><td></td><td colspan="${GF.length + 4}">${esc(err)}</td></tr>` : ''}
+    ${G.fbOpen === o.id ? `<tr class="gfbrow"><td></td><td colspan="${GF.length + 4}"><div class="gfbform">
+      <select id="fbType">${FB_TYPES.map(x => `<option value="${x}">${t('fb_' + x)}</option>`).join('')}</select>
+      <input id="fbNote" type="text" placeholder="${esc(t('fbNotePh'))}"><button class="btn" id="fbSend">${t('fbSend')}</button><button class="ghost" id="fbCancel">${t('delCancel')}</button>
+      ${(o.fbk || []).length ? `<div class="gfbhist">${o.fbk.map(f => `<div>${f.at} · ${esc(f.by)} · <b>${t('fb_' + f.type)}</b> ${esc(f.note)} · ${t('fbSt_' + f.st)}${f.res ? ' — ' + esc(f.res) : ''}</div>`).join('')}</div>` : ''}</div></td></tr>` : ''}`;
+  }).join('');
+  const nSel = G.sel.size;
+  box.innerHTML = `<div class="gwrap">
+    <div class="ghead"><div><h2>${t('gTitle')}${ME.fwd ? ' · ' + esc(ME.fwd) : ''}</h2><p class="muted">${t('gSub')}</p></div>
+      <div class="gacts"><button class="ghost" id="gReportBtn">${t('gReportBtn')}</button>
+      <button class="btn" id="gSave" ${G.ed.size ? '' : 'disabled'}>${t('gSave', G.ed.size)}</button><button class="x" id="gClose" aria-label="${esc(t('close'))}">✕</button></div></div>
+    ${G.report ? gReportBox() : ''}
+    <div class="gbar">${chip('all', t('gAll'))}${chip('unbooked', t('gUnbooked'))}${chip('booked', t('gBooked'))}${chip('alert', t('gAlert'))}${chip('changed', t('gChanged'))}
+      <input id="gQ" type="search" placeholder="${esc(t('search'))}" value="${esc(G.q)}"></div>
+    ${nSel ? `<div class="gbulk"><b>${t('gSelN', nSel)}</b><select id="gbK">${GF.filter(([k]) => k !== 'reason').map(([k, l]) => `<option value="${k}">${t(l)}</option>`).join('')}</select>
+      <input id="gbV" type="text" placeholder="${esc(t('gBulkPh'))}"><button class="ghost" id="gbGo">${t('gBulkGo')}</button><span class="muted">${t('gBulkHint')}</span></div>` : ''}
+    <div class="gscroll"><table class="gt"><thead><tr><th></th><th>PO · ${t('hSup')}</th><th>${t('fPlan')}</th><th>${t('gBk')}</th>${GF.map(([, l]) => `<th>${t(l)}</th>`).join('')}<th></th></tr></thead>
+      <tbody>${body || `<tr><td colspan="${GF.length + 5}" class="empty">${t('empty')}</td></tr>`}</tbody></table></div>
+    <p class="hint">${t('gHint')}</p>
+    ${mineRep.length ? `<h3 class="au-h">${t('repMine', mineRep.length)}</h3><div class="box">${mineRep.map(o => `<div class="box-i" style="cursor:default"><span><b class="mono">${esc(o.po)}</b> · ${esc(o.sup)} · ${o.plan || '—'}</span><span class="muted">${t('repSt_' + (o.pending.st || 'open'))}${o.pending.res ? ' — ' + esc(o.pending.res) : ''}</span></div>`).join('')}</div>` : ''}
+  </div>`;
+  gWire();
+}
+function gWire() {
+  const box = $('fwgrid');
+  $('gClose').onclick = () => closeFwGrid();
+  $('gSave').onclick = gSave;
+  $('gReportBtn').onclick = () => { G.report = G.report ? null : {}; renderFwGrid(); };
+  $('gQ').oninput = e => { G.q = e.target.value; const p = e.target.selectionStart; renderFwGrid(); const n = $('gQ'); n.focus(); n.setSelectionRange(p, p); };
+  box.querySelectorAll('.gchip').forEach(b => b.onclick = () => { G.filter = b.dataset.f; renderFwGrid(); });
+  box.querySelectorAll('.gsel').forEach(c => c.onchange = () => { c.checked ? G.sel.add(c.dataset.id) : G.sel.delete(c.dataset.id); renderFwGrid(); });
+  box.querySelectorAll('.gi').forEach(inp => {
+    inp.onchange = () => { gSet(R(inp.dataset.id), inp.dataset.k, inp.value.trim()); renderFwGrid(); };
+    inp.onpaste = e => {                               // 一整列粘贴：从这一格往下依次填；带制表符就往右填
+      const txt = (e.clipboardData || window.clipboardData).getData('text');
+      if (!/[\n\t]/.test(txt.trim())) return;
+      e.preventDefault();
+      const vis = gShown(), r0 = vis.findIndex(o => o.id === inp.dataset.id), c0 = GF.findIndex(f => f[0] === inp.dataset.k);
+      txt.replace(/\r/g, '').split('\n').filter((l, i, a) => l !== '' || i < a.length - 1).forEach((line, i) => {
+        const o = vis[r0 + i]; if (!o) return;
+        line.split('\t').forEach((cell, j) => { const f = GF[c0 + j]; if (f) gSet(o, f[0], gParse(f[0], cell)); });
+      });
+      renderFwGrid();
+    };
+  });
+  box.querySelectorAll('.gfb').forEach(b => b.onclick = () => { G.fbOpen = G.fbOpen === b.dataset.id ? '' : b.dataset.id; renderFwGrid(); });
+  if ($('fbSend')) {
+    $('fbCancel').onclick = () => { G.fbOpen = ''; renderFwGrid(); };
+    $('fbSend').onclick = () => {
+      const note = $('fbNote').value.trim(); if (!note) { $('fbNote').focus(); return toast(t('fbNeedNote')); }
+      const o = R(G.fbOpen); (o.fbk || (o.fbk = [])).push({ id: rid(), type: $('fbType').value, note, by: ME.name, fwd: ME.fwd || '', at: TODAY, st: 'open' });
+      G.fbOpen = ''; renderAll(); renderFwGrid(); toast(t('fbSent'));
+    };
+  }
+  if ($('gbGo')) $('gbGo').onclick = () => {
+    const k = $('gbK').value, v = gParse(k, $('gbV').value);
+    if (v === 'BAD') return toast(t('xlBadVal', t(GF.find(f => f[0] === k)[1]), $('gbV').value));
+    G.list.filter(o => G.sel.has(o.id)).forEach(o => gSet(o, k, v)); renderFwGrid();
+  };
+  if ($('repSend')) $('repSend').onclick = gReportSend;
+  if ($('repCancel')) $('repCancel').onclick = () => { G.report = null; renderFwGrid(); };
+}
+function gParse(k, s) {
+  s = String(s ?? '').trim(); if (s === '') return '';
+  if (['etd', 'eta', 'ata', 'apick'].includes(k)) { const d = xDate(s); return d === 'BAD' ? 'BAD' : d || ''; }
+  if (k === 'status') { const x = xStatus(FW_STATUS_ALIAS[s.toLowerCase()] || s); return x; }
+  if (k === 'reason') return xReason(s);
+  if (k === 'mbl') return s.replace(/\s/g, '');
+  return s;
+}
+const FW_STATUS_ALIAS = { booked: '已订舱', confirmed: '已订舱', 'picked up': '已提货', pickup: '已提货', 'on water': '在途', 'in transit': '在途', sailed: '在途', arrived: '已到港' };
+// 报告漏单：平台里没有的 PO，先作为"待确认"记录，由计划员确认后才成为正式需求
+function gReportBox() {
+  const r = G.report || {};
+  const f = (k, l, type = 'text', v = r[k] || '') => `<div class="fld"><label>${l}</label>${type === 'origin' ? `<select data-r="${k}"><option value="">${t('choose')}</option>${ORIGINS.map(x => `<option ${x === v ? 'selected' : ''}>${x}</option>`).join('')}</select>`
+    : `<input data-r="${k}" type="${type}" value="${esc(v)}" ${k === 'po' ? 'class="mono"' : ''}>`}</div>`;
+  return `<div class="gpaste"><h3 style="margin:0 0 4px;font-size:15px">${t('repTitle')}</h3><p class="muted" style="margin:0 0 8px">${t('repHelp')}</p>
+    <div class="grid">${f('po', t('fPO'))}${f('sup', t('fSup'))}${f('origin', t('fOrigin'), 'origin')}${f('plant', t('fPlantOpt'))}${f('qty', t('fQtyP'))}${f('plan', t('fPlan'), 'date')}
+    ${f('bkno', t('fBkno'))}${f('eta', t('fEta'), 'date')}<div class="fld wide"><label>${t('repNote')}</label><input data-r="note" type="text" value="${esc(r.note || '')}"></div></div>
+    <p class="btnrow"><button class="btn" id="repSend">${t('repSend')}</button><button class="ghost" id="repCancel">${t('delCancel')}</button></p></div>`;
+}
+// 报告漏单（表单和上传报表的批量报告共用）：成功返回 ''，否则返回提示
+function reportMissing(r) {
+  const s = k => String(r[k] ?? '').trim(), po = s('po').toUpperCase(), plan = s('plan'), origin = nOrigin(s('origin')), qty = s('qty').replace(/[^\d.]/g, '');
+  if (!/^CGDD\d{9}$/.test(po) || !s('sup') || !ORIGINS.includes(origin) || nDate(plan) !== plan || Math.abs(diff(plan, TODAY)) > 730) return t('repNeed');
+  if (rows.some(o => o.po === po && !o.deleted && !(o.pending && o.pending.st === 'rej'))) return t(rows.some(o => o.po === po && isPend(o)) ? 'repDup' : 'repExists', po);
+  const o = addRow({ month: +plan.slice(5, 7), origin, plant: s('plant').toUpperCase(), sup: s('sup'), po, qty: qty ? +qty || null : null,
+    plan, req: autoReq(plan, origin), planLoad: '' });
+  o.pending = { fwd: ME.fwd || '', by: ME.name, at: TODAY, note: s('note'), bkno: s('bkno'), eta: s('eta'), st: 'open' };
+  return '';
+}
+function gReportSend() {
+  const v = k => (document.querySelector(`[data-r="${k}"]`) || {}).value?.trim() || '';
+  const r = Object.fromEntries(['po', 'sup', 'origin', 'plant', 'qty', 'plan', 'note', 'bkno', 'eta'].map(k => [k, v(k)])), e = reportMissing(r);
+  if (e) return toast(e);
+  G.report = null; renderAll(); renderFwGrid(); toast(t('repSent', r.po.toUpperCase()));
+}
+// 保存：用和 Excel 导入相同的校验（改 ETA 要原因、到港要实际日期、同一订舱一致、只能改自己的），通过的写入，有问题的留在表里标红
+function gSave() {
+  const ids = [...G.ed.keys()]; if (!ids.length) return;
+  const data = ids.map((id, i) => { const o = R(id), v = { lineId: id, bookingId: o.bid || '', type: '', cont: '', fwNote: '' };
+    GF.forEach(([k]) => { v[k] = gVal(o, k); }); return { n: i + 1, v }; });
+  const P = planImport(data);
+  G.errs.clear();
+  const idOf = n => data[n - 1] && data[n - 1].v.lineId;
+  P.errs.forEach(e => { const id = idOf(e.n); if (id) G.errs.set(id, e.msg); });
+  const done = new Set(); P.ops.forEach(op => { op.apply(); (op.ids || []).forEach(id => done.add(id)); });
+  // 没写进去的行都留在表里：同一订舱 / 同一订舱号的行沿用同组的错误说明
+  ids.filter(id => !done.has(id) && !G.errs.has(id)).forEach(id => { const o = R(id);
+    const peer = [...G.errs.keys()].find(x => { const p = R(x); return (o.bid && p.bid === o.bid) || (!o.bid && gVal(p, 'bkno') && gVal(p, 'bkno').toUpperCase() === String(gVal(o, 'bkno')).toUpperCase()); });
+    G.errs.set(id, peer ? G.errs.get(peer) : t('gNotSaved')); });
+  const failed = new Set(G.errs.keys());
+  ids.filter(id => done.has(id)).forEach(id => G.ed.delete(id));
+  G.list = active().filter(o => mine(o)).sort((a, b) => String(a.bid || '~').localeCompare(String(b.bid || '~')) || String(a.plan || '9').localeCompare(String(b.plan || '9')));
+  renderAll(); renderFwGrid();
+  toast(failed.size ? t('gSavedSome', P.ops.length, failed.size) : t('gSavedAll', P.ops.length));
+}
+
+/* ---------- 计划员 / 物流：处理货代反馈和漏单报告 ---------- */
+const pendingRows = () => rows.filter(o => o.pending && o.pending.st === 'open' && !o.deleted);
+function openPending() {
+  cur = { mode: 'pending' };
+  const P = role === 'planner' || ME.admin;
+  const list = pendingRows();
+  const okPlan = d => !!d && nDate(d) === d && Math.abs(diff(d, TODAY)) <= 730;
+  const reqTxt = (plan, origin) => { const r = okPlan(plan) && ORIGINS.includes(origin) ? autoReq(plan, origin) : ''; return r ? t('pendReq', r) : '—'; };
+  const card = o => { const p = o.pending, ori = nOrigin(o.origin), bad = !okPlan(o.plan) || !ORIGINS.includes(ori), id = esc(o.id);
+    const opt = (vals, v, blank) => `${blank ? `<option value="">${blank}</option>` : ''}${vals.map(x => `<option ${x === v ? 'selected' : ''}>${x}</option>`).join('')}`;
+    return `<div class="pcard ${bad ? 'bad' : ''}">
+      <div class="pc-top"><b class="mono pc-po">${esc(o.po)}</b><span>${esc(o.sup)}</span>${bad ? `<span class="pc-warn">${t('pendFix')}</span>` : ''}</div>
+      <div class="muted" style="font-size:12.5px">${esc(t('pendBy', p.fwd || '—', p.by, p.at))}${p.bkno ? ' · ' + esc(t('fBkno')) + ' ' + esc(p.bkno) : ''}${p.eta ? ' · ETA ' + p.eta : ''}</div>
+      ${p.note ? `<div class="pc-note">${esc(p.note)}</div>` : ''}
+      ${P ? `<div class="grid">
+        <div class="fld"><label>${t('fPlan')}</label><input type="date" data-pp="plan" data-pid="${id}" value="${okPlan(o.plan) ? o.plan : ''}"></div>
+        <div class="fld"><label>${t('fOrigin')}</label><select data-pp="origin" data-pid="${id}">${opt(ORIGINS, ori, t('choose'))}</select></div>
+        <div class="fld"><label>${t('fPlantOpt')}</label><select data-pp="plant" data-pid="${id}">${opt(PLANTS, o.plant, '—')}</select></div>
+        <div class="fld"><label>${t('fQtyP')}</label><input type="number" min="0" data-pp="qty" data-pid="${id}" value="${o.qty ?? ''}"></div></div>
+        <div class="pc-req muted" data-preq="${id}">${esc(reqTxt(o.plan, ori))}</div>
+        <div class="btnrow"><button class="btn" data-pok="${id}">${t('pendOk')}</button><input type="text" data-pnote="${id}" placeholder="${esc(t('pendRejPh'))}" style="flex:1;min-width:140px"><button class="ghost dng" data-prej="${id}">${t('pendRej')}</button></div>`
+      : `<div class="muted" style="font-size:12.5px">${t('fPlan')} ${okPlan(o.plan) ? o.plan : '—'} · ${esc(ori || '—')}${o.plant ? ' · ' + esc(o.plant) : ''}${o.qty ? ' · ' + o.qty : ''}</div>`}
+    </div>`; };
+  const html = `<p class="hint" style="margin:0">${t('pendHelp')}</p>${list.map(card).join('') || `<div class="empty">${t('empty')}</div>`}`;
+  showDrawer(t('pendTitle', list.length), t('pendSub'), html, '');
+  const field = (id, k) => document.querySelector(`#dbody [data-pid="${id}"][data-pp="${k}"]`);
+  $('dbody').querySelectorAll('[data-pp="plan"],[data-pp="origin"]').forEach(el => el.onchange = () => {
+    const id = el.dataset.pid; document.querySelector(`#dbody [data-preq="${id}"]`).textContent = reqTxt(field(id, 'plan').value, field(id, 'origin').value); });
+  $('dbody').querySelectorAll('[data-pok]').forEach(b => b.onclick = () => {
+    const o = R(b.dataset.pok), plan = field(o.id, 'plan').value, origin = field(o.id, 'origin').value, q = field(o.id, 'qty').value;
+    if (!okPlan(plan) || !ORIGINS.includes(origin)) return err(t('pendFix'));
+    Object.assign(o, { plan, planBase: plan, month: +plan.slice(5, 7), origin, plant: field(o.id, 'plant').value, qty: q === '' ? null : +q || null });
+    o.req = o.reqBase = autoReq(plan, origin);
+    o.pending.st = 'ok'; o.pending.res = ME.name; o.pending.resAt = TODAY;
+    if (!o.editLog) o.editLog = []; o.editLog.push({ at: TODAY, k: 'po', from: null, to: o.po, why: t('pendConfirmed', o.pending.fwd), by: ME.name });
+    renderAll(); openPending(); toast(t('pendOkDone', o.po));
+  });
+  $('dbody').querySelectorAll('[data-prej]').forEach(b => b.onclick = () => {
+    const o = R(b.dataset.prej), note = document.querySelector(`#dbody [data-pnote="${b.dataset.prej}"]`).value.trim();
+    if (!note) return err(t('pendRejNeed'));
+    o.pending.st = 'rej'; o.pending.res = note; o.pending.resAt = TODAY;
+    o.deleted = { at: TODAY, by: role, byName: ME.name, reason: '其他', note: t('pendRejected', note) };
+    renderAll(); openPending(); toast(t('pendRejDone', o.po));
+  });
+}
+function resolveFb(o, id, res) {
+  const f = (o.fbk || []).find(x => x.id === id); if (!f) return;
+  f.st = 'done'; f.res = res; f.resBy = ME.name; f.resAt = TODAY;
+}
+
+function fbBlock(o) {                                 // 详情页里的货代反馈：计划员 / 物流写明处理结果后关闭
+  const L = o.fbk || []; if (!L.length) return '';
+  const can = role === 'planner' || role === 'log';
+  return `<div class="wn" style="display:block">${L.map(f => `<div style="margin:4px 0"><b>${t('fb_' + f.type)}</b> · ${esc(f.fwd || '')} ${esc(f.by)} · ${f.at}<br>${esc(f.note)}
+    ${f.st === 'done' ? `<br><span class="muted">${esc(t('fbDoneBy', f.resBy || '', f.resAt || '', f.res || ''))}</span>`
+      : can ? `<div class="btnrow" style="margin-top:6px"><input type="text" data-fbnote="${esc(f.id)}" placeholder="${esc(t('fbResPh'))}" style="flex:1;min-width:160px"><button class="ghost" data-fbres="${esc(f.id)}">${t('fbResolve')}</button></div>`
+      : `<br><span class="muted">${t('fbSt_open')}</span>`}</div>`).join('')}</div>`;
+}
+
+/* ---------- 货代上传自己的报表：平台自动识别格式，按柜子汇总变化，确认一次全部写入 ----------
+   · 不规定格式：PO 列按内容（CGDD + 9 位数字）找，表头按常见叫法（中英文）认，认错的改一次就记住这家货代的格式
+   · 平台仍是唯一数据：报表只是输入，按 PO 对到平台里的记录，确认后才写入；对不上的单独列出 */
+const XLSX_LIB = { src: 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+  sri: 'sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw' };
+function loadSheetJS() {
+  if (window.XLSX) return Promise.resolve();
+  return new Promise((ok, no) => { const s = document.createElement('script'); s.src = XLSX_LIB.src; s.integrity = XLSX_LIB.sri; s.crossOrigin = 'anonymous';
+    s.onload = ok; s.onerror = () => no(new Error(t('xlLibFail'))); document.head.appendChild(s); });
+}
+// 各字段的常见叫法（小写、去标点后比较）
+const UALIAS = {
+  po: ['po', 'po#', 'po no', 'po number', 'purchase order', '订单号', 'po号', '采购订单', 'orden de compra', 'oc', 'no oc', 'pedido'],
+  bkno: ['booking', 'booking no', 'booking number', 'booking ref', 'bkg', 'bkg no', 'so', 's/o', 'so no', 'shipping order', '订舱号', '订舱', 'reserva', 'no reserva', 'numero de reserva'],
+  mbl: ['mbl', 'mbl no', 'b/l', 'bl', 'bl no', 'b/l no', 'master bl', 'master b/l', '提单号', '主提单', 'bl master', 'conocimiento de embarque'],
+  carrier: ['carrier', 'shipping line', 'line', 'shipping company', '船公司', '承运人', 'naviera', 'linea naviera'],
+  cont: ['no of containers', 'containers', 'container qty', 'cntr qty', 'qty of containers', '柜数', '箱量', 'contenedores', 'cantidad de contenedores'],
+  apick: ['pu date', 'pickup date', 'pick up date', 'actual pickup', 'actual pu', 'actual pick up', '提货日', '实际提货', '实际提货日', 'fecha de recoleccion', 'recoleccion'],
+  etd: ['etd', 'etd date', 'departure', 'sailing date', '开船', '开船日', '开航日', 'fecha de salida', 'salida', 'zarpe'],
+  eta: ['eta', 'eta at port', 'eta port', 'eta pod', 'eta date', '预计到港', '到港日', 'eta到港', 'fecha estimada de llegada', 'llegada estimada'],
+  ata: ['ata', 'actual arrival', 'arrival date', 'ata date', '实际到港', '实际到港日', 'fecha de llegada', 'llegada real'],
+  status: ['status', 'shipment status', '状态', '货物状态', 'estatus', 'estado'],
+  sup: ['supplier', 'shipper', 'vendor', '供应商', '发货人', 'proveedor'],
+  origin: ['origin', 'pol', '起运地', '起运港', 'origen'],
+  plant: ['plant', 'planta', '工厂'],
+  plan: ['plan pu date', 'planned pickup', 'plan pickup', 'planned pick up', '计划提货', '计划提货日', 'recoleccion planeada', 'fecha plan'],
+  qty: ['qty', 'qty pallets', 'pallets', 'quantity', '托数', '数量', 'tarimas', 'cantidad'],
+  note: ['comments', 'comment', 'remark', 'remarks', 'note', 'notes', '备注', 'comentarios', 'observaciones', 'notas'],
+  ignore: ['invoice', 'invoice / packing list', 'packing list', 'required eta', 'req eta', 'month', 'load type', 'forwarder', 'route', '发票'],
+};
+const UFIELDS = ['po', 'bkno', 'mbl', 'carrier', 'cont', 'apick', 'etd', 'eta', 'ata', 'status', 'sup', 'origin', 'plant', 'plan', 'qty', 'note'];
+const hNorm = s => String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[\r\n]+/g, ' ').replace(/[.:：#()（）]/g, ' ').replace(/\s+/g, ' ').trim();
+function guessField(h) {
+  const n = hNorm(h); if (!n) return '';
+  for (const f of ['ignore', ...UFIELDS]) if (UALIAS[f].some(a => n === hNorm(a))) return f === 'ignore' ? '' : f;
+  let best = '', bl = 0;                              // 包含匹配：选最长的叫法，避免 eta / etd 这类短词误配
+  for (const f of ['ignore', ...UFIELDS]) for (const a of UALIAS[f]) { const x = hNorm(a);
+    const hit = x.length <= 3 ? new RegExp(`(^|[^a-z])${x.replace(/[/]/g, '\\/')}([^a-z]|$)`).test(n) : n.includes(x);
+    if (hit && x.length > bl) { best = f === 'ignore' ? '' : f; bl = x.length; } }
+  return best;
+}
+const PO_RE = /CGDD\d{9}/g;
+const U = { files: [], recs: [], cols: [], map: {}, reasons: {}, off: new Set(), missOff: new Set(), P: null, sum: null, err: '' };
+const mapKey = () => 'ship-fwmap-' + (ME.fwd || 'admin');
+const loadMap = () => { try { return JSON.parse(localStorage.getItem(mapKey()) || '{}'); } catch (e) { return {}; } };
+const saveMap = m => { try { localStorage.setItem(mapKey(), JSON.stringify(m)); } catch (e) {} };
+
+function openUpload() {
+  Object.assign(U, { files: [], recs: [], cols: [], map: {}, reasons: {}, off: new Set(), missOff: new Set(), P: null, sum: null, err: '' });
+  $('fwup').classList.remove('hidden'); document.body.style.overflow = 'hidden'; renderUpload();
+}
+function closeUpload() { $('fwup').classList.add('hidden'); document.body.style.overflow = ''; }
+
+// 读文件 / 粘贴 → 每个工作表变成二维数组
+async function readFiles(files) {
+  try { await loadSheetJS(); } catch (e) { U.err = e.message; return renderUpload(); }
+  const sheets = [];
+  for (const f of files) {
+    try {
+      const wb = XLSX.read(await f.arrayBuffer(), { type: 'array', raw: true });
+      wb.SheetNames.forEach(name => { const ws = wb.Sheets[name];
+        (ws['!merges'] || []).forEach(m => { const v = ws[XLSX.utils.encode_cell(m.s)];   // 合并单元格：把值填到整个范围
+          for (let r = m.s.r; r <= m.e.r; r++) for (let c = m.s.c; c <= m.e.c; c++) { const k = XLSX.utils.encode_cell({ r, c }); if (!ws[k] && v) ws[k] = { ...v }; } });
+        sheets.push({ name: `${f.name} · ${name}`, aoa: XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' }) }); });
+    } catch (e) { U.err = t('upBadFile', f.name); }
+  }
+  U.files = files.map(f => f.name); parseSheets(sheets);
+}
+function readPaste(txt) { parseSheets([{ name: t('upPasted'), aoa: txt.replace(/\r/g, '').split('\n').map(l => l.split('\t')) }]); }
+
+function parseSheets(sheets) {
+  U.lastRaw = sheets;
+  const saved = loadMap(); U.recs = []; U.cols = [];
+  sheets.forEach(sh => {
+    const A = sh.aoa.filter(r => Array.isArray(r)); if (!A.length) return;
+    const width = Math.max(...A.map(r => r.length));
+    // PO 列：按内容找（这一列里 CGDD 编号最多）
+    const poHits = Array.from({ length: width }, (_, c) => A.reduce((n, r) => n + (String(r[c] ?? '').match(PO_RE) ? 1 : 0), 0));
+    const poCol = poHits.indexOf(Math.max(...poHits)); if (poHits[poCol] < 1) return;
+    // 表头行：第一条 PO 数据之前、能认出最多列名的那一行
+    const firstPo = A.findIndex(r => String(r[poCol] ?? '').match(PO_RE));
+    let hRow = -1, hScore = 0;
+    for (let r = Math.max(0, firstPo - 20); r < firstPo; r++) { const sc = A[r].filter(h => guessField(h)).length; if (sc >= hScore && sc > 0) { hScore = sc; hRow = r; } }
+    const head = hRow >= 0 ? A[hRow].map(h => String(h ?? '').trim()) : [];
+    const colMap = Array.from({ length: width }, (_, c) => { const h = head[c] || ''; const key = hNorm(h);
+      if (c === poCol) return 'po'; if (key && key in saved) return saved[key]; return guessField(h); });
+    head.forEach((h, c) => { if ((h && h.length <= 60) || c === poCol) U.cols.push({ sheet: sh.name, c, h: h || `#${c + 1}`, f: colMap[c] }); });
+    A.slice((hRow >= 0 ? hRow : firstPo - 1) + 1).forEach((r, i) => {
+      const pos = String(r[poCol] ?? '').match(PO_RE); if (!pos) return;
+      const rec = { sheet: sh.name, row: (hRow >= 0 ? hRow : firstPo - 1) + i + 2, pos: [...new Set(pos)] };
+      colMap.forEach((f, c) => { if (!f || f === 'po') return; const v = r[c]; if (v === '' || v === null || v === undefined) return; if (rec[f] === undefined) rec[f] = v; });
+      U.recs.push(rec);
+    });
+  });
+  const byS = {}; U.recs.forEach(r => (byS[r.sheet] = byS[r.sheet] || []).push(r));
+  Object.values(byS).forEach(rs => { const df = dayFirstCols(rs, ['apick', 'etd', 'eta', 'ata', 'plan']); rs.forEach(r => { r._df = df; }); });
+  if (!U.recs.length && !U.err) U.err = t('upNoPo');
+  plan();
+}
+
+// 把识别出的每条记录转换成平台的修改计划
+const STATUS_RULES = [[/arriv|discharg|deliver|llego|arribo|arribad|到港|已到/i, '已到港'], [/sail|depart|on ?water|on ?board|transit|zarp|naveg|在途|开船|已开/i, '在途'],
+  [/pick|loaded|recolect|cargad|提货|装箱/i, '已提货'], [/book|confirm|release|reserv|订舱/i, '已订舱']];
+const uStatus = v => { const s = String(v ?? '').trim(); if (!s) return ''; const x = xStatus(s); if (x !== 'BAD') return x; const n = s.normalize('NFD').replace(/[\u0300-\u036f]/g, ''), m = STATUS_RULES.find(([re]) => re.test(n)); return m ? m[1] : ''; };
+// 日期：同一张表任何日期列里只要出现 25/10/2026 这种（第一个数 > 12），就说明这张表是"日/月/年"，所有日期列都按日在前读
+const SLASH = /^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/;
+function dayFirstCols(recs, fields) {
+  const any = recs.some(r => fields.some(f => { const m = String(r[f] ?? '').trim().match(SLASH); return m && +m[1] > 12; }));
+  const df = {}; fields.forEach(f => { df[f] = any; }); return df;
+}
+// 有的表把日期写成 9.21（= 9 月 21 日，没有年份）：年份取离今天最近的那一年
+const MD = /^(\d{1,2})\.(\d{1,2})$/;
+function mdDate(s) {
+  const m = String(s).trim().match(MD); if (!m) return '';
+  const y = +TODAY.slice(0, 4), c = [y - 1, y, y + 1].map(x => nDate(`${x}-${m[1]}-${m[2]}`)).filter(d => d && d !== 'BAD');
+  return c.sort((a, b) => Math.abs(diff(a, TODAY)) - Math.abs(diff(b, TODAY)))[0] || '';
+}
+const uDate = (v, dayFirst) => { if (v === '' || v === null || v === undefined) return '';
+  if (typeof v === 'number' && v < 1000 || typeof v === 'string' && MD.test(v.trim())) return mdDate(v);   // 真正的 Excel 日期是 4 万多的数字
+  if (dayFirst && typeof v === 'string') { const m = v.trim().match(SLASH); if (m) v = `${m[3]}-${m[2]}-${m[1]}`; }
+  const d = xDate(typeof v === 'number' ? v : String(v).trim());
+  return d && d !== 'BAD' && Math.abs(diff(d, TODAY)) <= 730 ? d : '';   // 离今天两年以上的日期一定是识别错了，宁可空着
+};
+function uFields(rec) {
+  const f = { bkno: rec.bkno ? String(rec.bkno).trim() : '', mbl: rec.mbl ? String(rec.mbl).replace(/\s|['‘’]/g, '') : '', carrier: rec.carrier ? String(rec.carrier).trim() : '',
+    cont: rec.cont && isFinite(+String(rec.cont).replace(/[^\d.]/g, '')) && String(rec.cont).replace(/[^\d.]/g, '') ? +String(rec.cont).replace(/[^\d.]/g, '') : '',
+    apick: uDate(rec.apick, rec._df.apick), etd: uDate(rec.etd, rec._df.etd), eta: uDate(rec.eta, rec._df.eta), ata: uDate(rec.ata, rec._df.ata), status: uStatus(rec.status) };
+  if (rec.note) {                                   // 备注里常见的写法：MBL NO: xxx；单独一串订舱号
+    const s = String(rec.note), m = s.match(/\bM?B\/?L\s*(?:NO)?\s*[:：.#]?\s*([A-Z0-9]{6,})/i);
+    if (m && /\d/.test(m[1]) && !f.mbl) f.mbl = m[1].toUpperCase();
+    else if (!f.bkno && /^[A-Z]{2,}[A-Z0-9-]{7,}$/i.test(s.trim())) f.bkno = s.trim().toUpperCase();
+  }
+  // 9.2 这种可能是 9 月 2 日，也可能是 9 月 20 日（Excel 把 9.20 存成 9.2）：到港早于开船 + 7 天就按 20 日读
+  const alt = v => { const m = String(v ?? '').trim().match(/^(\d{1,2})\.([123])$/); return m ? mdDate(`${m[1]}.${m[2]}0`) : ''; };
+  if (f.etd && f.eta && diff(f.eta, f.etd) < 7 && alt(rec.eta) && diff(alt(rec.eta), f.etd) >= 7) f.eta = alt(rec.eta);
+  if (f.ata && !f.status) f.status = '已到港';
+  if (!f.bkno && f.mbl) f.bkno = f.mbl;              // 只有提单号、没有订舱号：用提单号建订舱
+  return f;
+}
+function plan() {
+  const live = rows.filter(o => !o.deleted && !o.archived && !isPend(o));
+  const data = [], missing = new Map(), notOurs = new Map(), gone = new Map(), seen = new Set();
+  U.recs.forEach(rec => {
+    const f = uFields(rec);
+    rec.pos.forEach(po => {
+      const hit = live.filter(o => o.po === po);
+      if (!hit.length && rows.some(o => o.po === po && o.deleted)) { const d = rows.filter(o => o.po === po && o.deleted).pop(); gone.set(po, d.deleted.note || tv(d.deleted.reason) || ''); return; }   // 计划员删过的：不算漏单
+      if (!hit.length) { if (!missing.has(po) && !rows.some(o => o.po === po && isPend(o)))
+        missing.set(po, { po, sup: rec.sup ? String(rec.sup).trim() : '', origin: nOrigin(rec.origin), plant: String(rec.plant || '').trim().toUpperCase(), plan: uDate(rec.plan, rec._df.plan), apick: f.apick, etd: f.etd, bkno: f.bkno, eta: f.eta, qty: rec.qty }); return; }
+      const own = hit.filter(o => o.status !== '已到港' && mine(o));
+      if (!own.length) { const o = hit[0]; if (o.status !== '已到港') notOurs.set(po, o.bid ? B[o.bid].fwd : (assignFwd(o) || '—')); return; }
+      own.forEach(o => { seen.add(o.id);
+        const ex = data.find(d => d.v.lineId === o.id);      // 同一个 PO 在表里出现多次：合并信息（先出现的非空值优先）
+        if (ex) { Object.entries(f).forEach(([k, x]) => { if ((ex.v[k] === '' || ex.v[k] === undefined) && x !== '') ex.v[k] = x; }); return; }
+        data.push({ n: rec.row, v: { lineId: o.id, bookingId: o.bid || '', type: '', cont: f.cont, fwNote: '', reason: o.bid ? (U.reasons[o.bid] || '') : '', ...f } }); });
+    });
+  });
+  const P = data.length ? planImport(data) : { ops: [], errs: [], notes: [], newLines: [] };
+  // 改了 ETA 但报表里没有原因 → 让货代在这里选
+  const needReason = [];
+  P.errs = P.errs.filter(e => { const m = e.msg.match(/^(B[A-Z0-9]+)：(.*)$/); if (m && m[2] === t('eReason')) { needReason.push(m[1]); return false; } return true; });
+  const touched = new Set(P.ops.flatMap(op => op.ids || []));
+  const myBk = [...new Set(active().filter(o => o.bid && mine(o)).map(o => o.bid))];
+  const unchanged = myBk.filter(id => members(id).some(o => seen.has(o.id)) && !members(id).some(o => touched.has(o.id)) && !needReason.includes(id));
+  const absent = myBk.filter(id => !members(id).some(o => seen.has(o.id)));
+  const ask = [...needReason, ...Object.keys(U.reasons).filter(id => U.reasons[id] && !needReason.includes(id) && B[id] && members(id).some(o => touched.has(o.id)))].sort();   // 选过原因的也留在列表里，方便改
+  U.P = P; U.sum = { needReason, ask, unchanged, absent, missing: [...missing.values()].map(missFill), notOurs: [...notOurs.entries()], gone: [...gone.entries()], matched: seen.size };
+  renderUpload();
+}
+
+// 漏单补全：起运地按平台里同一供应商推断；没有计划提货日就暂用报表里的提货 / 开船日（计划员确认时可改）
+function missFill(m) {
+  const same = m.sup && rows.find(o => o.origin && nSup(o.sup) === nSup(m.sup));
+  const x = { ...m, origin: ORIGINS.includes(m.origin) ? m.origin : same ? same.origin : '', plan: m.plan || m.apick || m.etd || '' };
+  x.note = [t('upMissFrom', U.files.join(', ') || t('upPasted')), !m.plan && x.plan ? t('upMissPlanGuess') : ''].filter(Boolean).join('；');
+  x.lack = [!x.sup && t('fSup'), !x.origin && t('fOrigin'), !x.plan && t('fPlan')].filter(Boolean);
+  return x;
+}
+function sendMissing() {
+  const go = U.sum.missing.filter(m => !m.lack.length && !U.missOff.has(m.po));
+  const bad = go.map(m => [m.po, reportMissing(m)]).filter(([, e]) => e);
+  renderAll(); plan();
+  toast(bad.length ? bad.map(([po, e]) => `${po}：${e}`).join('；') : t('upMissDone', go.length));
+}
+function renderUpload() {
+  const box = $('fwup'), S = U.sum, P = U.P;
+  const opKind = op => op.ch.some(c => c[0] === 'xNewBk' || c[0] === 'xJoinBk') ? 'new' : op.ch.some(c => c[0] === 'fStatus' && c[2] === '已到港') ? 'arr' : op.ch.some(c => c[0] === 'fEta') ? 'eta' : 'oth';
+  const val = (l, v) => v === null || v === undefined || v === '' ? '—' : l === 'fStatus' ? tv(String(v)) : String(v);
+  const opCard = op => `<div class="box-i" style="cursor:default;display:block"><b>${esc(op.target)}</b><br>${op.ch.filter(c => c[0] !== 'xNewBk' && c[0] !== 'xJoinBk').map(([l, a, z]) => `<span class="muted">${esc(t(l))}</span> ${esc(val(l, a))} → <b>${esc(val(l, z))}</b>`).join(' · ')}</div>`;
+  const sec = (title, items, cls = '') => items.length ? `<h3 class="au-h ${cls}">${title}</h3><div class="box">${items.join('')}</div>` : '';
+  const groups = P ? { new: P.ops.filter(o => opKind(o) === 'new'), eta: P.ops.filter(o => opKind(o) === 'eta'), arr: P.ops.filter(o => opKind(o) === 'arr'), oth: P.ops.filter(o => opKind(o) === 'oth') } : null;
+  const nApply = P ? P.ops.length + (S ? S.unchanged.length : 0) : 0;
+  const colChip = c => `<label class="ucol"><span class="muted">${esc(c.h)}</span><select data-uc="${esc(c.sheet)}|${c.c}">${['', ...UFIELDS].map(f => `<option value="${f}" ${f === c.f ? 'selected' : ''}>${f ? t('uf_' + f) : t('upIgnore')}</option>`).join('')}</select></label>`;
+  box.innerHTML = `<div class="gwrap">
+    <div class="ghead"><div><h2>${t('upTitle')}${ME.fwd ? ' · ' + esc(ME.fwd) : ''}</h2><p class="muted">${t('upSub')}</p></div>
+      <div class="gacts">${P && nApply && !(S && S.needReason.length) ? `<button class="btn" id="upGo">${t('upApply', nApply)}</button>` : ''}<button class="x" id="upClose" aria-label="${esc(t('close'))}">✕</button></div></div>
+    <div class="updrop" id="upDrop"><b>${t('upDrop')}</b><span class="muted">${t('upDropSub')}</span>
+      <p class="btnrow" style="justify-content:center"><button class="btn" id="upPick">${t('upPick')}</button><input type="file" id="upFile" accept=".xlsx,.xls,.xlsm,.csv" multiple hidden></p>
+      <textarea id="upPaste" rows="2" placeholder="${esc(t('upPastePh'))}"></textarea></div>
+    ${U.err ? `<div class="wn" style="margin-top:10px">${esc(U.err)}</div>` : ''}
+    ${U.cols.length ? `<details class="upcols" ${U.recs.length && S && !S.matched ? 'open' : ''}><summary>${esc(t('upCols', U.files.join(', ') || t('upPasted'), U.recs.length))}</summary><p class="muted" style="margin:6px 0">${t('upColsHelp')}</p><div class="ucols">${U.cols.map(colChip).join('')}</div></details>` : ''}
+    ${S ? `<div class="tt-sum" style="margin-top:14px"><b>${t('upMatched', S.matched)}</b>
+        <span class="tt-fw">${t('upKNew')} <b>${groups.new.length}</b></span><span class="tt-fw">${t('upKEta')} <b>${groups.eta.length + S.needReason.length}</b></span>
+        <span class="tt-fw">${t('upKArr')} <b>${groups.arr.length}</b></span><span class="tt-fw">${t('upKSame')} <b>${S.unchanged.length}</b></span>
+        ${S.missing.length ? `<span class="tt-fw">⚑ ${t('upKMiss')} <b>${S.missing.length}</b></span>` : ''}${S.notOurs.length ? `<span class="tt-fw">⚑ ${t('upKNot')} <b>${S.notOurs.length}</b></span>` : ''}</div>
+      ${S.ask.length ? `<h3 class="au-h" ${S.needReason.length ? 'style="color:var(--amber)"' : ''}>${t('upNeedReason', S.ask.length)}</h3>${reasonBox('ur', S.ask.map(id => { const b = B[id], o = members(id)[0], nv = U.recs.find(r => r.pos.includes(o.po)) || {};
+        return { id, html: `<b>${esc(id)}${b.bkno ? ' · ' + esc(b.bkno) : ''}</b> · ${esc(members(id).map(poLabel).join(', '))}<br><span class="muted">ETA</span> ${b.eta || '—'} → <b>${uDate(nv.eta, nv._df && nv._df.eta) || '—'}</b>` }; }), REASONS, U.reasons, U.off)}` : ''}
+      ${sec(t('upSecNew', groups.new.length), groups.new.map(opCard))}${sec(t('upSecEta', groups.eta.length), groups.eta.map(opCard))}
+      ${sec(t('upSecArr', groups.arr.length), groups.arr.map(opCard))}${sec(t('upSecOth', groups.oth.length), groups.oth.map(opCard))}
+      ${P.errs.length ? sec(t('xlErrs', P.errs.length), P.errs.map(e => `<div class="box-i" style="cursor:default;color:var(--red)">${e.n ? esc(t('xlRow', e.n)) + ' · ' : ''}${esc(e.msg)}</div>`), 'err') : ''}
+      ${S.missing.length ? (() => { const ok = S.missing.filter(m => !m.lack.length), on = ok.filter(m => !U.missOff.has(m.po));
+        return `<h3 class="au-h">${t('upSecMiss', S.missing.length)}</h3>${ok.length ? `<div class="rbulk"><label><input type="checkbox" id="umAll" ${on.length === ok.length ? 'checked' : ''}> ${t('rbAll')}</label><button class="btn" id="umSend" ${on.length ? '' : 'disabled'}>${t('upMissSend', on.length)}</button></div>` : ''}
+        <div class="box">${S.missing.map(m => `<div class="box-i" style="cursor:default;grid-template-columns:auto 1fr auto"><input type="checkbox" data-umon="${esc(m.po)}" ${m.lack.length ? 'disabled' : U.missOff.has(m.po) ? '' : 'checked'}>
+          <span><b class="mono">${esc(m.po)}</b>${m.sup ? ' · ' + esc(m.sup) : ''}${m.origin ? ' · ' + esc(m.origin) : ''}${m.plan ? ' · ' + m.plan : ''}${m.bkno ? ' · ' + esc(m.bkno) : ''}${m.eta ? ' · ETA ' + m.eta : ''}${m.lack.length ? `<br><span style="color:var(--amber)">${esc(t('upMissLack', m.lack.join(t('sep'))))}</span>` : ''}</span>
+          <button class="ghost" data-urep="${esc(JSON.stringify(m))}">${t('gReportBtn')}</button></div>`).join('')}</div>`; })() : ''}
+      ${S.gone.length ? sec(t('upSecGone', S.gone.length), S.gone.map(([po, why]) => `<div class="box-i" style="cursor:default;display:block"><b class="mono">${esc(po)}</b>${why ? ` <span class="muted">· ${esc(why)}</span>` : ''}</div>`)) : ''}
+      ${S.notOurs.length ? sec(t('upSecNot', S.notOurs.length), S.notOurs.map(([po, w]) => `<div class="box-i" style="cursor:default"><span><b class="mono">${esc(po)}</b> ${esc(t('gNotOurs', w))}</span><span></span></div>`)) : ''}
+      ${S.absent.length ? `<details class="upcols" style="margin-top:12px"><summary>${esc(t('upAbsent', S.absent.length))}</summary><p class="muted" style="margin:6px 0">${esc(S.absent.map(id => `${id}${B[id].bkno ? ' (' + B[id].bkno + ')' : ''}`).join(' · '))}</p></details>` : ''}
+      <p class="hint">${t('upHint')}</p>` : ''}
+    ${G.report ? gReportBox() : ''}
+  </div>`;
+  $('upClose').onclick = closeUpload;
+  $('upPick').onclick = () => $('upFile').click();
+  $('upFile').onchange = e => { const fs = [...e.target.files]; e.target.value = ''; if (fs.length) { U.err = ''; readFiles(fs); } };
+  const drop = $('upDrop');
+  drop.ondragover = e => { e.preventDefault(); drop.classList.add('on'); }; drop.ondragleave = () => drop.classList.remove('on');
+  drop.ondrop = e => { e.preventDefault(); drop.classList.remove('on'); const fs = [...e.dataTransfer.files]; if (fs.length) { U.err = ''; readFiles(fs); } };
+  $('upPaste').onpaste = e => { const txt = (e.clipboardData || window.clipboardData).getData('text'); if (!txt.trim()) return; e.preventDefault(); U.err = ''; U.files = []; readPaste(txt); };
+  if ($('upGo')) $('upGo').onclick = applyUpload;
+  box.querySelectorAll('[data-uc]').forEach(s => s.onchange = () => {   // 改列的对应关系：记住，重新识别
+    const [sheet, c] = s.dataset.uc.split('|'), col = U.cols.find(x => x.sheet === sheet && String(x.c) === c);
+    const m = loadMap(); m[hNorm(col.h)] = s.value; saveMap(m); col.f = s.value; U.lastRaw && parseSheets(U.lastRaw);
+  });
+  if (S) reasonWire(box, 'ur', S.ask, U.reasons, U.off, plan, renderUpload);
+  box.querySelectorAll('[data-umon]').forEach(c => c.onchange = () => { c.checked ? U.missOff.delete(c.dataset.umon) : U.missOff.add(c.dataset.umon); renderUpload(); });
+  if ($('umAll')) $('umAll').onchange = e => { U.missOff.clear(); if (!e.target.checked) S.missing.forEach(m => U.missOff.add(m.po)); renderUpload(); };
+  if ($('umSend')) $('umSend').onclick = sendMissing;
+  box.querySelectorAll('[data-urep]').forEach(b => b.onclick = () => { G.report = JSON.parse(b.dataset.urep); renderUpload(); window.scrollTo(0, 0); $('fwup').scrollTop = $('fwup').scrollHeight; });
+  if ($('repSend')) $('repSend').onclick = () => { gReportSend(); plan(); };
+  if ($('repCancel')) $('repCancel').onclick = () => { G.report = null; renderUpload(); };
+}
+function applyUpload() {
+  const P = U.P, S = U.sum; let n = 0;
+  P.ops.forEach(op => { op.apply(); n++; });
+  S.unchanged.forEach(id => { const b = B[id]; if (b) { b.lastUpd = TODAY; b.lastBy = ME.name; } });   // 表里有、没变化 = 货代本周确认
+  if (S.unchanged.length) audit('edit', t('upConfirmAudit', S.unchanged.length), { k: 'B', id: 'confirm', ch: [['reason', '', S.unchanged.join(', ')]] });
+  closeUpload(); renderAll(); toast(t('upDone', n, S.unchanged.length));
+}
+
+/* ---------- 计划员上传自己的需求表：平台找出新增 / 修改 / 取消，确认一次全部写入 ----------
+   和货代上传同一套思路：表格式不限，PO 列按内容找，表头按中英西常见叫法认，认错的改一次就记住。
+   平台仍是唯一数据：表只是输入；平台里有、表里没有的需求只提醒，不会自动删除。 */
+const PALIAS = {
+  po: ['po', 'po#', 'po no', 'po number', 'purchase order', '订单号', 'po号', 'orden de compra', 'oc'],
+  month: ['month', 'mes', '月份', '需求月份'],
+  load: ['load type', 'load', 'tipo de carga', 'carga', '装载', '装载需求'],
+  origin: ['origin', 'origen', '起运地', 'country'],
+  plant: ['plant', 'planta', '工厂'],
+  sup: ['supplier', 'proveedor', 'vendor', 'shipper', '供应商'],
+  qty: ['qty', 'qty pallets', 'pallets', 'tarimas', 'cantidad', 'quantity', '托数', '数量'],
+  plan: ['planned pickup date', 'planned pickup', 'plan pu date', 'plan pickup', 'fecha de recoleccion', 'recoleccion planeada', '计划提货日', '计划提货'],
+  req: ['required eta', 'req eta', 'eta requerida', 'eta required', '要求eta', '要求 eta'],
+  note: ['mexico comments', 'comments', 'comentarios', 'remarks', 'notes', '备注'],
+  ignore: ['forwarder', 'etd', 'eta at port', 'mbl', 'carrier', 'status', 'pu date', 'actual pickup', 'booking', 'invoice', 'no of containers', 'transit days'],
+};
+const PFIELDS = ['po', 'month', 'load', 'origin', 'plant', 'sup', 'qty', 'plan', 'req', 'note'];
+function guessIn(dict, fields, h) {
+  const n = hNorm(h); if (!n) return '';
+  for (const f of ['ignore', ...fields]) if (dict[f].some(a => n === hNorm(a))) return f === 'ignore' ? '' : f;
+  let best = '', bl = 0;
+  for (const f of ['ignore', ...fields]) for (const a of dict[f]) { const x = hNorm(a);
+    const hit = x.length <= 3 ? new RegExp(`(^|[^a-z])${x.replace(/[/]/g, '\\/')}([^a-z]|$)`).test(n) : n.includes(x);
+    if (hit && x.length > bl) { best = f === 'ignore' ? '' : f; bl = x.length; } }
+  return best;
+}
+const PU = { files: [], recs: [], cols: [], reasons: {}, off: new Set(), del: new Set(), plan: null, err: '', lastRaw: null };
+const PO_CELL = v => { const s = String(v ?? '').replace(/　/g, ' ').trim(); return s.match(PO_RE) ? [...new Set(s.match(PO_RE))] : /^tbc$/i.test(s) ? ['TBC'] : null; };
+const clean = v => typeof v === 'string' ? v.replace(/　/g, ' ').trim() : v;
+const plMapKey = 'ship-plmap';
+
+function openPlUpload() { Object.assign(PU, { files: [], recs: [], cols: [], reasons: {}, off: new Set(), del: new Set(), plan: null, err: '', lastRaw: null });
+  $('plup').classList.remove('hidden'); document.body.style.overflow = 'hidden'; renderPlUpload(); }
+function closePlUpload() { $('plup').classList.add('hidden'); document.body.style.overflow = ''; }
+async function plReadFiles(files) {
+  try { await loadSheetJS(); } catch (e) { PU.err = e.message; return renderPlUpload(); }
+  const sheets = [];
+  for (const f of files) {
+    try { const wb = XLSX.read(await f.arrayBuffer(), { type: 'array', raw: true });
+      wb.SheetNames.forEach(name => { const ws = wb.Sheets[name];
+        (ws['!merges'] || []).forEach(m => { const v = ws[XLSX.utils.encode_cell(m.s)];
+          for (let r = m.s.r; r <= m.e.r; r++) for (let c = m.s.c; c <= m.e.c; c++) { const k = XLSX.utils.encode_cell({ r, c }); if (!ws[k] && v) ws[k] = { ...v }; } });
+        sheets.push({ name: `${f.name} · ${name}`, aoa: XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' }) }); });
+    } catch (e) { PU.err = t('upBadFile', f.name); }
+  }
+  PU.files = files.map(f => f.name); plParse(sheets);
+}
+function plParse(sheets) {
+  PU.lastRaw = sheets; PU.recs = []; PU.cols = [];
+  let saved = {}; try { saved = JSON.parse(localStorage.getItem(plMapKey) || '{}'); } catch (e) {}
+  sheets.forEach(sh => {
+    const A = sh.aoa.filter(r => Array.isArray(r)); if (!A.length) return;
+    const width = Math.max(...A.map(r => r.length));
+    const poHits = Array.from({ length: width }, (_, c) => A.reduce((n, r) => n + (PO_CELL(r[c]) ? 1 : 0), 0));
+    const poCol = poHits.indexOf(Math.max(...poHits)); if (poHits[poCol] < 1) return;
+    const firstPo = A.findIndex(r => PO_CELL(r[poCol]));
+    let hRow = -1, hScore = 0;
+    for (let r = Math.max(0, firstPo - 20); r < firstPo; r++) { const sc = A[r].filter(h => guessIn(PALIAS, PFIELDS, h)).length; if (sc >= hScore && sc > 0) { hScore = sc; hRow = r; } }
+    const head = hRow >= 0 ? A[hRow].map(h => String(h ?? '').trim()) : [];
+    const colMap = Array.from({ length: width }, (_, c) => { const h = head[c] || '', key = hNorm(h);
+      if (c === poCol) return 'po'; if (key && key in saved) return saved[key]; return guessIn(PALIAS, PFIELDS, h); });
+    head.forEach((h, c) => { if ((h && h.length <= 60) || c === poCol) PU.cols.push({ sheet: sh.name, c, h: h || `#${c + 1}`, f: colMap[c] }); });   // 很长的说明文字不是表头
+    let lastLoad = '';
+    A.slice((hRow >= 0 ? hRow : firstPo - 1) + 1).forEach((r, i) => {
+      const pos = PO_CELL(r[poCol]); if (!pos) return;
+      const rec = { sheet: sh.name, row: (hRow >= 0 ? hRow : firstPo - 1) + i + 2, pos };
+      colMap.forEach((f, c) => { if (!f || f === 'po') return; const v = clean(r[c]); if (v === '' || v === null || v === undefined) return; if (rec[f] === undefined) rec[f] = v; });
+      if (rec.load === undefined && lastLoad) rec.load = lastLoad;           // 原表惯例：装载空着 = 沿用上一行
+      if (rec.load !== undefined) lastLoad = rec.load;
+      PU.recs.push(rec);
+    });
+  });
+  const byS = {}; PU.recs.forEach(r => (byS[r.sheet] = byS[r.sheet] || []).push(r));
+  Object.values(byS).forEach(rs => { const df = dayFirstCols(rs, ['plan', 'req']); rs.forEach(r => { r._df = df; }); });
+  if (!PU.recs.length && !PU.err) PU.err = t('upNoPo');
+  plPlan();
+}
+
+// 识别出的每一行 → 平台里的新增 / 修改 / 取消
+function plFields(rec) {
+  const loadTxt = String(rec.load ?? '').trim();
+  const load = /cancel/i.test(loadTxt) ? 'CANCEL' : !loadTxt ? '' : /consol|lcl|拼|0\.5/i.test(loadTxt) ? '拼箱' : (nLoad(loadTxt) || '整柜');
+  const o = String(rec.origin ?? '').trim().toUpperCase();
+  const plan = uDate(rec.plan, rec._df.plan), req = uDate(rec.req, rec._df.req);
+  const m = parseInt(rec.month, 10);
+  const qn = String(rec.qty ?? '').replace(/[^\d.]/g, '');
+  return { monthRaw: m >= 1 && m <= 12 ? m : null, month: m >= 1 && m <= 12 ? m : plan ? +plan.slice(5, 7) : null, origin: nOrigin(o), plant: String(rec.plant ?? '').trim().toUpperCase(),
+    sup: String(rec.sup ?? '').trim(), qty: qn ? +qn : null, plan, req, load, note: rec.note ? String(rec.note).trim() : '' };
+}
+function plPlan() {
+  const live = rows.filter(o => !o.deleted && !isPend(o));
+  const used = new Set(), seenPo = {};
+  const P = { add: [], edit: [], cancel: [], same: 0, errs: [], notes: [], needReason: [], picked: [], batch: [] };
+  PU.recs.forEach(rec => {
+    const f = plFields(rec);
+    rec.pos.forEach(po => {
+      let cand = live.filter(o => o.po === po && !used.has(o.id));
+      if (po === 'TBC') cand = cand.filter(o => nSup(o.sup) === nSup(f.sup) && (!f.plan || o.plan === f.plan));
+      if (cand.length > 1 && f.plan) { const c2 = cand.filter(o => o.plan === f.plan); if (c2.length) cand = c2; }
+      cand.sort((a, b) => a.split - b.split);
+      const o = cand[0];
+      if (f.load === 'CANCEL') {
+        if (!o) return;                                 // 表里取消、平台里本来就没有：不用处理
+        used.add(o.id);
+        if (o.bid) P.notes.push({ n: rec.row, msg: t('plCancelBooked', poLabel(o), o.bid) });
+        else P.cancel.push({ n: rec.row, o });
+        return;
+      }
+      if (!o) {                                         // 新增需求（同一 PO 再出现 = 新的一批）
+        const r = { month: f.month, origin: f.origin, plant: f.plant, sup: f.sup, po, qty: f.qty, plan: f.plan, req: f.req || autoReq(f.plan, f.origin), reqAuto: !f.req, planLoad: f.load };
+        const { E, W } = checkDemand(r, P.batch);
+        if (E.length) P.errs.push({ n: rec.row, msg: `${po}：${E.join(t('sep'))}` });
+        else { P.batch.push(r); P.add.push({ n: rec.row, r, warn: W.filter(w => !/早于今天|in the past|ya pasó/.test(w)) }); }
+        return;
+      }
+      used.add(o.id);
+      if (o.status === '已到港' || o.archived) { P.same++; return; }
+      const v = { lineId: o.id, month: f.monthRaw ?? '', origin: f.origin, plant: f.plant, sup: f.sup, po, qty: f.qty ?? '', plan: f.plan, req: f.req, planLoad: f.load,
+        plNote: f.note && f.note !== o.plNote ? f.note : '', baseReason: PU.reasons[o.id] || '' };
+      const pi = planImport([{ n: rec.row, v }]);
+      pi.errs.forEach(e => { if (e.msg === `${poLabel(o)}：${t('eBaseReason')}`) P.needReason.push({ n: rec.row, o, v }); else P.errs.push(e); });   // 只缺原因的当场选；还有别的问题就一起报出来
+      pi.notes.forEach(x => P.notes.push(x));
+      if (PU.reasons[o.id] && pi.ops.length) P.picked.push({ n: rec.row, o, v });   // 选过原因的也留在列表里，方便改
+      if (pi.ops.length) P.edit.push(...pi.ops); else if (!pi.errs.length) P.same++;
+    });
+  });
+  // 平台里有、表里没有（只看表里涉及到的需求月份）：只提醒
+  const months = new Set(PU.recs.map(r => plFields(r).month).filter(Boolean));
+  P.absent = active().filter(o => !used.has(o.id) && !o.bid && months.has(o.month));
+  PU.plan = P; renderPlUpload();
+}
+
+function renderPlUpload() {
+  const box = $('plup'), P = PU.plan, ask = P ? [...P.needReason, ...P.picked].sort((a, b) => a.n - b.n) : [];
+  const val = (l, v) => v === null || v === undefined || v === '' ? '—' : ['fPlanLoad'].includes(l) ? tv(String(v)) : l === 'fMonth' ? t('monthShort', v) : String(v);
+  const sec = (title, items, cls = '') => items.length ? `<h3 class="au-h ${cls}">${title}</h3><div class="box">${items.join('')}</div>` : '';
+  const nApply = P ? P.add.length + P.edit.length + [...PU.del].length + P.cancel.length : 0;
+  const colChip = c => `<label class="ucol"><span class="muted">${esc(c.h)}</span><select data-pc="${esc(c.sheet)}|${c.c}">${['', ...PFIELDS].map(f => `<option value="${f}" ${f === c.f ? 'selected' : ''}>${f ? t('pf_' + f) : t('upIgnore')}</option>`).join('')}</select></label>`;
+  box.innerHTML = `<div class="gwrap">
+    <div class="ghead"><div><h2>${t('plUpTitle')}</h2><p class="muted">${t('plUpSub')}</p></div>
+      <div class="gacts">${P && nApply && !P.needReason.length ? `<button class="btn" id="plGo">${t('plApply', nApply)}</button>` : ''}<button class="x" id="plClose" aria-label="${esc(t('close'))}">✕</button></div></div>
+    <div class="updrop" id="plDrop"><b>${t('plDrop')}</b><span class="muted">${t('upDropSub')}</span>
+      <p class="btnrow" style="justify-content:center"><button class="btn" id="plPick">${t('upPick')}</button><input type="file" id="plFile" accept=".xlsx,.xls,.xlsm,.csv" multiple hidden></p>
+      <textarea id="plPaste" rows="2" placeholder="${esc(t('upPastePh'))}"></textarea></div>
+    ${PU.err ? `<div class="wn" style="margin-top:10px">${esc(PU.err)}</div>` : ''}
+    ${PU.cols.length ? `<details class="upcols"><summary>${esc(t('upCols', PU.files.join(', ') || t('upPasted'), PU.recs.length))}</summary><p class="muted" style="margin:6px 0">${t('upColsHelp')}</p><div class="ucols">${PU.cols.map(colChip).join('')}</div></details>` : ''}
+    ${P ? `<div class="tt-sum" style="margin-top:14px"><span class="tt-fw">${t('plKAdd')} <b>${P.add.length}</b></span><span class="tt-fw">${t('plKEdit')} <b>${P.edit.length + P.needReason.length}</b></span>
+        <span class="tt-fw">${t('plKCancel')} <b>${P.cancel.length}</b></span><span class="tt-fw">${t('upKSame')} <b>${P.same}</b></span>${P.errs.length ? `<span class="tt-fw">${t('plKErr')} <b>${P.errs.length}</b></span>` : ''}</div>
+      ${ask.length ? `<h3 class="au-h" ${P.needReason.length ? 'style="color:var(--amber)"' : ''}>${t('plNeedReason', ask.length)}</h3>${reasonBox('pr', ask.map(x => ({ id: x.o.id, html: `<b class="mono">${esc(poLabel(x.o))}</b> · ${esc(x.o.sup)}${x.o.bid ? ' · ' + esc(x.o.bid) : ''}<br>
+        <span class="muted">${t('fPlan')}</span> ${x.o.plan || '—'} → <b>${x.v.plan || x.o.plan || '—'}</b> · <span class="muted">${t('fReq')}</span> ${x.o.req || '—'} → <b>${x.v.req || x.o.req || '—'}</b>` })), BASE_REASONS, PU.reasons, PU.off)}` : ''}
+      ${sec(t('plSecAdd', P.add.length), P.add.map(x => `<div class="box-i" style="cursor:default;display:block"><b class="mono">${esc(x.r.po)}</b> · ${esc(x.r.sup)} · ${esc(x.r.origin)}${x.r.plant ? ' · ' + esc(x.r.plant) : ''} · ${t('monthShort', x.r.month)} · ${x.r.plan} → ${x.r.req}${x.r.reqAuto ? ' ' + esc(t('reqAutoShort', x.r.req)) : ''} · ${tv(x.r.planLoad) || '—'}${x.warn.length ? `<br><span style="color:var(--amber)">${esc(x.warn.join(t('sep')))}</span>` : ''}</div>`))}
+      ${sec(t('plSecEdit', P.edit.length), P.edit.map(op => `<div class="box-i" style="cursor:default;display:block"><b>${esc(op.target)}</b><br>${op.ch.map(([l, a, z]) => `<span class="muted">${esc(t(l))}</span> ${esc(val(l, a))} → <b>${esc(val(l, z))}</b>`).join(' · ')}</div>`))}
+      ${sec(t('plSecCancel', P.cancel.length), P.cancel.map(x => `<div class="box-i" style="cursor:default"><span><b class="mono">${esc(poLabel(x.o))}</b> · ${esc(x.o.sup)} · ${x.o.plan || '—'}</span><span class="muted">${t('plWillDelete')}</span></div>`))}
+      ${P.errs.length ? sec(t('xlErrs', P.errs.length), P.errs.map(e => `<div class="box-i" style="cursor:default;color:var(--red)">${esc(t('xlRow', e.n))} · ${esc(e.msg)}</div>`), 'err') : ''}
+      ${P.notes.length ? sec(t('xlNotes', P.notes.length), P.notes.map(e => `<div class="box-i muted" style="cursor:default">${esc(t('xlRow', e.n))} · ${esc(e.msg)}</div>`)) : ''}
+      ${P.absent.length ? `<h3 class="au-h">${t('plSecAbsent', P.absent.length)}</h3><p class="muted" style="margin:0 0 6px;font-size:13px">${t('plAbsentHelp')}</p><div class="box">${P.absent.map(o => `<label class="box-i" style="grid-template-columns:auto 1fr"><input type="checkbox" data-pdel="${esc(o.id)}" ${PU.del.has(o.id) ? 'checked' : ''}><span><b class="mono">${esc(poLabel(o))}</b> · ${esc(o.sup)} · ${t('monthShort', o.month)} · ${o.plan || '—'}</span></label>`).join('')}</div>` : ''}
+      <p class="hint">${t('plUpHint')}</p>` : ''}
+  </div>`;
+  $('plClose').onclick = closePlUpload;
+  $('plPick').onclick = () => $('plFile').click();
+  $('plFile').onchange = e => { const fs = [...e.target.files]; e.target.value = ''; if (fs.length) { PU.err = ''; plReadFiles(fs); } };
+  const drop = $('plDrop');
+  drop.ondragover = e => { e.preventDefault(); drop.classList.add('on'); }; drop.ondragleave = () => drop.classList.remove('on');
+  drop.ondrop = e => { e.preventDefault(); drop.classList.remove('on'); const fs = [...e.dataTransfer.files]; if (fs.length) { PU.err = ''; plReadFiles(fs); } };
+  $('plPaste').onpaste = e => { const txt = (e.clipboardData || window.clipboardData).getData('text'); if (!txt.trim()) return; e.preventDefault(); PU.err = ''; PU.files = [];
+    plParse([{ name: t('upPasted'), aoa: txt.replace(/\r/g, '').split('\n').map(l => l.split('\t')) }]); };
+  if ($('plGo')) $('plGo').onclick = applyPlUpload;
+  box.querySelectorAll('[data-pc]').forEach(s => s.onchange = () => {
+    const [sheet, c] = s.dataset.pc.split('|'), col = PU.cols.find(x => x.sheet === sheet && String(x.c) === c);
+    let m = {}; try { m = JSON.parse(localStorage.getItem(plMapKey) || '{}'); } catch (e) {}
+    m[hNorm(col.h)] = s.value; try { localStorage.setItem(plMapKey, JSON.stringify(m)); } catch (e) {}
+    plParse(PU.lastRaw);
+  });
+  reasonWire(box, 'pr', ask.map(x => x.o.id), PU.reasons, PU.off, plPlan, renderPlUpload);
+  box.querySelectorAll('[data-pdel]').forEach(c => c.onchange = () => { c.checked ? PU.del.add(c.dataset.pdel) : PU.del.delete(c.dataset.pdel); renderPlUpload(); });
+}
+function applyPlUpload() {
+  const P = PU.plan; let n = 0;
+  P.edit.forEach(op => { op.apply(); n++; });
+  P.add.forEach(x => { addRow(x.r); n++; });
+  const del = (o, reason, note) => { if (o.bid) return; o.deleted = { at: TODAY, by: role, byName: ME.name, reason, note }; n++; };
+  P.cancel.forEach(x => del(x.o, '需求取消', t('plDelNoteCancel')));
+  [...PU.del].forEach(id => { const o = R(id); if (o && !o.deleted) del(o, '需求取消', t('plDelNoteAbsent')); });
+  closePlUpload(); renderAll(); toast(t('plDone', n));
+}
 
 /* ---------- 数据存储：SharePoint 列表（正式）/ 本浏览器（?mock 本地测试） ---------- */
 const CFG = {
@@ -1711,7 +2915,7 @@ const CFG = {
   site: 'aithermal2.sharepoint.com:/sites/AIMXShipping',                                    // 例：ai-thermal.sharepoint.com:/sites/AIMXShipping
 };
 const MOCK = QS.has('mock');
-const LISTS = { lines: 'ShipLines', bookings: 'ShipBookings', users: 'ShipUsers', audit: 'ShipAudit', auditAll: 'ShipAuditAll' };
+const LISTS = { lines: 'ShipLines', bookings: 'ShipBookings', users: 'ShipUsers', audit: 'ShipAudit', notify: 'ShipNotify' };
 const SAVED = new Map();                       // 'L:id' / 'B:id' → { json, itemId, etag }
 const serRow = o => { const x = {}; Object.keys(o).forEach(k => { if (!BK.includes(k)) x[k] = o[k]; }); return JSON.stringify(x); };
 const serBk = b => JSON.stringify(b);
@@ -1749,6 +2953,11 @@ function mockStore() {
     async signOut() { location.reload(); },
     async audit(ev) { try { const a = JSON.parse(localStorage.getItem(K + '-audit') || '[]'); a.push(ev); localStorage.setItem(K + '-audit', JSON.stringify(a)); } catch (e) {} },
     async loadAudit() { try { return JSON.parse(localStorage.getItem(K + '-audit') || '[]'); } catch (e) { return []; } },
+    async loadUsers() { return [{ email: 'planner@test', name: 'Planner MX', role: 'planner', fwd: '' }, { email: 'ops@kaifu.test', name: 'Kaifu Ops', role: 'fw', fwd: 'Kaifu' },
+      { email: 'ops@bondex.test', name: 'Bondex Ops', role: 'fw', fwd: 'Bondex' }, { email: 'jesus@test', name: 'Jesus', role: 'log', fwd: '' }]; },
+    hasNotify() { return true; },
+    async notified(week) { try { return JSON.parse(localStorage.getItem(K + '-notify') || '[]').filter(x => x.Week === week).map(x => x.To); } catch (e) { return []; } },
+    async notify(item) { const a = JSON.parse(localStorage.getItem(K + '-notify') || '[]'); a.push(item); localStorage.setItem(K + '-notify', JSON.stringify(a)); },
     reset() { try { localStorage.removeItem(K); } catch (e) {} },
   };
 }
@@ -1784,7 +2993,8 @@ function spStore() {
     return COLS[list] = m;
   }
   const KEYS = { users: ['Title', 'DisplayName', 'Role', 'Forwarder'], lines: ['Title', 'Data'], bookings: ['Title', 'Data'],
-    audit: ['Title', 'At', 'User', 'Email', 'Role', 'Action', 'Target', 'Detail'], auditAll: ['Title', 'At', 'User', 'Email', 'Role', 'Action', 'Target', 'Detail'] };
+    audit: ['Title', 'At', 'User', 'Email', 'Role', 'Action', 'Target', 'Detail'],
+    notify: ['Title', 'To', 'Subject', 'Body', 'Week'] };
   const toInternal = (list, f) => { const m = COLS[list], o = {};
     Object.entries(f).forEach(([k, v]) => { if (!m[k]) throw new Error(`列表 ${LISTS[list]} 缺少列「${k}」`); o[m[k]] = v; }); return o; };
   async function items(list) {
@@ -1857,14 +3067,8 @@ function spStore() {
       const f = toInternal('audit', { Title: ev.id, At: ev.at, User: ev.user, Email: ev.email, Role: ev.role, Action: ev.action, Target: ev.target, Detail: ev.detail });
       await g(`/sites/${siteId}/lists/${listIds.audit}/items`, { method: 'POST', body: JSON.stringify({ fields: f }) });
     },
-    // 读日志：优先读 ShipAuditAll（Power Automate 把每条日志复制过去，只有 Owners 有权限）。
-    // ShipAudit 设了"只能看自己创建的项目"，而应用授权只到"读写"级别，Owner 的"看全部"特权用不上，经平台读只能读到自己的
-    async auditUrl() {                          // ShipAudit 在 SharePoint 里的网址（站点 Owner 在那里能看到所有人的日志）
-      if (!listIds.audit) return null;
-      try { return (await g(`/sites/${siteId}/lists/${listIds.audit}?$select=webUrl`)).webUrl; } catch (e) { return null; }
-    },
-    async loadAudit() {
-      const L = listIds.auditAll ? 'auditAll' : listIds.audit ? 'audit' : null;
+    async loadAudit() {                         // ShipAudit 设为所有人可读、只能新增，平台按 Owner 身份读出全部
+      const L = listIds.audit ? 'audit' : null;
       if (!L) return null;
       api.auditSource = L;
       return (await items(L)).map(x => ({ id: x.fields.Title, at: x.fields.At, user: x.fields.User, email: x.fields.Email,
@@ -1931,7 +3135,7 @@ const arr = v => Array.isArray(v) ? v.filter(x => x && typeof x === 'object') : 
 function cleanBooking(b) {
   if (!b || typeof b !== 'object' || !IDB.test(b.id)) return null;
   ['etd', 'eta', 'ata', 'lastUpd'].forEach(k => b[k] = dOk(b[k]));
-  ['fwd', 'carrier', 'mbl', 'lastBy'].forEach(k => b[k] = txt(b[k]));
+  ['fwd', 'carrier', 'mbl', 'lastBy', 'bkno', 'fwNote'].forEach(k => b[k] = txt(b[k]));
   b.status = oneOf(b.status, S4); b.type = oneOf(b.type, ['整柜', '拼箱']);
   b.cont = isFinite(+b.cont) && +b.cont > 0 ? Math.round(+b.cont) : 1;
   b.ataLegacy = !!b.ataLegacy;
@@ -1944,7 +3148,7 @@ function cleanLine(o) {
   if (!o || typeof o !== 'object' || !IDL.test(o.id)) return null;
   o.bid = IDB.test(o.bid || '') ? o.bid : null;
   ['plan', 'req', 'reqBase', 'planBase', 'apick', 'closedAt'].forEach(k => o[k] = dOk(o[k]));
-  ['sup', 'po', 'origin', 'plant', 'afwd', 'note', 'closedBy'].forEach(k => o[k] = txt(o[k]));
+  ['sup', 'po', 'origin', 'plant', 'afwd', 'note', 'closedBy', 'plNote'].forEach(k => o[k] = txt(o[k]));
   o.planLoad = oneOf(o.planLoad, ['整柜', '拼箱']);
   o.month = Number.isInteger(o.month) && o.month >= 1 && o.month <= 12 ? o.month : null;
   o.split = Number.isInteger(o.split) && o.split > 0 ? o.split : 1;
@@ -1956,6 +3160,10 @@ function cleanLine(o) {
     byName: txt(o.deleted.byName), reason: txt(o.deleted.reason), note: txt(o.deleted.note) } : null;
   delete o.reopened; o.isNew = !!o.isNew;
   o.archived = o.archived && typeof o.archived === 'object' ? { at: dOk(o.archived.at), by: txt(o.archived.by), reason: txt(o.archived.reason) } : null;
+  o.fbk = arr(o.fbk).map(f => ({ id: txt(f.id), type: oneOf(f.type, ['wrongInfo', 'notOurs', 'other']) || 'other', note: txt(f.note), by: txt(f.by), fwd: txt(f.fwd), at: dOk(f.at),
+    st: f.st === 'done' ? 'done' : 'open', res: txt(f.res), resBy: txt(f.resBy), resAt: dOk(f.resAt) })).filter(f => f.id);
+  o.pending = o.pending && typeof o.pending === 'object' ? { fwd: txt(o.pending.fwd), by: txt(o.pending.by), at: dOk(o.pending.at), note: txt(o.pending.note), bkno: txt(o.pending.bkno),
+    eta: dOk(o.pending.eta), st: oneOf(o.pending.st, ['open', 'ok', 'rej']) || 'open', res: txt(o.pending.res), resAt: dOk(o.pending.resAt) } : null;
   const ab = o.awardAtBook; o.awardAtBook = ab && typeof ab === 'object' && FORWARDERS.includes(ab.fwd) ? { fwd: ab.fwd, period: txt(ab.period) } : null;
   return o;
 }
@@ -2002,6 +3210,8 @@ function logChange(j, prevJson) {
   new Set([...Object.keys(a), ...Object.keys(b)]).forEach(k => {
     if (AUDIT_SKIP.has(k)) return;
     if (k === 'deleted') { if (!!a.deleted !== !!b.deleted) ch.push(['deleted', a.deleted ? 'Y' : '', b.deleted ? (b.deleted.reason || 'Y') : '']); return; }
+    if (k === 'fbk') { const x = a.fbk || [], y = b.fbk || []; y.forEach(f => { const p = x.find(q => q.id === f.id); if (!p) ch.push(['fbk', '', `${f.type}: ${f.note}`]); else if (p.st !== f.st) ch.push(['fbk', f.type, `${f.st}: ${f.res}`]); }); return; }
+    if (k === 'pending') { const x = a.pending, y = b.pending; if (y && (!x || x.st !== y.st)) ch.push(['pending', x ? x.st : '', `${y.st}${y.res ? ': ' + y.res : ''}`]); return; }
     if (k === 'archived') { if (!!a.archived !== !!b.archived) ch.push(['archived', a.archived ? 'Y' : '', b.archived ? (b.archived.reason || 'Y') : '']); return; }
     const x = auPlain(a[k]), y = auPlain(b[k]); if (String(x) !== String(y)) ch.push([k, x, y]);
   });
@@ -2056,7 +3266,6 @@ async function boot() {
     if (me.setup) return showSetup(me);
     if (!me.role || !ROLE_KEYS.includes(me.role)) return gate(`<div class="gcard"><h2>${t('gNoAccess')}</h2><p>${esc(t('gNoAccessTxt', me.email))}</p></div>`);
     ME = me; role = me.role;
-    if (QS.has('reimport')) { if (!me.admin) return gate(`<div class="gcard"><h2>${t('gNoAccess')}</h2></div>`); await load(); return showReimport(me); }
     $('signout').onclick = async () => {
       if ((flushing || dirty().length) && !confirm(t('signOutUnsaved'))) return;
       ME = null; await Store.signOut();
@@ -2064,6 +3273,7 @@ async function boot() {
     await Promise.all([load().catch(e => { e.message = '[读取台账] ' + e.message; throw e; }), Store.getFile('Portal/awards.json').then(j => { if (j) AW = JSON.parse(j); }).catch(e => console.warn('awards', e))]);
     gate('');
     if (QS.has('archive') && me.admin) setTimeout(() => openArchive(QS.get('archive')), 300);
+    if (me.admin) loadNotifyState();
     try { sessionStorage.removeItem('ship-relogin'); } catch (e) {}   // 正常进入后，下次再遇到 401 仍可自动重新登录
     let logged = false; try { logged = sessionStorage.getItem('ship-login') === ME.email; sessionStorage.setItem('ship-login', ME.email); } catch (e) {}
     if (!logged) audit('login', '', null);
@@ -2101,43 +3311,6 @@ function showSetup(me) {
 
 boot();
 
-// 重新导入迁移数据（只换需求和订舱，人员名单不动）。执行前列出上线以来在平台上做过的修改。
-function showReimport(me) {
-  const touched = [];
-  rows.forEach(o => {
-    const why = [];
-    if (o.editLog && o.editLog.length) why.push('计划员修改 ' + o.editLog.length + ' 处');
-    if (o.note) why.push('跟进说明');
-    if (o.closed || o.closedAt) why.push('已闭环');
-    if (o.deleted) why.push('已删除');
-    if (!/^L\d{4}$/.test(o.id)) why.push('上线后新增的需求');
-    if (why.length) touched.push(`${o.po}（${o.sup}）：${why.join('、')}`);
-  });
-  Object.values(B).forEach(b => {
-    const why = [];
-    const live = (b.etaLog || []).filter(e => e.reason !== '迁移数据');
-    if (live.length) why.push('ETA 记录 ' + live.length + ' 条');
-    if (b.reassign && b.reassign.length) why.push('改派货代');
-    if (!/^B\d{3}$/.test(b.id)) why.push('上线后新建的订舱');
-    if (b.lastBy) why.push('最后由 ' + b.lastBy + ' 更新');
-    if (why.length) touched.push(`订舱 ${b.id}（${b.fwd || '—'}）：${why.join('、')}`);
-  });
-  gate(`<div class="gcard" style="max-width:640px;text-align:left"><h2>重新导入迁移数据</h2>
-    <p>将清空 ShipLines 和 ShipBookings，用所选文件重新导入。<b>人员名单 ShipUsers 不受影响。</b></p>
-    <p style="margin-top:10px"><b>上线以来在平台上做过的修改（${touched.length} 处），重新导入后会丢失：</b></p>
-    <pre class="muted" style="white-space:pre-wrap;font-size:12px;max-height:220px;overflow:auto;background:var(--fill-2);padding:10px;border-radius:10px">${esc(touched.join('\n') || '（没有）')}</pre>
-    <p style="margin-top:10px"><input type="file" id="seedf" accept=".json"></p>
-    <p><label><input type="checkbox" id="seedok"> 我已确认上面的修改可以丢弃</label></p>
-    <p style="margin-top:10px"><button class="btn" id="seedgo">重新导入</button></p><pre id="seedlog" class="muted" style="white-space:pre-wrap;font-size:12px"></pre></div>`);
-  $('seedgo').onclick = async () => {
-    const f = $('seedf').files[0]; if (!f) return alert('请选择迁移数据文件');
-    if (!$('seedok').checked) return alert('请先勾选确认');
-    const L = m => $('seedlog').textContent += m + '\n';
-    $('seedgo').disabled = true; ME = null;
-    try { await Store.setup(JSON.parse(await f.text()), me, L, { keepUsers: true }); L('完成，正在进入系统…'); setTimeout(() => location.replace(location.pathname), 1200); }
-    catch (e) { L('✗ ' + e.message); $('seedgo').disabled = false; }
-  };
-}
 
 </script>
 </body></html>
