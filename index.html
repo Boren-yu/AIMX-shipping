@@ -548,7 +548,7 @@ const MSG = {
     tBooking: '订舱费', tDoc: '文件费', tThc: 'THC', tLoading: '提货费', tCustoms: '报关费', tBl: '提单费', tConsignor: '发货人', tConsignee: '收货人', tRoute: '起运 → 目的',
     tPrevTip: (p, v) => `上期 ${p}：${v}`, tH1: '上半月', tH2: '下半月', tHint: '单位 USD / HQ40。总价旁的箭头为同一航线、同一发货人较上一个有报价周期的涨跌。点击一行查看费用明细。',
     signOut: '退出登录', gSignedOut: '已退出登录', gSignIn: '重新登录', signOutUnsaved: '还有修改正在保存，确定现在退出吗？',
-    tabTender: '中标详情', tenderNA: '暂时读不到招标数据：可能还没上传，或你的账号没有查看权限。', offAwardTag: '非中标',
+    tabTender: '中标结果', tenderNA: '暂时读不到招标数据：可能还没上传，或你的账号没有查看权限。', offAwardTag: '非中标',
     awardAssigned: (f, p, v) => `　中标货代：${f}（${p}中标表${v === 'origin' ? '，按产地航线' : ''}）。`,
     offAwardNote: (p, a, b) => `按${p}中标表应由 ${a} 承运，实际订舱货代为 ${b}，请海外物流核实。`,
     sync_ok: '已保存', sync_saving: '保存中…', sync_err: '未能保存，稍后自动重试', conflict: '这条记录刚被其他人修改，已刷新为最新数据，请重新操作',
@@ -718,7 +718,7 @@ const MSG = {
     tBooking: 'Booking', tDoc: 'Documentation', tThc: 'THC', tLoading: 'Loading', tCustoms: 'Customs', tBl: 'B/L', tConsignor: 'Shipper', tConsignee: 'Consignee', tRoute: 'Origin → Destination',
     tPrevTip: (p, v) => `Previous (${p}): ${v}`, tH1: '1st half', tH2: '2nd half', tHint: 'USD per HQ40. The arrow next to the total compares with the last period that quoted the same lane and shipper. Click a row for the fee breakdown.',
     signOut: 'Sign out', gSignedOut: 'You have signed out', gSignIn: 'Sign in again', signOutUnsaved: 'Some changes are still being saved. Sign out anyway?',
-    tabTender: 'Tender awards', tenderNA: 'Tender data is not available: it may not be uploaded yet, or your account has no access.', offAwardTag: 'Not awarded',
+    tabTender: 'Tender results', tenderNA: 'Tender data is not available: it may not be uploaded yet, or your account has no access.', offAwardTag: 'Not awarded',
     awardAssigned: (f, p, v) => `  Awarded forwarder: ${f} (${p} award${v === 'origin' ? ', by origin lane' : ''}).`,
     offAwardNote: (p, a, b) => `Per the ${p} award this should go with ${a}, but it was booked by ${b}. Overseas Logistics to verify.`,
     sync_ok: 'Saved', sync_saving: 'Saving…', sync_err: 'Not saved, retrying shortly', conflict: 'Someone else just changed this record. Data refreshed; please try again',
@@ -888,7 +888,7 @@ const MSG = {
     tBooking: 'Reserva', tDoc: 'Documentación', tThc: 'THC', tLoading: 'Carga', tCustoms: 'Aduana', tBl: 'B/L', tConsignor: 'Embarcador', tConsignee: 'Consignatario', tRoute: 'Origen → Destino',
     tPrevTip: (p, v) => `Anterior (${p}): ${v}`, tH1: '1.ª quincena', tH2: '2.ª quincena', tHint: 'USD por HQ40. La flecha junto al total compara con el último periodo que cotizó la misma ruta y embarcador. Haga clic en una fila para ver el desglose.',
     signOut: 'Salir', gSignedOut: 'Ha cerrado sesión', gSignIn: 'Iniciar sesión de nuevo', signOutUnsaved: 'Aún se están guardando cambios. ¿Cerrar sesión de todos modos?',
-    tabTender: 'Adjudicaciones', tenderNA: 'Los datos de licitación no están disponibles: quizá aún no se han cargado o su cuenta no tiene acceso.', offAwardTag: 'No adjudicado',
+    tabTender: 'Resultados de licitación', tenderNA: 'Los datos de licitación no están disponibles: quizá aún no se han cargado o su cuenta no tiene acceso.', offAwardTag: 'No adjudicado',
     awardAssigned: (f, p, v) => `  Agente adjudicado: ${f} (adjudicación ${p}${v === 'origin' ? ', por ruta de origen' : ''}).`,
     offAwardNote: (p, a, b) => `Según la adjudicación de ${p} correspondía a ${a}, pero lo reservó ${b}. Logística Internacional debe verificar.`,
     sync_ok: 'Guardado', sync_saving: 'Guardando…', sync_err: 'No guardado, se reintentará', conflict: 'Otra persona acaba de cambiar este registro. Datos actualizados; inténtelo de nuevo',
@@ -988,8 +988,8 @@ const VAL_ES = { '已订舱': 'Reservado', '已提货': 'Recolectado', '在途':
   '整柜': 'FCL', '拼箱': 'LCL', '首次报告': 'Primer reporte', '旧数据归档': 'datos antiguos archivados', '迁移数据': 'Migrado de Excel', '船期延误': 'Retraso del buque', '甩柜 / 改船': 'Roleo / cambio de buque',
   '港口拥堵': 'Congestión portuaria', '供应商延迟出货': 'Proveedor embarcó tarde', '天气 / 不可抗力': 'Clima / fuerza mayor', '其他': 'Otro', '录入错误': 'Error de captura', '重复录入': 'Captura duplicada', '需求取消': 'Demanda cancelada', '生产计划调整': 'Cambio de plan de producción', '客户需求变更': 'Cambio en la demanda del cliente', '原值录入错误': 'Valor original capturado mal' };
 const LANGS = { zh: 'zh-CN', en: 'en', es: 'es-MX' };
-let lang = 'zh';
-try { const s = localStorage.getItem('ship-portal-lang'); if (LANGS[s]) lang = s; } catch (e) {}
+let lang = 'zh', langPicked = false;                 // langPicked：用户自己选过语言（记在本机），就一直用他选的
+try { const s = localStorage.getItem('ship-portal-lang'); if (LANGS[s]) { lang = s; langPicked = true; } } catch (e) {}
 const t = (k, ...a) => { const v = MSG[lang][k] ?? MSG.zh[k] ?? k; return typeof v === 'function' ? v(...a) : v; };
 const tv = v => (lang === 'en' ? VAL_EN[v] : lang === 'es' ? VAL_ES[v] : null) || v;      // 翻译数据值（内部始终存中文）
 
@@ -1900,7 +1900,7 @@ function renderAudit() {
   const mo = $('a-more'); if (mo) mo.onclick = () => { auShown += 200; renderAudit(); };
   box.querySelectorAll('[data-who]').forEach(tr => tr.onclick = () => { AF.who = tr.dataset.who; AF.range = 'all'; renderAudit(); });
 }
-/* ---------- 招标与运价：每月中标详情（Tender/tender.json，仅内部人员有权限读取） ---------- */
+/* ---------- 招标与运价：每月中标结果（Tender/tender.json，仅内部人员有权限读取） ---------- */
 let TD = null, tenderState = 0;                   // 0 未加载 1 加载中 2 就绪
 const TF = { period: '', f: '', q: '' }, tOpen = new Set();
 const FAC_ORDER = ['AIMX', 'AITK', 'AIUS', 'AITH', 'AISK', 'AISH'];
@@ -3266,6 +3266,7 @@ async function boot() {
     if (me.setup) return showSetup(me);
     if (!me.role || !ROLE_KEYS.includes(me.role)) return gate(`<div class="gcard"><h2>${t('gNoAccess')}</h2><p>${esc(t('gNoAccessTxt', me.email))}</p></div>`);
     ME = me; role = me.role;
+    if (!langPicked) { lang = role === 'fw' || me.admin ? 'zh' : 'en'; applyStatic(); }   // 没选过语言：计划员和海外物流默认英文，货代和管理员默认中文
     $('signout').onclick = async () => {
       if ((flushing || dirty().length) && !confirm(t('signOutUnsaved'))) return;
       ME = null; await Store.signOut();
