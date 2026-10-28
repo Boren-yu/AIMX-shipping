@@ -474,6 +474,7 @@ const MSG = {
     plUpOpen: '⬆ 上传需求表', plUpTitle: '上传需求表', plUpSub: '直接上传你们平时维护的需求表（比如 AIMX input），格式不用改。平台找出新增、修改和取消的需求，确认后一次写入。',
     plApply: n => `确认写入（${n} 项）`, plDrop: '把需求表拖到这里', plKAdd: '新增', plKEdit: '修改', plKCancel: '取消', plKErr: '有错误',
     plNeedReason: n => `这 ${n} 票已订舱或已报警，改日期要选原因（可勾选后批量设置）`, plSecAdd: n => `新增需求（${n}）`, plSecEdit: n => `修改（${n}）`, plSecCancel: n => `表里标记取消（${n}）`, plWillDelete: '确认后删除（可恢复）',
+    pf_status: '状态', plOld: '计划提货在两个月前', plSecSkip: n => `表里有 ${n} 个历史 PO 平台里没有，已跳过不新增（已出运 / 已到港，或计划提货在两个月前）——点开查看`,
     plSecAbsent: n => `平台里有、这份表里没有的需求（${n}）`, plAbsentHelp: '只做提醒，不会自动删除。确实已经取消的，勾选后会一起删除（原因：需求取消，可在「已删除」里恢复）。',
     plUpHint: '表里空着的格子表示不修改。同一个 PO 出现多次，按先后对应平台里的第 1、2、3 批；装载写 Cancel 的视为取消。已订舱的需求不能通过上传删除。',
     plDelNoteCancel: '需求表中标记为 Cancel', plDelNoteAbsent: '上传需求表时确认已取消', plDone: n => `已写入 ${n} 项`, plCancelBooked: (po, b) => `${po} 已订舱（${b}），不能直接取消，请在平台上联系货代处理`,
@@ -644,6 +645,7 @@ const MSG = {
     plUpOpen: '⬆ Upload demand sheet', plUpTitle: 'Upload demand sheet', plUpSub: 'Upload the demand sheet you already maintain (e.g. AIMX input) as is. The portal finds new, changed and cancelled demand and writes it all after one confirmation.',
     plApply: n => `Confirm (${n} items)`, plDrop: 'Drop your demand sheet here', plKAdd: 'New', plKEdit: 'Changed', plKCancel: 'Cancelled', plKErr: 'Errors',
     plNeedReason: n => `${n} demands are booked or alerted — choose a reason for the date change (tick rows to set them all at once)`, plSecAdd: n => `New demand (${n})`, plSecEdit: n => `Changes (${n})`, plSecCancel: n => `Marked as cancelled (${n})`, plWillDelete: 'Deleted after confirming (can be restored)',
+    pf_status: 'Status', plOld: 'pickup over 2 months ago', plSecSkip: n => `${n} historical POs in the file are not in the portal and were skipped (shipped / arrived, or pickup over 2 months ago) — open to see`,
     plSecAbsent: n => `In the portal but not in this sheet (${n})`, plAbsentHelp: 'For your information only — nothing is deleted automatically. Tick the ones that are really cancelled to delete them too (reason: demand cancelled; restorable from Deleted).',
     plUpHint: 'Empty cells mean no change. A PO that appears several times maps in order to splits 1, 2, 3 in the portal; load type “Cancel” means cancelled. Booked demand cannot be deleted by upload.',
     plDelNoteCancel: 'Marked Cancel in the demand sheet', plDelNoteAbsent: 'Confirmed cancelled when uploading the demand sheet', plDone: n => `${n} items written`, plCancelBooked: (po, b) => `${po} is booked (${b}) and cannot be cancelled here; handle it with the forwarder in the portal`,
@@ -814,6 +816,7 @@ const MSG = {
     plUpOpen: '⬆ Subir hoja de demanda', plUpTitle: 'Subir hoja de demanda', plUpSub: 'Suba la hoja de demanda que ya mantienen (p. ej. AIMX input), sin cambiar el formato. El portal identifica demanda nueva, cambiada y cancelada, y la escribe con una sola confirmación.',
     plApply: n => `Confirmar (${n})`, plDrop: 'Arrastre aquí su hoja de demanda', plKAdd: 'Nuevas', plKEdit: 'Cambios', plKCancel: 'Canceladas', plKErr: 'Errores',
     plNeedReason: n => `${n} demandas tienen reserva o alerta: elija el motivo del cambio de fecha (marque filas para asignarlo a todas)`, plSecAdd: n => `Demanda nueva (${n})`, plSecEdit: n => `Cambios (${n})`, plSecCancel: n => `Marcadas como canceladas (${n})`, plWillDelete: 'Se eliminan al confirmar (se pueden restaurar)',
+    pf_status: 'Estatus', plOld: 'recolección hace más de 2 meses', plSecSkip: n => `${n} POs históricas del archivo no están en el portal y se omitieron (embarcadas / entregadas, o recolección hace más de 2 meses); abra para ver`,
     plSecAbsent: n => `En el portal pero no en esta hoja (${n})`, plAbsentHelp: 'Solo informativo: nada se elimina automáticamente. Marque las que realmente se cancelaron para eliminarlas también (motivo: demanda cancelada; restaurables desde Eliminados).',
     plUpHint: 'Las celdas vacías significan sin cambio. Un PO que aparece varias veces corresponde en orden a las partidas 1, 2, 3 del portal; carga «Cancel» significa cancelada. La demanda con reserva no se puede eliminar al subir.',
     plDelNoteCancel: 'Marcada Cancel en la hoja de demanda', plDelNoteAbsent: 'Confirmada como cancelada al subir la hoja de demanda', plDone: n => `${n} elementos escritos`, plCancelBooked: (po, b) => `${po} tiene reserva (${b}) y no se puede cancelar aquí; resuélvalo con el agente en el portal`,
@@ -2238,6 +2241,26 @@ function reasonWire(box, key, ids, cur, off, replan, rerender) {
   box.querySelectorAll(`[data-${key}bulk]`).forEach(s => s.onchange = () => { if (!s.value) return; ids.filter(id => !off.has(id)).forEach(id => { cur[id] = s.value; }); replan(); });
 }
 
+// 读 Excel：跳过隐藏的工作表；按真正有值的格子重算范围并封顶（有的表格式刷到了第 104 万行 / 第 16384 列，照声明范围读会把浏览器撑爆）
+const MAX_R = 5000, MAX_C = 200;
+function readBook(buf, fname) {
+  const wb = XLSX.read(buf, { type: 'array', raw: true }), hidden = (wb.Workbook && wb.Workbook.Sheets) || [];
+  const out = [];
+  wb.SheetNames.forEach((name, i) => {
+    if (hidden[i] && hidden[i].Hidden) return;
+    const ws = wb.Sheets[name]; let er = -1, ec = -1, sr = Infinity, sc = Infinity;
+    Object.keys(ws).forEach(k => { if (k[0] === '!') return; const v = ws[k].v; if (v === '' || v === null || v === undefined) return;
+      const a = XLSX.utils.decode_cell(k); if (a.r > er) er = a.r; if (a.c > ec) ec = a.c; if (a.r < sr) sr = a.r; if (a.c < sc) sc = a.c; });
+    if (er < 0) return;
+    er = Math.min(er, sr + MAX_R); ec = Math.min(ec, MAX_C);
+    (ws['!merges'] || []).forEach(m => { const v = ws[XLSX.utils.encode_cell(m.s)]; if (!v || m.s.r > er || m.s.c > ec) return;   // 合并单元格：把值填到整个范围
+      for (let r = m.s.r; r <= Math.min(m.e.r, er); r++) for (let c = m.s.c; c <= Math.min(m.e.c, ec); c++) { const k = XLSX.utils.encode_cell({ r, c }); if (!ws[k]) ws[k] = { ...v }; } });
+    ws['!ref'] = XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: er, c: ec } });
+    out.push({ name: `${fname} · ${name}`, aoa: XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' }) });
+  });
+  return out;
+}
+
 /* ---------- 货代批量更新：在平台里的一张表格里改，数据就是平台本身（不经过任何外部文件） ----------
    · 只列出自己公司的柜子和分给自己的待订舱需求；改过的格子标黄，保存前统一检查
    · 同一订舱的几行，订舱字段联动；勾选几行填同一个订舱号 = 合并成一个订舱
@@ -2531,13 +2554,7 @@ async function readFiles(files) {
   try { await loadSheetJS(); } catch (e) { U.err = e.message; return renderUpload(); }
   const sheets = [];
   for (const f of files) {
-    try {
-      const wb = XLSX.read(await f.arrayBuffer(), { type: 'array', raw: true });
-      wb.SheetNames.forEach(name => { const ws = wb.Sheets[name];
-        (ws['!merges'] || []).forEach(m => { const v = ws[XLSX.utils.encode_cell(m.s)];   // 合并单元格：把值填到整个范围
-          for (let r = m.s.r; r <= m.e.r; r++) for (let c = m.s.c; c <= m.e.c; c++) { const k = XLSX.utils.encode_cell({ r, c }); if (!ws[k] && v) ws[k] = { ...v }; } });
-        sheets.push({ name: `${f.name} · ${name}`, aoa: XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' }) }); });
-    } catch (e) { U.err = t('upBadFile', f.name); }
+    try { sheets.push(...readBook(await f.arrayBuffer(), f.name)); } catch (e) { U.err = t('upBadFile', f.name); }
   }
   U.files = files.map(f => f.name); parseSheets(sheets);
 }
@@ -2558,7 +2575,7 @@ function parseSheets(sheets) {
     for (let r = Math.max(0, firstPo - 20); r < firstPo; r++) { const sc = A[r].filter(h => guessField(h)).length; if (sc >= hScore && sc > 0) { hScore = sc; hRow = r; } }
     const head = hRow >= 0 ? A[hRow].map(h => String(h ?? '').trim()) : [];
     const colMap = Array.from({ length: width }, (_, c) => { const h = head[c] || ''; const key = hNorm(h);
-      if (c === poCol) return 'po'; if (key && key in saved) return saved[key]; return guessField(h); });
+      if (c === poCol) return 'po'; if (key && key in saved) return saved[key]; const g = guessField(h); return g === 'po' ? '' : g; });   // PO 列只有一列（按内容找到的那列）
     head.forEach((h, c) => { if ((h && h.length <= 60) || c === poCol) U.cols.push({ sheet: sh.name, c, h: h || `#${c + 1}`, f: colMap[c] }); });
     A.slice((hRow >= 0 ? hRow : firstPo - 1) + 1).forEach((r, i) => {
       const pos = String(r[poCol] ?? '').match(PO_RE); if (!pos) return;
@@ -2736,9 +2753,10 @@ const PALIAS = {
   plan: ['planned pickup date', 'planned pickup', 'plan pu date', 'plan pickup', 'fecha de recoleccion', 'recoleccion planeada', '计划提货日', '计划提货'],
   req: ['required eta', 'req eta', 'eta requerida', 'eta required', '要求eta', '要求 eta'],
   note: ['mexico comments', 'comments', 'comentarios', 'remarks', 'notes', '备注'],
-  ignore: ['forwarder', 'etd', 'eta at port', 'mbl', 'carrier', 'status', 'pu date', 'actual pickup', 'booking', 'invoice', 'no of containers', 'transit days'],
+  status: ['status', 'estatus', 'estado', '状态'],
+  ignore: ['forwarder', 'etd', 'eta at port', 'mbl', 'carrier', 'pu date', 'actual pickup', 'booking', 'invoice', 'no of containers', 'transit days'],
 };
-const PFIELDS = ['po', 'month', 'load', 'origin', 'plant', 'sup', 'qty', 'plan', 'req', 'note'];
+const PFIELDS = ['po', 'month', 'load', 'origin', 'plant', 'sup', 'qty', 'plan', 'req', 'note', 'status'];
 function guessIn(dict, fields, h) {
   const n = hNorm(h); if (!n) return '';
   for (const f of ['ignore', ...fields]) if (dict[f].some(a => n === hNorm(a))) return f === 'ignore' ? '' : f;
@@ -2760,12 +2778,7 @@ async function plReadFiles(files) {
   try { await loadSheetJS(); } catch (e) { PU.err = e.message; return renderPlUpload(); }
   const sheets = [];
   for (const f of files) {
-    try { const wb = XLSX.read(await f.arrayBuffer(), { type: 'array', raw: true });
-      wb.SheetNames.forEach(name => { const ws = wb.Sheets[name];
-        (ws['!merges'] || []).forEach(m => { const v = ws[XLSX.utils.encode_cell(m.s)];
-          for (let r = m.s.r; r <= m.e.r; r++) for (let c = m.s.c; c <= m.e.c; c++) { const k = XLSX.utils.encode_cell({ r, c }); if (!ws[k] && v) ws[k] = { ...v }; } });
-        sheets.push({ name: `${f.name} · ${name}`, aoa: XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: '' }) }); });
-    } catch (e) { PU.err = t('upBadFile', f.name); }
+    try { sheets.push(...readBook(await f.arrayBuffer(), f.name)); } catch (e) { PU.err = t('upBadFile', f.name); }
   }
   PU.files = files.map(f => f.name); plParse(sheets);
 }
@@ -2782,7 +2795,7 @@ function plParse(sheets) {
     for (let r = Math.max(0, firstPo - 20); r < firstPo; r++) { const sc = A[r].filter(h => guessIn(PALIAS, PFIELDS, h)).length; if (sc >= hScore && sc > 0) { hScore = sc; hRow = r; } }
     const head = hRow >= 0 ? A[hRow].map(h => String(h ?? '').trim()) : [];
     const colMap = Array.from({ length: width }, (_, c) => { const h = head[c] || '', key = hNorm(h);
-      if (c === poCol) return 'po'; if (key && key in saved) return saved[key]; return guessIn(PALIAS, PFIELDS, h); });
+      if (c === poCol) return 'po'; if (key && key in saved) return saved[key]; const g = guessIn(PALIAS, PFIELDS, h); return g === 'po' ? '' : g; });   // PO 列只有一列（按内容找到的那列）
     head.forEach((h, c) => { if ((h && h.length <= 60) || c === poCol) PU.cols.push({ sheet: sh.name, c, h: h || `#${c + 1}`, f: colMap[c] }); });   // 很长的说明文字不是表头
     let lastLoad = '';
     A.slice((hRow >= 0 ? hRow : firstPo - 1) + 1).forEach((r, i) => {
@@ -2814,7 +2827,7 @@ function plFields(rec) {
 function plPlan() {
   const live = rows.filter(o => !o.deleted && !isPend(o));
   const used = new Set(), seenPo = {};
-  const P = { add: [], edit: [], cancel: [], same: 0, errs: [], notes: [], needReason: [], picked: [], batch: [] };
+  const P = { add: [], edit: [], cancel: [], same: 0, errs: [], notes: [], needReason: [], picked: [], batch: [], skipped: [] };
   PU.recs.forEach(rec => {
     const f = plFields(rec);
     rec.pos.forEach(po => {
@@ -2831,6 +2844,8 @@ function plPlan() {
         return;
       }
       if (!o) {                                         // 新增需求（同一 PO 再出现 = 新的一批）
+        const st = uStatus(rec.status);                 // 全年总表里的历史行：已出运 / 已到港，或计划提货在两个月前 → 不新增，只列出来
+        if (st === '在途' || st === '已到港' || (f.plan && diff(f.plan, TODAY) < -60)) { if (!rows.some(x => x.po === po)) P.skipped.push({ n: rec.row, po, sup: f.sup, plan: f.plan, why: st ? tv(st) : t('plOld') }); return; }
         const r = { month: f.month, origin: f.origin, plant: f.plant, sup: f.sup, po, qty: f.qty, plan: f.plan, req: f.req || autoReq(f.plan, f.origin), reqAuto: !f.req, planLoad: f.load };
         const { E, W } = checkDemand(r, P.batch);
         if (E.length) P.errs.push({ n: rec.row, msg: `${po}：${E.join(t('sep'))}` });
@@ -2877,6 +2892,7 @@ function renderPlUpload() {
       ${sec(t('plSecCancel', P.cancel.length), P.cancel.map(x => `<div class="box-i" style="cursor:default"><span><b class="mono">${esc(poLabel(x.o))}</b> · ${esc(x.o.sup)} · ${x.o.plan || '—'}</span><span class="muted">${t('plWillDelete')}</span></div>`))}
       ${P.errs.length ? sec(t('xlErrs', P.errs.length), P.errs.map(e => `<div class="box-i" style="cursor:default;color:var(--red)">${esc(t('xlRow', e.n))} · ${esc(e.msg)}</div>`), 'err') : ''}
       ${P.notes.length ? sec(t('xlNotes', P.notes.length), P.notes.map(e => `<div class="box-i muted" style="cursor:default">${esc(t('xlRow', e.n))} · ${esc(e.msg)}</div>`)) : ''}
+      ${P.skipped.length ? `<details class="upcols" style="margin-top:12px"><summary>${esc(t('plSecSkip', P.skipped.length))}</summary><p class="muted" style="margin:6px 0;font-size:12.5px">${esc(P.skipped.map(x => `${x.po}${x.sup ? ' ' + x.sup : ''} (${x.why})`).join(' · '))}</p></details>` : ''}
       ${P.absent.length ? `<h3 class="au-h">${t('plSecAbsent', P.absent.length)}</h3><p class="muted" style="margin:0 0 6px;font-size:13px">${t('plAbsentHelp')}</p><div class="box">${P.absent.map(o => `<label class="box-i" style="grid-template-columns:auto 1fr"><input type="checkbox" data-pdel="${esc(o.id)}" ${PU.del.has(o.id) ? 'checked' : ''}><span><b class="mono">${esc(poLabel(o))}</b> · ${esc(o.sup)} · ${t('monthShort', o.month)} · ${o.plan || '—'}</span></label>`).join('')}</div>` : ''}
       <p class="hint">${t('plUpHint')}</p>` : ''}
   </div>`;
